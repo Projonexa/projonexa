@@ -1,21 +1,31 @@
 name: Bug Report
-description: Report a bug in the Projonexa website or repository
+description: Report a bug in the Projonexa website or this repository
 title: "[Bug]: "
-labels: ["bug"]
+labels: ["bug", "needs-triage"]
 body:
   - type: markdown
     attributes:
       value: |
-        Thanks for helping improve Projonexa. Please provide as much detail as possible.
+        Thanks for helping improve Projonexa. Please search [existing issues](https://github.com/nikobuddy/projonexa/issues) before submitting.
+
+        > **Client project requests** (final year projects, MVPs) → use [Contact](https://projonexa.com/contact), not GitHub issues.
 
   - type: textarea
     id: description
     attributes:
       label: Bug description
-      description: A clear description of the bug
+      description: A clear and concise description of the bug
       placeholder: What went wrong?
     validations:
       required: true
+
+  - type: input
+    id: page
+    attributes:
+      label: Page URL (if applicable)
+      placeholder: https://projonexa.com/services or /about
+    validations:
+      required: false
 
   - type: textarea
     id: steps
@@ -43,6 +53,18 @@ body:
       required: true
 
   - type: dropdown
+    id: severity
+    attributes:
+      label: Severity
+      options:
+        - Low — cosmetic or minor inconvenience
+        - Medium — feature broken but workaround exists
+        - High — major feature broken
+        - Critical — site unusable or security concern
+    validations:
+      required: true
+
+  - type: dropdown
     id: browser
     attributes:
       label: Browser / device
@@ -50,6 +72,7 @@ body:
         - Chrome (desktop)
         - Firefox (desktop)
         - Safari (desktop)
+        - Edge (desktop)
         - Chrome (mobile)
         - Safari (mobile)
         - Other
@@ -60,18 +83,32 @@ body:
     id: os
     attributes:
       label: Operating system
-      placeholder: e.g. Windows 11, macOS, Android 14
+      placeholder: e.g. Windows 11, macOS 14, Android 14
+
+  - type: input
+    id: version
+    attributes:
+      label: Website / commit version (if known)
+      placeholder: e.g. v1.0.0 or commit SHA
 
   - type: textarea
     id: screenshots
     attributes:
-      label: Screenshots or recordings
-      description: If applicable, add screenshots or links
+      label: Screenshots or screen recordings
+      description: Drag and drop images or paste links
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional context
+      description: Console errors, network failures, or related issues
 
   - type: checkboxes
     id: terms
     attributes:
-      label: Code of Conduct
+      label: Acknowledgements
       options:
+        - label: I have searched existing issues and this is not a duplicate
+          required: true
         - label: I agree to follow the Projonexa Code of Conduct
           required: true

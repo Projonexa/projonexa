@@ -1,11 +1,23 @@
 blank_issues_enabled: false
 contact_links:
-  - name: Projonexa — Project Inquiry
+  - name: "🚀 Project inquiry (Final Year, MVP, Research)"
     url: https://projonexa.com/contact
-    about: Final year projects, MVPs, research assistance — contact our team
-  - name: Projonexa — Careers
+    about: Start your academic or startup project — not handled via GitHub issues
+  - name: "💼 Join Projonexa (Careers & Freelancers)"
     url: https://projonexa.com/careers
-    about: Join our freelancer and contributor network
-  - name: Security vulnerability
+    about: Apply to join our 150+ expert network
+  - name: "❓ FAQ & Pricing"
+    url: https://projonexa.com/faq
+    about: Common questions, deliverables, timelines, and pricing overview
+  - name: "📚 Services & Portfolio"
+    url: https://projonexa.com/services
+    about: Explore services and view our project portfolio
+  - name: "🤝 Contributing Guide"
+    url: https://github.com/nikobuddy/projonexa/blob/main/CONTRIBUTING.md
+    about: How to contribute code or documentation to this repository
+  - name: "🛡️ Security vulnerability (private)"
     url: https://github.com/nikobuddy/projonexa/blob/main/SECURITY.md
-    about: Report security issues privately (do not use public issues)
+    about: Report security issues privately — do not use public issues
+  - name: "📧 Email support"
+    url: mailto:nisargalokhande@gmail.com
+    about: Direct email to the Projonexa team

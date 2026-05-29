@@ -1,0 +1,48 @@
+name: Question
+description: Ask a question about this repository (not for client project requests)
+title: "[Question]: "
+labels: ["question", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this template for questions about the **Projonexa website source code** or contributing.
+
+        | Your need | Where to go |
+        |-----------|-------------|
+        | Final year project / MVP / research | [projonexa.com/contact](https://projonexa.com/contact) |
+        | Pricing & FAQ | [projonexa.com/faq](https://projonexa.com/faq) |
+        | Join as freelancer | [projonexa.com/careers](https://projonexa.com/careers) |
+        | Security issue | [SECURITY.md](https://github.com/nikobuddy/projonexa/blob/main/SECURITY.md) |
+
+  - type: textarea
+    id: question
+    attributes:
+      label: Your question
+      placeholder: What would you like to know?
+    validations:
+      required: true
+
+  - type: dropdown
+    id: topic
+    attributes:
+      label: Topic
+      options:
+        - Local development setup
+        - Contributing / pull requests
+        - Project structure / architecture
+        - Deployment
+        - License (AGPL-3.0)
+        - Other
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Acknowledgements
+      options:
+        - label: I confirm this is not a client project request
+          required: true
+        - label: I agree to follow the Projonexa Code of Conduct
+          required: true

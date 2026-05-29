@@ -307,7 +307,17 @@ See [`docs/BRAND_GUIDELINES.md`](docs/BRAND_GUIDELINES.md) for colors, typograph
 | [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) | Community behavior standards |
 | [CONTRIBUTING.md](CONTRIBUTING.md) | How to contribute to this repo |
 | [SECURITY.md](SECURITY.md) | Report security vulnerabilities privately |
-| [GitHub Setup Guide](docs/GITHUB_REPOSITORY_SETUP.md) | About section, topics & repo configuration |
+| [SUPPORT.md](SUPPORT.md) | Where to get help (projects vs repo) |
+| [MAINTAINERS.md](MAINTAINERS.md) | Maintainer list & responsibilities |
+| [CHANGELOG.md](CHANGELOG.md) | Version history & release notes |
+| [GitHub Setup Guide](docs/GITHUB_REPOSITORY_SETUP.md) | About section, CI, labels & checklist |
+
+### GitHub automation
+
+- **CI** — Build verified on every push and PR (`.github/workflows/ci.yml`)
+- **Dependabot** — Automated dependency updates (`.github/dependabot.yml`)
+- **Issue templates** — Bug, feature, docs, question + contact links
+- **CODEOWNERS** — Automatic review requests for `@nikobuddy`
 
 ---
 

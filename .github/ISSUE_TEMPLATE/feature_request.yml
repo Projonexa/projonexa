@@ -1,19 +1,21 @@
 name: Feature Request
-description: Suggest an improvement for the Projonexa website or platform
+description: Suggest an improvement for the Projonexa website or open-source repo
 title: "[Feature]: "
-labels: ["enhancement"]
+labels: ["enhancement", "needs-triage"]
 body:
   - type: markdown
     attributes:
       value: |
-        Share your idea for improving Projonexa. For **client project requests** (final year projects, MVPs), please use [Contact](https://projonexa.com/contact) instead.
+        Share your idea for improving the Projonexa **website or repository**.
+
+        > **Need a project built?** → [Contact Projonexa](https://projonexa.com/contact) for final year projects, MVPs, and research work.
 
   - type: textarea
     id: problem
     attributes:
       label: Problem or opportunity
-      description: What problem does this solve? Who benefits?
-      placeholder: e.g. Students need a clearer pricing comparison on mobile...
+      description: What problem does this solve? Who benefits (students, visitors, contributors)?
+      placeholder: e.g. Students on mobile need a clearer way to compare pricing plans...
     validations:
       required: true
 
@@ -21,7 +23,7 @@ body:
     id: solution
     attributes:
       label: Proposed solution
-      placeholder: Describe the feature or change you'd like
+      placeholder: Describe the feature, page, or change you'd like to see
     validations:
       required: true
 
@@ -29,7 +31,7 @@ body:
     id: alternatives
     attributes:
       label: Alternatives considered
-      description: Any alternative approaches you've thought about
+      description: Other approaches you've thought about
 
   - type: dropdown
     id: area
@@ -39,16 +41,39 @@ body:
         - Website UI/UX
         - New page or section
         - Documentation
-        - SEO / performance
-        - Developer experience
+        - SEO / performance / accessibility
+        - Developer experience / tooling
+        - GitHub / community
         - Other
     validations:
       required: true
 
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Suggested priority
+      options:
+        - Nice to have
+        - Would improve experience
+        - Important for launch or growth
+        - Critical
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: willing
+    attributes:
+      label: Contribution
+      options:
+        - label: I am willing to submit a pull request for this feature
+          required: false
+
   - type: checkboxes
     id: terms
     attributes:
-      label: Code of Conduct
+      label: Acknowledgements
       options:
+        - label: I have searched existing issues and discussions
+          required: true
         - label: I agree to follow the Projonexa Code of Conduct
           required: true

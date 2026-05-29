@@ -81,10 +81,16 @@ docs: update SEO strategy for blog routes
 
 ## Issues
 
-Before opening an issue, search existing ones. Use templates when available:
+Before opening an issue, search existing ones and read [SUPPORT.md](SUPPORT.md) to choose the right channel.
 
-- **Bug report** — reproduction steps, expected vs actual, environment  
-- **Feature request** — problem statement, proposed solution, alternatives  
+| Template | Use for |
+|----------|---------|
+| [Bug report](../../issues/new?template=bug_report.yml) | Website or repo defects |
+| [Feature request](../../issues/new?template=feature_request.yml) | New website features |
+| [Documentation](../../issues/new?template=documentation.yml) | Missing or unclear docs |
+| [Question](../../issues/new?template=question.yml) | Repo / dev setup questions |
+
+**Not for GitHub issues:** client projects → [Contact](https://projonexa.com/contact)
 
 ---
 

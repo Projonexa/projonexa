@@ -1,12 +1,12 @@
 # GitHub Repository — About & Community Setup
 
-Use this guide to configure your GitHub repository **About** section and community health files so the repo looks complete and professional.
+Complete guide to configure your Projonexa GitHub repository for a **professional, enterprise-grade** open-source presence.
 
 ---
 
 ## Repository About (GitHub UI)
 
-Go to **Repository → ⚙️ Settings** (or click the ⚙️ next to "About" on the repo home page) and fill in:
+Go to the repository home page → click **⚙️** next to **About** (or **Settings → General**).
 
 ### Description
 
@@ -22,136 +22,204 @@ https://projonexa.com
 
 ### Topics (tags)
 
-Add these topics for discoverability:
-
 ```
 projonexa
 final-year-project
 engineering-projects
 student-projects
+academic-projects
 ai-ml
+machine-learning
 startup-mvp
 web-development
+mobile-development
+iot
+research-paper
 react
 typescript
 vite
 tailwindcss
+framer-motion
 innovation
-academic-projects
-research-assistance
-iot
+tech-startup
 freelance
 india
-tech-startup
 open-source
+agpl-3.0
+documentation
 ```
 
 ### Social preview
 
-- Upload a **1200×630** Open Graph image when available (`public/og-image.png`)
-- Enable **Releases**, **Packages**, and **Deployments** as needed
+- Upload **1200×630** image: `public/og-image.png`
+- **Settings → General → Social preview → Upload image**
 
-### Custom properties (GitHub Enterprise / org)
-
-If your organization uses custom properties, suggested values:
+### Custom properties (Organizations / Enterprise)
 
 | Property | Value |
 |----------|--------|
 | `product` | Projonexa |
 | `type` | website |
 | `status` | active |
+| `license` | AGPL-3.0 |
 | `team` | engineering |
 | `region` | India |
+| `audience` | students, startups, colleges |
 
 ---
 
-## License
+## Community health files (GitHub sidebar)
 
-| Item | File | GitHub detection |
-|------|------|------------------|
-| **License** | [`LICENSE`](../LICENSE) | GNU AGPL v3 |
+GitHub auto-detects these files and shows them under **Community standards**:
 
-After pushing, GitHub will show **AGPL-3.0 license** in the repository sidebar.
+| File | GitHub shows | Purpose |
+|------|--------------|---------|
+| [`README.md`](../README.md) | Readme | Project overview |
+| [`LICENSE`](../LICENSE) | AGPL-3.0 license | Legal license |
+| [`CODE_OF_CONDUCT.md`](../CODE_OF_CONDUCT.md) | Code of conduct | Community behavior |
+| [`CONTRIBUTING.md`](../CONTRIBUTING.md) | Contributing | How to contribute |
+| [`SECURITY.md`](../SECURITY.md) | Security policy | Vulnerability reporting |
+| [`SUPPORT.md`](../SUPPORT.md) | Support / help | Where to get help |
 
-To set manually: **Settings → General → Features → License → GNU Affero General Public License v3.0**
+Additional governance files:
 
----
-
-## Community health files
-
-| File | Purpose | GitHub link |
-|------|---------|-------------|
-| [`README.md`](../README.md) | Project overview | Shown on repo home |
-| [`LICENSE`](../LICENSE) | AGPL-3.0 | License badge |
-| [`CODE_OF_CONDUCT.md`](../CODE_OF_CONDUCT.md) | Community standards | Community → Code of conduct |
-| [`CONTRIBUTING.md`](../CONTRIBUTING.md) | How to contribute | Community → Contributing |
-| [`SECURITY.md`](../SECURITY.md) | Vulnerability reporting | Community → Security policy |
-
-GitHub auto-detects these at the **repository root** (or `.github/` for some templates).
-
----
-
-## Issue & PR templates
-
-| Path | Purpose |
+| File | Purpose |
 |------|---------|
-| `.github/ISSUE_TEMPLATE/bug_report.yml` | Structured bug reports |
-| `.github/ISSUE_TEMPLATE/feature_request.yml` | Feature suggestions |
-| `.github/ISSUE_TEMPLATE/config.yml` | Contact links for projects & security |
-| `.github/pull_request_template.md` | PR checklist |
-
-Enable in **Settings → General → Features → Issues → Set up templates**.
+| [`MAINTAINERS.md`](../MAINTAINERS.md) | Maintainer list & responsibilities |
+| [`CHANGELOG.md`](../CHANGELOG.md) | Version history |
+| [`.github/CODEOWNERS`](../.github/CODEOWNERS) | Auto-request reviews |
 
 ---
 
-## Recommended repository settings
+## Issue templates
 
-### General
+| Template | File | Labels |
+|----------|------|--------|
+| Bug Report | `.github/ISSUE_TEMPLATE/bug_report.yml` | `bug`, `needs-triage` |
+| Feature Request | `.github/ISSUE_TEMPLATE/feature_request.yml` | `enhancement`, `needs-triage` |
+| Documentation | `.github/ISSUE_TEMPLATE/documentation.yml` | `documentation`, `needs-triage` |
+| Question | `.github/ISSUE_TEMPLATE/question.yml` | `question`, `needs-triage` |
+| Config (contact links) | `.github/ISSUE_TEMPLATE/config.yml` | — |
 
-- [x] Default branch: `main`
-- [x] README visible on home page
+**Recommended labels** (create in **Issues → Labels**):
 
-### Features
-
-- [x] Issues — for bugs and website features
-- [ ] Wikis — optional (docs live in `/docs`)
-- [ ] Projects — optional for internal roadmap
-
-### Pull Requests
-
-- [x] Allow squash merging
-- [x] Suggest updating pull request branches
-
-### Branches (optional protection)
-
-Protect `main`:
-
-- Require PR before merging
-- Require status checks (`npm run build`) when CI is added
-
----
-
-## Activity & insights
-
-GitHub **Activity** and **Insights** populate automatically from:
-
-- Commits and PRs
-- Issues opened/closed
-- Releases published
-- Deployment events (Vercel/Netlify integration)
-
-Connect **Vercel** or **Netlify** for deployment activity on the repo graph.
+| Label | Color | Use |
+|-------|-------|-----|
+| `bug` | `#d73a4a` | Defects |
+| `enhancement` | `#a2eeef` | Features |
+| `documentation` | `#0075ca` | Docs |
+| `question` | `#d876e3` | Questions |
+| `needs-triage` | `#fbca04` | Awaiting review |
+| `good first issue` | `#7057ff` | Starter tasks |
+| `help wanted` | `#008672` | Community help |
+| `dependencies` | `#0366d6` | Dependabot PRs |
+| `github-actions` | `#000000` | CI/CD |
 
 ---
 
-## Quick checklist after push
+## Pull requests
 
-- [ ] About description and website URL set
-- [ ] Topics/tags added
-- [ ] License shows as **AGPL-3.0**
-- [ ] Community standards show green checkmarks (README, CoC, Contributing, Security)
-- [ ] Issue templates appear when creating new issue
-- [ ] PR template loads on new pull requests
+| File | Purpose |
+|------|---------|
+| [`.github/pull_request_template.md`](../.github/pull_request_template.md) | PR checklist & testing guide |
+
+**Settings → Pull Requests:**
+
+- [x] Allow squash merging  
+- [x] Default to squash merge  
+- [x] Automatically delete head branches  
+- [x] Suggest updating pull request branches  
+
+---
+
+## Automation
+
+| File | Purpose |
+|------|---------|
+| [`.github/workflows/ci.yml`](../.github/workflows/ci.yml) | Build & typecheck on push/PR |
+| [`.github/dependabot.yml`](../.github/dependabot.yml) | Weekly npm + monthly Actions updates |
+
+**Enable branch protection** (Settings → Branches → Add rule for `main`):
+
+- [x] Require pull request before merging  
+- [x] Require status checks: **Build & Typecheck**  
+- [x] Require branches to be up to date  
+
+---
+
+## Developer experience files
+
+| File | Purpose |
+|------|---------|
+| [`.editorconfig`](../.editorconfig) | Consistent editor formatting |
+| [`.nvmrc`](../.nvmrc) | Node.js 20 for local dev |
+| [`.env.example`](../.env.example) | Safe env variable template |
+| [`.gitignore`](../.gitignore) | Ignore secrets, build output, caches |
+
+---
+
+## Releases & changelog
+
+1. Update [`CHANGELOG.md`](../CHANGELOG.md) for each release  
+2. Create a GitHub Release: **Releases → Draft a new release**  
+   - Tag: `v1.0.0`  
+   - Title: `v1.0.0 — Initial public release`  
+   - Paste changelog section  
+3. Enable **Generate release notes** for future releases  
+
+---
+
+## Integrations (recommended)
+
+| Service | Purpose |
+|---------|---------|
+| **Vercel** or **Netlify** | Deploy website from `main` |
+| **GitHub Pages** | Alternative static hosting |
+| **Dependabot** | Already configured via `.github/dependabot.yml` |
+| **GitHub Discussions** | Optional Q&A (Settings → Features → Discussions) |
+
+---
+
+## Activity & Insights
+
+Populated automatically from commits, PRs, issues, releases, and deployments.
+
+For a healthy **Activity** graph:
+
+- Enable CI (`.github/workflows/ci.yml`)  
+- Connect deployment integration  
+- Publish releases with tags  
+
+---
+
+## Complete checklist after push
+
+### Repository About
+- [ ] Description set  
+- [ ] Website URL set  
+- [ ] Topics/tags added  
+- [ ] Social preview image uploaded  
+
+### Community standards (all green)
+- [ ] README  
+- [ ] License (AGPL-3.0)  
+- [ ] Code of conduct  
+- [ ] Contributing  
+- [ ] Security policy  
+- [ ] Support (SUPPORT.md)  
+
+### Templates & automation
+- [ ] Issue templates visible (4 types + contact links)  
+- [ ] PR template loads on new PR  
+- [ ] CI workflow passes on `main`  
+- [ ] Dependabot enabled (Settings → Code security → Dependabot)  
+- [ ] Branch protection on `main` with required CI check  
+
+### Optional polish
+- [ ] Create `v1.0.0` release  
+- [ ] Enable GitHub Discussions  
+- [ ] Pin repository on profile  
+- [ ] Add to GitHub organization profile (if applicable)  
 
 ---
 
