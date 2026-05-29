@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Projonexa — Project Inquiry
+    url: https://projonexa.com/contact
+    about: Final year projects, MVPs, research assistance — contact our team
+  - name: Projonexa — Careers
+    url: https://projonexa.com/careers
+    about: Join our freelancer and contributor network
+  - name: Security vulnerability
+    url: https://github.com/nikobuddy/projonexa/blob/main/SECURITY.md
+    about: Report security issues privately (do not use public issues)

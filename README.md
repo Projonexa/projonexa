@@ -21,7 +21,7 @@ From academic projects to startup solutions — we help students, innovators, re
 
 <br />
 
-[Explore Services](#-services) · [Technology Stack](#-technology-stack) · [Get Started](#-contact) · [Live Website](https://projonexa.com)
+[Explore Services](#-services) · [Technology Stack](#-technology-stack) · [Contributing](CONTRIBUTING.md) · [Live Website](https://projonexa.com)
 
 </div>
 
@@ -295,6 +295,19 @@ See [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) for folder layout, component 
 ### Brand Guidelines
 
 See [`docs/BRAND_GUIDELINES.md`](docs/BRAND_GUIDELINES.md) for colors, typography, and UI standards.
+
+---
+
+## Community & Repository
+
+| Resource | Description |
+|----------|-------------|
+| [README.md](README.md) | Project overview & services |
+| [LICENSE](LICENSE) | **GNU AGPL v3.0** — open source license |
+| [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) | Community behavior standards |
+| [CONTRIBUTING.md](CONTRIBUTING.md) | How to contribute to this repo |
+| [SECURITY.md](SECURITY.md) | Report security vulnerabilities privately |
+| [GitHub Setup Guide](docs/GITHUB_REPOSITORY_SETUP.md) | About section, topics & repo configuration |
 
 ---
 
