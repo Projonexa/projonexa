@@ -2,8 +2,37 @@
   "name": "projonexa",
   "private": true,
   "version": "1.0.0",
-  "description": "Official website for Projonexa — Where Innovation Meets Execution.",
+  "description": "Official website and platform for Projonexa — Where Innovation Meets Execution.",
+  "author": "Nisarga Lokhande <nisargalokhande@gmail.com> (https://www.linkedin.com/in/nslokhande/)",
+  "license": "AGPL-3.0-or-later",
+  "homepage": "https://projonexa.com",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nikobuddy/projonexa.git"
+  },
+  "bugs": {
+    "url": "https://github.com/nikobuddy/projonexa/issues"
+  },
+  "keywords": [
+    "projonexa",
+    "final-year-project",
+    "engineering-projects",
+    "student-projects",
+    "academic-projects",
+    "startup-mvp",
+    "ai-ml",
+    "web-development",
+    "react",
+    "typescript",
+    "vite",
+    "tailwindcss",
+    "innovation-platform"
+  ],
   "type": "module",
+  "engines": {
+    "node": ">=20.0.0",
+    "npm": ">=9.0.0"
+  },
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",

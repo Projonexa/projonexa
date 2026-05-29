@@ -30,6 +30,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+### Changed
+
+- Professional README restructure with table of contents, repository overview, and documentation index
+- Enhanced `package.json` metadata (author, repository, license, keywords, engines)
+
 ### Planned
 
 - Open Graph image asset (`public/og-image.png`)
