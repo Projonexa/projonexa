@@ -34,9 +34,9 @@ const CATEGORY_META: Record<
   tools: { icon: Wrench, tagline: 'Design, test & deliver', accent: '#F24E1E' },
 }
 
-const AUTO_CYCLE_MS = 6000
-const MARQUEE_SPEED_LEFT = 100
-const MARQUEE_SPEED_RIGHT = 115
+const AUTO_CYCLE_MS = 6500
+const MARQUEE_SPEED_LEFT = 280
+const MARQUEE_SPEED_RIGHT = 320
 
 export function TechStackPanel() {
   const grouped = useMemo(
@@ -55,7 +55,6 @@ export function TechStackPanel() {
   const [activeIndex, setActiveIndex] = useState(0)
   const [paused, setPaused] = useState(false)
   const [hoveredId, setHoveredId] = useState<string | null>(null)
-  const [cycleKey, setCycleKey] = useState(0)
 
   const active = grouped[activeIndex]
   const hoveredTech = hoveredId
@@ -64,13 +63,11 @@ export function TechStackPanel() {
 
   const selectCategory = useCallback((index: number) => {
     setActiveIndex(index)
-    setCycleKey((k) => k + 1)
     setHoveredId(null)
   }, [])
 
   const advance = useCallback(() => {
     setActiveIndex((i) => (i + 1) % grouped.length)
-    setCycleKey((k) => k + 1)
     setHoveredId(null)
   }, [grouped.length])
 
@@ -116,26 +113,40 @@ export function TechStackPanel() {
 
         {/* Compact spotlight */}
         <div className="relative mb-4 overflow-hidden rounded-2xl border border-black/[0.06] bg-white/70 backdrop-blur-md dark:border-white/[0.08] dark:bg-zinc-900/45">
-          <motion.div
-            aria-hidden
-            key={active.id}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 0.5 }}
-            transition={{ duration: 0.6 }}
-            className="pointer-events-none absolute inset-0"
-            style={{
-              background: `radial-gradient(ellipse 70% 55% at 15% 0%, ${active.meta.accent}20, transparent 72%)`,
-            }}
-          />
+          <AnimatePresence mode="wait">
+            <motion.div
+              aria-hidden
+              key={active.id}
+              initial={{ opacity: 0, scale: 1.04 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.98 }}
+              transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+              className="pointer-events-none absolute inset-0"
+              style={{
+                background: `radial-gradient(ellipse 75% 60% at 18% 0%, ${active.meta.accent}24, transparent 74%)`,
+              }}
+            />
+          </AnimatePresence>
 
-          <div className="relative border-b border-black/[0.04] px-3.5 py-3 dark:border-white/[0.06] sm:px-4">
+          <AnimatePresence>
+            <motion.div
+              key={`sweep-${active.id}`}
+              aria-hidden
+              initial={{ x: '-120%', opacity: 0 }}
+              animate={{ x: '120%', opacity: [0, 0.35, 0] }}
+              transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1] }}
+              className="pointer-events-none absolute inset-0 z-[1] bg-gradient-to-r from-transparent via-white/25 to-transparent dark:via-white/10"
+            />
+          </AnimatePresence>
+
+          <div className="relative z-[2] border-b border-black/[0.04] px-3.5 py-3 dark:border-white/[0.06] sm:px-4">
             <AnimatePresence mode="wait">
               <motion.div
                 key={hoveredTech ? hoveredTech.id : active.id}
-                initial={{ opacity: 0, y: 8, filter: 'blur(6px)' }}
+                initial={{ opacity: 0, y: 10, filter: 'blur(8px)' }}
                 animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-                exit={{ opacity: 0, y: -6, filter: 'blur(4px)' }}
-                transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+                exit={{ opacity: 0, y: -8, filter: 'blur(6px)' }}
+                transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
                 className="flex items-center gap-3"
               >
                 {hoveredTech ? (
@@ -179,43 +190,42 @@ export function TechStackPanel() {
                 )}
               </motion.div>
             </AnimatePresence>
-
-            <div className="mt-3 h-0.5 overflow-hidden rounded-full bg-zinc-200/80 dark:bg-zinc-800">
-              <div
-                key={cycleKey}
-                className={`tech-spotlight-progress h-full origin-left rounded-full bg-brand-gradient ${paused ? 'is-paused' : ''}`}
-                style={{ animationDuration: `${AUTO_CYCLE_MS}ms` }}
-              />
-            </div>
           </div>
 
-          <div className="overflow-x-auto px-3.5 py-2.5 sm:px-4">
-            <div className="flex min-w-max gap-1.5">
+          <div className="relative z-[2] overflow-x-auto px-3.5 py-2.5 sm:px-4">
+            <div className="relative flex min-w-max gap-1.5">
               {grouped.map((group, i) => (
                 <button
                   key={group.id}
                   type="button"
                   onClick={() => selectCategory(i)}
-                  className={`rounded-full px-2.5 py-1 text-[11px] font-medium transition-all duration-300 ${
+                  className={`relative rounded-full px-2.5 py-1 text-[11px] font-medium transition-colors duration-300 ${
                     i === activeIndex
-                      ? 'bg-zinc-900 text-white shadow-sm dark:bg-white dark:text-zinc-900'
-                      : 'text-zinc-500 hover:bg-zinc-100 hover:text-zinc-800 dark:hover:bg-zinc-800 dark:hover:text-zinc-200'
+                      ? 'text-zinc-900 dark:text-white'
+                      : 'text-zinc-500 hover:text-zinc-800 dark:hover:text-zinc-200'
                   }`}
                 >
-                  {group.label.split(' ')[0]}
+                  {i === activeIndex && (
+                    <motion.span
+                      layoutId="spotlight-pill"
+                      className="absolute inset-0 rounded-full bg-white shadow-sm ring-1 ring-black/[0.06] dark:bg-zinc-800 dark:ring-white/10"
+                      transition={{ type: 'spring', stiffness: 380, damping: 32 }}
+                    />
+                  )}
+                  <span className="relative z-10">{group.label.split(' ')[0]}</span>
                 </button>
               ))}
             </div>
           </div>
 
-          <div className="px-3.5 pb-3.5 sm:px-4 sm:pb-4">
+          <div className="relative z-[2] px-3.5 pb-3.5 sm:px-4 sm:pb-4">
             <AnimatePresence mode="wait">
               <motion.div
                 key={active.id}
-                initial={{ opacity: 0, x: 16 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -16 }}
-                transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                initial={{ opacity: 0, y: 12, filter: 'blur(10px)' }}
+                animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                exit={{ opacity: 0, y: -10, filter: 'blur(8px)' }}
+                transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
                 className="grid grid-cols-4 gap-1.5 sm:grid-cols-5 sm:gap-2"
               >
                 {active.items.map((tech, index) => (
@@ -243,7 +253,7 @@ export function TechStackPanel() {
             className="pointer-events-none absolute inset-y-0 right-0 z-10 w-10 bg-gradient-to-l from-zinc-50 to-transparent dark:from-zinc-950"
           />
 
-          <div className="space-y-2">
+          <div className={`space-y-2 ${paused ? 'tech-marquee-paused' : ''}`}>
             <MarqueeRow items={marqueeRowA} direction="left" speed={MARQUEE_SPEED_LEFT} />
             <MarqueeRow items={marqueeRowB} direction="right" speed={MARQUEE_SPEED_RIGHT} />
           </div>

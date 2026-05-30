@@ -98,35 +98,15 @@
     }
   }
 
+  .tech-marquee-paused .tech-marquee-left,
+  .tech-marquee-paused .tech-marquee-right {
+    animation-play-state: paused;
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .tech-marquee-left,
     .tech-marquee-right {
       animation: none;
-    }
-
-    .tech-spotlight-progress {
-      animation: none;
-      transform: scaleX(1);
-    }
-  }
-
-  .tech-spotlight-progress {
-    transform: scaleX(0);
-    animation-name: spotlight-progress;
-    animation-timing-function: linear;
-    animation-fill-mode: forwards;
-  }
-
-  .tech-spotlight-progress.is-paused {
-    animation-play-state: paused;
-  }
-
-  @keyframes spotlight-progress {
-    from {
-      transform: scaleX(0);
-    }
-    to {
-      transform: scaleX(1);
     }
   }
 }
