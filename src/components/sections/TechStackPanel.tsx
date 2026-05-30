@@ -23,54 +23,20 @@ const CATEGORY_META: Record<
   TechCategory,
   { icon: LucideIcon; tagline: string; accent: string }
 > = {
-  frontend: {
-    icon: Code2,
-    tagline: 'Interfaces users love',
-    accent: '#61DAFB',
-  },
-  backend: {
-    icon: Layers3,
-    tagline: 'APIs built to scale',
-    accent: '#339933',
-  },
-  mobile: {
-    icon: Smartphone,
-    tagline: 'Native & cross-platform apps',
-    accent: '#02569B',
-  },
-  database: {
-    icon: Database,
-    tagline: 'Reliable data layers',
-    accent: '#4169E1',
-  },
-  ai: {
-    icon: Brain,
-    tagline: 'Intelligent systems & ML',
-    accent: '#FF6F00',
-  },
-  iot: {
-    icon: Cpu,
-    tagline: 'Connected hardware solutions',
-    accent: '#00979D',
-  },
-  cloud: {
-    icon: Cloud,
-    tagline: 'Deploy anywhere, scale fast',
-    accent: '#4285F4',
-  },
-  devops: {
-    icon: Layers3,
-    tagline: 'Ship with confidence',
-    accent: '#326CE5',
-  },
-  tools: {
-    icon: Wrench,
-    tagline: 'Design, test & deliver',
-    accent: '#F24E1E',
-  },
+  frontend: { icon: Code2, tagline: 'Interfaces users love', accent: '#61DAFB' },
+  backend: { icon: Layers3, tagline: 'APIs built to scale', accent: '#339933' },
+  mobile: { icon: Smartphone, tagline: 'Native & cross-platform', accent: '#02569B' },
+  database: { icon: Database, tagline: 'Reliable data layers', accent: '#4169E1' },
+  ai: { icon: Brain, tagline: 'Intelligent systems & ML', accent: '#FF6F00' },
+  iot: { icon: Cpu, tagline: 'Connected hardware', accent: '#00979D' },
+  cloud: { icon: Cloud, tagline: 'Deploy anywhere', accent: '#4285F4' },
+  devops: { icon: Layers3, tagline: 'Ship with confidence', accent: '#326CE5' },
+  tools: { icon: Wrench, tagline: 'Design, test & deliver', accent: '#F24E1E' },
 }
 
-const AUTO_CYCLE_MS = 5500
+const AUTO_CYCLE_MS = 6000
+const MARQUEE_SPEED_LEFT = 100
+const MARQUEE_SPEED_RIGHT = 115
 
 export function TechStackPanel() {
   const grouped = useMemo(
@@ -89,15 +55,23 @@ export function TechStackPanel() {
   const [activeIndex, setActiveIndex] = useState(0)
   const [paused, setPaused] = useState(false)
   const [hoveredId, setHoveredId] = useState<string | null>(null)
+  const [cycleKey, setCycleKey] = useState(0)
 
   const active = grouped[activeIndex]
-  const hoveredTech =
-    hoveredId != null
-      ? TECHNOLOGIES.find((t) => t.id === hoveredId) ?? active.items[0]
-      : active.items[0]
+  const hoveredTech = hoveredId
+    ? TECHNOLOGIES.find((t) => t.id === hoveredId)
+    : null
+
+  const selectCategory = useCallback((index: number) => {
+    setActiveIndex(index)
+    setCycleKey((k) => k + 1)
+    setHoveredId(null)
+  }, [])
 
   const advance = useCallback(() => {
     setActiveIndex((i) => (i + 1) % grouped.length)
+    setCycleKey((k) => k + 1)
+    setHoveredId(null)
   }, [grouped.length])
 
   useEffect(() => {
@@ -106,10 +80,7 @@ export function TechStackPanel() {
     return () => window.clearInterval(timer)
   }, [paused, advance, grouped.length])
 
-  const marqueeRowA = useMemo(
-    () => [...TECHNOLOGIES, ...TECHNOLOGIES].slice(0, TECHNOLOGIES.length * 2),
-    [],
-  )
+  const marqueeRowA = useMemo(() => [...TECHNOLOGIES, ...TECHNOLOGIES], [])
   const marqueeRowB = useMemo(
     () => [...TECHNOLOGIES].reverse().concat([...TECHNOLOGIES].reverse()),
     [],
@@ -117,233 +88,179 @@ export function TechStackPanel() {
 
   return (
     <div
-      className="tech-stack-premium relative overflow-hidden rounded-3xl shadow-[0_24px_80px_-24px_rgba(0,200,255,0.25)] dark:shadow-[0_24px_80px_-24px_rgba(0,200,255,0.15)]"
+      className="tech-stack-premium relative overflow-hidden rounded-3xl shadow-[0_20px_60px_-24px_rgba(0,200,255,0.2)] dark:shadow-[0_20px_60px_-24px_rgba(0,200,255,0.12)]"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => {
         setPaused(false)
         setHoveredId(null)
       }}
     >
-      {/* Gradient border shell */}
       <div className="absolute inset-0 rounded-3xl bg-brand-gradient p-px">
         <div className="h-full w-full rounded-[calc(1.5rem-1px)] bg-zinc-50 dark:bg-zinc-950" />
       </div>
 
-      {/* Inner glow */}
       <div
         aria-hidden
-        className="pointer-events-none absolute -left-20 top-0 h-56 w-56 rounded-full bg-brand-primary/20 blur-[80px] dark:bg-brand-primary/25"
-      />
-      <div
-        aria-hidden
-        className="pointer-events-none absolute -right-16 bottom-20 h-48 w-48 rounded-full bg-brand-secondary/15 blur-[70px]"
+        className="pointer-events-none absolute -left-16 top-0 h-40 w-40 rounded-full bg-brand-primary/15 blur-[70px]"
       />
 
-      <div className="relative z-10 flex flex-col p-5 sm:p-6 lg:p-7">
-        {/* Header */}
-        <div className="mb-6 flex flex-wrap items-start justify-between gap-4">
-          <div>
-            <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-brand-primary/25 bg-brand-primary/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-brand-primary">
-              <span className="relative flex h-2 w-2">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-brand-primary opacity-60" />
-                <span className="relative inline-flex h-2 w-2 rounded-full bg-brand-primary" />
-              </span>
-              Live stack
-            </div>
-            <h3 className="text-xl font-bold tracking-tight text-zinc-900 dark:text-white sm:text-2xl">
-              Tools we ship with
-            </h3>
-            <p className="mt-2 max-w-md text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
-              Production-ready technologies for academic projects, startups, and enterprise
-              delivery — curated across every layer of the stack.
-            </p>
-          </div>
-
-          <div className="flex gap-2">
-            {[
-              { value: TECHNOLOGIES.length, label: 'Tools' },
-              { value: TECH_CATEGORIES.length, label: 'Layers' },
-            ].map((pill) => (
-              <div
-                key={pill.label}
-                className="rounded-2xl border border-black/5 bg-white/80 px-3 py-2 text-center backdrop-blur-sm dark:border-white/10 dark:bg-zinc-900/80"
-              >
-                <p className="text-lg font-bold tabular-nums text-gradient">{pill.value}</p>
-                <p className="text-[10px] font-medium uppercase tracking-wider text-zinc-500">
-                  {pill.label}
-                </p>
-              </div>
-            ))}
-          </div>
+      <div className="relative z-10 flex flex-col p-5 sm:p-6">
+        <div className="mb-4">
+          <h3 className="text-lg font-bold tracking-tight text-zinc-900 dark:text-white sm:text-xl">
+            Tools we ship with
+          </h3>
+          <p className="mt-1 text-sm text-zinc-500 dark:text-zinc-400">
+            Curated stack for projects that need to look and perform premium.
+          </p>
         </div>
 
-        {/* Category spotlight */}
-        <div className="relative mb-5 overflow-hidden rounded-2xl border border-black/5 bg-white/60 p-4 backdrop-blur-md dark:border-white/10 dark:bg-zinc-900/50 sm:p-5">
-          <div
+        {/* Compact spotlight */}
+        <div className="relative mb-4 overflow-hidden rounded-2xl border border-black/[0.06] bg-white/70 backdrop-blur-md dark:border-white/[0.08] dark:bg-zinc-900/45">
+          <motion.div
             aria-hidden
-            className="pointer-events-none absolute inset-0 opacity-40 transition-opacity duration-700"
+            key={active.id}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 0.5 }}
+            transition={{ duration: 0.6 }}
+            className="pointer-events-none absolute inset-0"
             style={{
-              background: `radial-gradient(ellipse 80% 60% at 20% 0%, ${active.meta.accent}22, transparent 70%)`,
+              background: `radial-gradient(ellipse 70% 55% at 15% 0%, ${active.meta.accent}20, transparent 72%)`,
             }}
           />
 
-          <div className="relative mb-4 flex items-center justify-between gap-3">
+          <div className="relative border-b border-black/[0.04] px-3.5 py-3 dark:border-white/[0.06] sm:px-4">
             <AnimatePresence mode="wait">
               <motion.div
-                key={active.id}
-                initial={{ opacity: 0, x: -12 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: 12 }}
-                transition={{ duration: 0.35 }}
-                className="flex min-w-0 items-center gap-3"
+                key={hoveredTech ? hoveredTech.id : active.id}
+                initial={{ opacity: 0, y: 8, filter: 'blur(6px)' }}
+                animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                exit={{ opacity: 0, y: -6, filter: 'blur(4px)' }}
+                transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+                className="flex items-center gap-3"
               >
-                <div
-                  className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-white/10 shadow-lg"
-                  style={{
-                    background: `linear-gradient(135deg, ${active.meta.accent}33, ${active.meta.accent}11)`,
-                    boxShadow: `0 8px 32px -8px ${active.meta.accent}55`,
-                  }}
-                >
-                  <active.meta.icon className="h-5 w-5" style={{ color: active.meta.accent }} />
-                </div>
-                <div className="min-w-0">
-                  <p className="text-[10px] font-semibold uppercase tracking-widest text-zinc-500">
-                    Spotlight
-                  </p>
-                  <h4 className="truncate text-base font-bold text-zinc-900 dark:text-white sm:text-lg">
-                    {active.label}
-                  </h4>
-                  <p className="text-xs text-zinc-500">{active.meta.tagline}</p>
-                </div>
+                {hoveredTech ? (
+                  <>
+                    <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-white shadow-sm dark:bg-zinc-800">
+                      <TechLogo tech={hoveredTech} size="sm" />
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <p className="truncate text-sm font-semibold text-zinc-900 dark:text-white">
+                        {hoveredTech.name}
+                      </p>
+                      <p className="truncate text-xs text-zinc-500">
+                        {TECH_CATEGORIES.find((c) => c.id === hoveredTech.category)?.label}
+                      </p>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <div
+                      className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg"
+                      style={{
+                        background: `linear-gradient(135deg, ${active.meta.accent}28, ${active.meta.accent}08)`,
+                        boxShadow: `0 4px 20px -6px ${active.meta.accent}44`,
+                      }}
+                    >
+                      <active.meta.icon
+                        className="h-4 w-4"
+                        style={{ color: active.meta.accent }}
+                      />
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <p className="text-[10px] font-medium uppercase tracking-[0.18em] text-zinc-400">
+                        Spotlight
+                      </p>
+                      <p className="truncate text-sm font-semibold text-zinc-900 dark:text-white">
+                        {active.label}
+                      </p>
+                      <p className="truncate text-xs text-zinc-500">{active.meta.tagline}</p>
+                    </div>
+                  </>
+                )}
               </motion.div>
             </AnimatePresence>
 
-            <div className="hidden shrink-0 items-center gap-1.5 sm:flex">
+            <div className="mt-3 h-0.5 overflow-hidden rounded-full bg-zinc-200/80 dark:bg-zinc-800">
+              <div
+                key={cycleKey}
+                className={`tech-spotlight-progress h-full origin-left rounded-full bg-brand-gradient ${paused ? 'is-paused' : ''}`}
+                style={{ animationDuration: `${AUTO_CYCLE_MS}ms` }}
+              />
+            </div>
+          </div>
+
+          <div className="overflow-x-auto px-3.5 py-2.5 sm:px-4">
+            <div className="flex min-w-max gap-1.5">
               {grouped.map((group, i) => (
                 <button
                   key={group.id}
                   type="button"
-                  aria-label={`Show ${group.label}`}
-                  aria-current={i === activeIndex ? 'true' : undefined}
-                  onClick={() => setActiveIndex(i)}
-                  className={`h-1.5 rounded-full transition-all duration-300 ${
+                  onClick={() => selectCategory(i)}
+                  className={`rounded-full px-2.5 py-1 text-[11px] font-medium transition-all duration-300 ${
                     i === activeIndex
-                      ? 'w-6 bg-brand-gradient'
-                      : 'w-1.5 bg-zinc-300 hover:bg-brand-primary/50 dark:bg-zinc-600'
+                      ? 'bg-zinc-900 text-white shadow-sm dark:bg-white dark:text-zinc-900'
+                      : 'text-zinc-500 hover:bg-zinc-100 hover:text-zinc-800 dark:hover:bg-zinc-800 dark:hover:text-zinc-200'
                   }`}
-                />
+                >
+                  {group.label.split(' ')[0]}
+                </button>
               ))}
             </div>
           </div>
 
-          {/* Bento grid for active category */}
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={active.id}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.35 }}
-              className="relative grid grid-cols-3 gap-2 sm:grid-cols-4 sm:gap-2.5"
-            >
-              {active.items.map((tech, index) => (
-                <PremiumTechTile
-                  key={tech.id}
-                  tech={tech}
-                  index={index}
-                  featured={index === 0}
-                  isHovered={hoveredId === tech.id}
-                  onHover={setHoveredId}
-                />
-              ))}
-            </motion.div>
-          </AnimatePresence>
-
-          {/* Featured hover preview strip */}
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={hoveredTech.id}
-              initial={{ opacity: 0, y: 6 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -4 }}
-              transition={{ duration: 0.25 }}
-              className="relative mt-4 flex items-center gap-3 overflow-hidden rounded-xl border border-black/5 bg-zinc-50/90 px-3 py-2.5 dark:border-white/10 dark:bg-zinc-950/60"
-            >
-              <div
-                className="absolute inset-y-0 left-0 w-1 rounded-l-xl"
-                style={{
-                  backgroundColor: hoveredTech.color.startsWith('#')
-                    ? hoveredTech.color
-                    : `#${hoveredTech.color}`,
-                }}
-              />
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-white shadow-sm dark:bg-zinc-800">
-                <TechLogo tech={hoveredTech} size="sm" />
-              </div>
-              <div className="min-w-0 flex-1">
-                <p className="truncate text-sm font-semibold text-zinc-900 dark:text-white">
-                  {hoveredTech.name}
-                </p>
-                <p className="text-xs text-zinc-500">
-                  {TECH_CATEGORIES.find((c) => c.id === hoveredTech.category)?.label}
-                </p>
-              </div>
-              <span className="hidden rounded-full bg-brand-primary/10 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-brand-primary sm:inline">
-                In production
-              </span>
-            </motion.div>
-          </AnimatePresence>
+          <div className="px-3.5 pb-3.5 sm:px-4 sm:pb-4">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={active.id}
+                initial={{ opacity: 0, x: 16 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -16 }}
+                transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                className="grid grid-cols-4 gap-1.5 sm:grid-cols-5 sm:gap-2"
+              >
+                {active.items.map((tech, index) => (
+                  <CompactTechTile
+                    key={tech.id}
+                    tech={tech}
+                    index={index}
+                    isHovered={hoveredId === tech.id}
+                    onHover={setHoveredId}
+                  />
+                ))}
+              </motion.div>
+            </AnimatePresence>
+          </div>
         </div>
 
-        {/* Mobile category dots */}
-        <div className="mb-4 flex justify-center gap-1.5 sm:hidden">
-          {grouped.map((group, i) => (
-            <button
-              key={group.id}
-              type="button"
-              aria-label={`Show ${group.label}`}
-              onClick={() => setActiveIndex(i)}
-              className={`h-1.5 rounded-full transition-all ${
-                i === activeIndex ? 'w-5 bg-brand-gradient' : 'w-1.5 bg-zinc-300 dark:bg-zinc-600'
-              }`}
-            />
-          ))}
-        </div>
-
-        {/* Dual marquee — premium motion strip */}
-        <div className="relative space-y-2.5 overflow-hidden rounded-2xl border border-black/5 bg-zinc-900/[0.03] py-3 dark:border-white/10 dark:bg-white/[0.02]">
+        {/* Slow dual marquee */}
+        <div className="relative overflow-hidden rounded-2xl border border-black/[0.05] bg-zinc-900/[0.02] py-2.5 dark:border-white/[0.06] dark:bg-white/[0.02]">
           <div
             aria-hidden
-            className="pointer-events-none absolute inset-y-0 left-0 z-10 w-12 bg-gradient-to-r from-zinc-50 to-transparent dark:from-zinc-950"
+            className="pointer-events-none absolute inset-y-0 left-0 z-10 w-10 bg-gradient-to-r from-zinc-50 to-transparent dark:from-zinc-950"
           />
           <div
             aria-hidden
-            className="pointer-events-none absolute inset-y-0 right-0 z-10 w-12 bg-gradient-to-l from-zinc-50 to-transparent dark:from-zinc-950"
+            className="pointer-events-none absolute inset-y-0 right-0 z-10 w-10 bg-gradient-to-l from-zinc-50 to-transparent dark:from-zinc-950"
           />
 
-          <MarqueeRow items={marqueeRowA} direction="left" speed={38} />
-          <MarqueeRow items={marqueeRowB} direction="right" speed={44} />
+          <div className="space-y-2">
+            <MarqueeRow items={marqueeRowA} direction="left" speed={MARQUEE_SPEED_LEFT} />
+            <MarqueeRow items={marqueeRowB} direction="right" speed={MARQUEE_SPEED_RIGHT} />
+          </div>
         </div>
-
-        <p className="mt-4 text-center text-[11px] text-zinc-500">
-          Hover any logo to preview · Categories auto-rotate ·{' '}
-          <span className="text-brand-primary">70+ technologies</span> in our delivery stack
-        </p>
       </div>
     </div>
   )
 }
 
-function PremiumTechTile({
+function CompactTechTile({
   tech,
   index,
-  featured,
   isHovered,
   onHover,
 }: {
   tech: TechItem
   index: number
-  featured: boolean
   isHovered: boolean
   onHover: (id: string | null) => void
 }) {
@@ -351,48 +268,32 @@ function PremiumTechTile({
 
   return (
     <motion.article
-      initial={{ opacity: 0, scale: 0.9 }}
+      initial={{ opacity: 0, scale: 0.92 }}
       animate={{ opacity: 1, scale: 1 }}
-      transition={{ delay: index * 0.04, duration: 0.3 }}
+      transition={{ delay: index * 0.025, duration: 0.28 }}
       onMouseEnter={() => onHover(tech.id)}
       onFocus={() => onHover(tech.id)}
       onMouseLeave={() => onHover(null)}
       onBlur={() => onHover(null)}
       tabIndex={0}
-      className={`group relative outline-none ${featured ? 'col-span-2 row-span-2 sm:col-span-1' : ''}`}
+      title={tech.name}
+      className="group relative outline-none"
     >
       <div
-        className={`relative flex h-full flex-col items-center justify-center overflow-hidden rounded-xl border transition-all duration-300 ${
+        className={`flex min-h-[52px] flex-col items-center justify-center rounded-lg border px-1 py-1.5 transition-all duration-300 ${
           isHovered
-            ? 'border-brand-primary/40 shadow-glow scale-[1.03]'
-            : 'border-black/5 dark:border-white/10'
-        } ${
-          featured
-            ? 'min-h-[88px] bg-white/90 p-4 dark:bg-zinc-900/90 sm:min-h-[72px]'
-            : 'min-h-[72px] bg-white/70 p-3 dark:bg-zinc-900/70 sm:min-h-[68px]'
+            ? 'scale-[1.04] border-brand-primary/35 bg-white shadow-glow dark:bg-zinc-900'
+            : 'border-transparent bg-white/50 dark:bg-zinc-900/35'
         }`}
       >
         <div
-          className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100"
+          className="pointer-events-none absolute inset-0 rounded-lg opacity-0 transition-opacity duration-300 group-hover:opacity-100"
           style={{
-            background: `radial-gradient(circle at 50% 30%, ${glow}25, transparent 70%)`,
+            background: `radial-gradient(circle at 50% 20%, ${glow}20, transparent 75%)`,
           }}
         />
-
-        <div
-          className={`relative flex items-center justify-center rounded-xl transition-transform duration-300 group-hover:scale-110 ${
-            featured ? 'h-12 w-12' : 'h-9 w-9'
-          }`}
-          style={{ filter: isHovered ? `drop-shadow(0 0 12px ${glow}88)` : undefined }}
-        >
-          <TechLogo tech={tech} size={featured ? 'md' : 'sm'} />
-        </div>
-
-        <span
-          className={`relative mt-2 truncate text-center font-semibold text-zinc-800 transition-colors group-hover:text-brand-primary dark:text-zinc-100 ${
-            featured ? 'text-xs sm:text-sm' : 'text-[10px] sm:text-xs'
-          }`}
-        >
+        <TechLogo tech={tech} size="sm" className="relative h-5 w-5 sm:h-6 sm:w-6" />
+        <span className="relative mt-1 max-w-full truncate text-[9px] font-medium text-zinc-600 group-hover:text-brand-primary dark:text-zinc-400 sm:text-[10px]">
           {tech.name}
         </span>
       </div>
@@ -412,7 +313,7 @@ function MarqueeRow({
   return (
     <div className="flex overflow-hidden">
       <div
-        className={`tech-marquee flex shrink-0 items-center gap-3 ${
+        className={`tech-marquee flex shrink-0 items-center gap-2.5 ${
           direction === 'left' ? 'tech-marquee-left' : 'tech-marquee-right'
         }`}
         style={{ animationDuration: `${speed}s` }}
@@ -420,10 +321,10 @@ function MarqueeRow({
         {[...items, ...items].map((tech, i) => (
           <div
             key={`${tech.id}-${i}`}
-            className="flex shrink-0 items-center gap-2 rounded-full border border-black/5 bg-white/90 px-3 py-1.5 shadow-sm dark:border-white/10 dark:bg-zinc-900/90"
+            className="flex shrink-0 items-center gap-2 rounded-full border border-black/[0.06] bg-white/90 px-2.5 py-1 dark:border-white/[0.08] dark:bg-zinc-900/90"
           >
-            <TechLogo tech={tech} size="sm" className="h-5 w-5" />
-            <span className="whitespace-nowrap text-[11px] font-medium text-zinc-700 dark:text-zinc-300">
+            <TechLogo tech={tech} size="sm" className="h-4 w-4" />
+            <span className="whitespace-nowrap text-[10px] font-medium text-zinc-600 dark:text-zinc-400">
               {tech.name}
             </span>
           </div>
