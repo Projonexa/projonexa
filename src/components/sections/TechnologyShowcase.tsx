@@ -7,7 +7,7 @@ import {
   type TechCategory,
 } from '@/data/technologies'
 import { SectionHeading } from '@/components/ui/SectionHeading'
-import { EarthGlobe } from '@/components/sections/EarthGlobe'
+import { TechIconCloud } from '@/components/sections/TechIconCloud'
 import { TechCard } from '@/components/sections/TechCard'
 
 type Filter = TechCategory | 'all'
@@ -41,18 +41,18 @@ export function TechnologyShowcase() {
         <SectionHeading
           eyebrow="Technology"
           title="Built With Industry-Leading Stack"
-          description="60+ modern technologies — from frontend and AI to cloud and IoT — powering projects for students and clients worldwide."
+          description="70+ modern technologies — from frontend and AI to cloud and IoT — powering projects for students and clients worldwide."
         />
 
-        {/* Earth hero */}
-        <div className="relative mx-auto mb-16 h-[min(70vw,420px)] max-w-3xl sm:mb-20 sm:h-[460px]">
-          <EarthGlobe />
+        {/* Interactive 3D icon cloud */}
+        <div className="relative mx-auto mb-12 sm:mb-16">
+          <TechIconCloud />
         </div>
 
         {/* Stats strip */}
         <div className="mb-10 grid grid-cols-2 gap-3 sm:grid-cols-4">
           {[
-            { label: 'Technologies', value: `${TECHNOLOGIES.length}+` },
+            { label: 'Technologies', value: `${TECHNOLOGIES.length}` },
             { label: 'Categories', value: `${TECH_CATEGORIES.length}` },
             { label: 'Domains', value: '10+' },
             { label: 'Global Reach', value: 'India & Worldwide' },
