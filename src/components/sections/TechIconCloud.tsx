@@ -1,7 +1,7 @@
+import { useTheme } from '@/context/ThemeContext'
+import { ICON_CLOUD_SLUGS } from '@/data/technologies'
 import { useEffect, useMemo, useState, type MouseEvent, type ReactNode } from 'react'
 import { Cloud, fetchSimpleIcons, renderSimpleIcon } from 'react-icon-cloud'
-import { ICON_CLOUD_SLUGS } from '@/data/technologies'
-import { useTheme } from '@/context/ThemeContext'
 
 const CLOUD_OPTIONS = {
   reverse: true,
@@ -125,12 +125,12 @@ export function TechIconCloud({ variant = 'default' }: TechIconCloudProps) {
           {icons}
         </Cloud>
 
-        <p className="relative z-10 mt-4 w-full text-center text-xs text-zinc-500 sm:text-sm lg:text-right">
+        {/* <p className="relative z-10 mt-4 w-full text-center text-xs text-zinc-500 sm:text-sm lg:text-right">
           <span className="inline-flex items-center gap-2 rounded-full border border-black/5 bg-white/80 px-3 py-1.5 backdrop-blur-sm dark:border-white/10 dark:bg-zinc-900/80">
             <span className="inline-block h-1.5 w-1.5 animate-pulse rounded-full bg-brand-primary" />
             Drag to explore · Hover for tooltips
           </span>
-        </p>
+        </p> */}
       </div>
     </div>
   )
