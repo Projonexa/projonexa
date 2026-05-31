@@ -143,6 +143,12 @@ export function Footer() {
           </p>
         </div>
       </div>
+
+      <div className="footer-wordmark" aria-hidden>
+        <p className="footer-wordmark-display" data-text={BRAND.name}>
+          {BRAND.name}
+        </p>
+      </div>
     </footer>
   )
 }
