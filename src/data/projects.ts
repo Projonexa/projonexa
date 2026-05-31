@@ -31,7 +31,7 @@ export const PROJECTS_SECTION = {
   eyebrow: 'My Projects',
   title: 'Products Built for Real Users',
   lead: 'Live apps and platforms we have designed, built, and shipped — starting with tools that help SPPU students learn smarter.',
-  body: 'Each project includes a clear overview, tech stack, feature set, and live deployment links where available.',
+  body: 'Hover a card to preview, then click to open full details, tech stack, and live deployment links.',
 } as const
 
 export const MY_PROJECTS: MyProject[] = [

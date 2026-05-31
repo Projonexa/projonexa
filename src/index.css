@@ -159,10 +159,20 @@
     color: #5ee9ff !important;
   }
 
-  .dark .project-card:hover .project-branch-chip {
+  .dark .project-card:hover .project-branch-chip,
+  .dark .project-modal-panel .project-branch-chip {
     border-color: rgba(0, 200, 255, 0.35);
     background: rgba(0, 200, 255, 0.14);
     color: #f4f4f5;
+  }
+
+  .project-preview-card:focus-visible .project-preview-open-badge {
+    opacity: 1;
+  }
+
+  .project-preview-card:focus-visible .project-preview-arrow-fab {
+    opacity: 1;
+    transform: translateY(0);
   }
 
   .dark .section-heading-panel {

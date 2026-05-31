@@ -5,9 +5,9 @@ export const NAV_LINKS = [
   { label: 'Projects', path: '/projects' },
   { label: 'Blog', path: '/blog' },
   { label: 'Portfolio', path: '/portfolio' },
-  { label: 'Pricing', path: '/pricing' },
-  { label: 'Careers', path: '/careers' },
-  { label: 'FAQ', path: '/faq' },
+  // { label: 'Pricing', path: '/pricing' },
+  // { label: 'Careers', path: '/careers' },
+  // { label: 'FAQ', path: '/faq' },
   { label: 'Contact', path: '/contact' },
 ] as const
 
