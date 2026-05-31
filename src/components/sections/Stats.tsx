@@ -150,7 +150,7 @@ export function Stats() {
   return (
     <section ref={ref} className="section-padding section-frosted">
       <div className="container-wide">
-        <div className="grid items-start gap-12 lg:grid-cols-2 lg:gap-20 xl:gap-24">
+        <div className="grid items-start gap-8 sm:gap-10 lg:grid-cols-2 lg:gap-20 xl:gap-24">
           <motion.div
             initial={{ opacity: 0, x: -16 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -168,7 +168,7 @@ export function Stats() {
               </p>
             </div>
 
-            <h2 className="mt-5 text-3xl font-bold leading-[1.12] tracking-tight text-zinc-900 dark:text-white sm:text-4xl lg:text-[2.65rem]">
+            <h2 className="section-display-title mt-5">
               {STATS_SECTION.title}
             </h2>
 

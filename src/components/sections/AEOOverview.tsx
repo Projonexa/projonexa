@@ -164,7 +164,7 @@ export function AEOOverview() {
       aria-labelledby="aeo-overview-heading"
     >
       <div className="container-wide">
-        <div className="grid items-start gap-12 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)] lg:gap-16 xl:gap-20">
+        <div className="grid items-start gap-8 sm:gap-10 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)] lg:gap-16 xl:gap-20">
           {/* Left — overview */}
           <motion.div
             initial={{ opacity: 0, x: -16 }}
@@ -185,7 +185,7 @@ export function AEOOverview() {
 
             <h2
               id="aeo-overview-heading"
-              className="mt-5 text-3xl font-bold leading-[1.12] tracking-tight text-zinc-900 dark:text-white sm:text-4xl lg:text-[2.65rem]"
+              className="section-display-title mt-5"
             >
               {AEO_SECTION.title}
             </h2>

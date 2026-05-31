@@ -27,7 +27,7 @@ function TechnologyHeading({ className = '' }: { className?: string }) {
 
       <h2
         id="tech-showcase-heading"
-        className="mt-5 text-3xl font-bold leading-[1.12] tracking-tight text-zinc-900 dark:text-white sm:text-4xl lg:text-[2.65rem]"
+        className="section-display-title mt-5"
       >
         {TECH_SECTION.title}
       </h2>
@@ -52,7 +52,7 @@ export function TechnologyShowcase({ variant = 'section' }: TechnologyShowcasePr
     <div className="container-wide">
       <TechnologyHeading className="mb-8 max-w-3xl sm:mb-10 lg:mb-12" />
 
-      <div className="grid grid-cols-1 items-start gap-10 lg:grid-cols-[minmax(0,1.06fr)_minmax(0,0.94fr)] lg:gap-12 xl:gap-14">
+      <div className="grid grid-cols-1 items-start gap-8 sm:gap-10 lg:grid-cols-[minmax(0,1.06fr)_minmax(0,0.94fr)] lg:gap-12 xl:gap-14">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}

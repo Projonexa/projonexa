@@ -219,7 +219,7 @@ export function TechStackPanel({ onTechHover }: TechStackPanelProps) {
             </AnimatePresence>
           </div>
 
-          <div className="relative z-[2] overflow-x-auto px-3.5 py-2.5 sm:px-4">
+          <div className="relative z-[2] -mx-1 overflow-x-auto overscroll-x-contain px-3.5 py-2.5 [-webkit-overflow-scrolling:touch] sm:mx-0 sm:px-4">
             <div className="relative flex min-w-max gap-1.5">
               {grouped.map((group, i) => (
                 <button

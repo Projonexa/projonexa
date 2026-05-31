@@ -42,14 +42,14 @@ export function ContactPage() {
 
       <section className="section-padding border-b border-black/[0.04] bg-zinc-50/50 dark:border-white/[0.04] dark:bg-transparent">
         <div className="container-wide">
-          <div className="mx-auto grid max-w-6xl gap-10 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)] lg:items-start lg:gap-14">
+          <div className="mx-auto grid max-w-6xl gap-8 sm:gap-10 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)] lg:items-start lg:gap-14">
             <motion.aside
               initial={{ opacity: 0, x: -16 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.5, ease: easeSmooth }}
               className="lg:sticky lg:top-28"
             >
-              <div className="contact-sidebar-panel relative overflow-hidden rounded-3xl border border-black/[0.07] p-6 sm:p-8">
+              <div className="contact-sidebar-panel relative overflow-hidden rounded-2xl border border-black/[0.07] p-5 sm:rounded-3xl sm:p-8">
                 <div
                   aria-hidden
                   className="pointer-events-none absolute inset-0 bg-gradient-to-br from-brand-primary/[0.05] via-transparent to-brand-secondary/[0.06]"

@@ -36,9 +36,9 @@ export function CareersPage() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.06, ease: easeSmooth }}
-            className="mb-12 flex justify-center"
+            className="mb-10 flex justify-center px-1 sm:mb-12"
           >
-            <Button to={careersApplyPath()} variant="primary" className="shadow-glow-sm">
+            <Button to={careersApplyPath()} variant="primary" className="w-full max-w-md shadow-glow-sm sm:w-auto">
               Apply to Join Projonexa
               <ArrowUpRight className="h-4 w-4 opacity-90" aria-hidden />
             </Button>

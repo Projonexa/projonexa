@@ -1,9 +1,11 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { AnimatePresence, motion } from 'framer-motion'
 import { Menu, Moon, Sun, X } from 'lucide-react'
 import { NAV_LINKS } from '@/data/navigation'
 import { useTheme } from '@/context/ThemeContext'
+import { useBodyScrollLock } from '@/hooks/useBodyScrollLock'
+import { isNavLinkActive } from '@/lib/navigation'
 import { Logo } from '@/components/ui/Logo'
 import { Button } from '@/components/ui/Button'
 
@@ -11,6 +13,12 @@ export function Header() {
   const [open, setOpen] = useState(false)
   const { theme, toggleTheme } = useTheme()
   const location = useLocation()
+
+  useBodyScrollLock(open)
+
+  useEffect(() => {
+    setOpen(false)
+  }, [location.pathname])
 
   return (
     <>
@@ -20,7 +28,7 @@ export function Header() {
       >
         Skip to main content
       </a>
-      <header className="fixed top-0 z-50 w-full border-b border-black/5 bg-white/80 backdrop-blur-xl dark:border-white/[0.06] dark:bg-black/85">
+      <header className="site-header fixed top-0 z-50 w-full border-b border-black/5 bg-white/80 backdrop-blur-xl dark:border-white/[0.06] dark:bg-black/85">
       <div className="container-wide flex h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
         <Logo />
 
@@ -30,7 +38,7 @@ export function Header() {
               key={link.path}
               to={link.path}
               className={`rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
-                location.pathname === link.path
+                isNavLinkActive(location.pathname, link.path)
                   ? 'text-brand-primary'
                   : 'text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-white'
               }`}
@@ -81,16 +89,16 @@ export function Header() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="border-t border-black/5 bg-white dark:border-white/[0.06] dark:bg-black lg:hidden"
+            className="mobile-nav-panel border-t border-black/5 bg-white dark:border-white/[0.06] dark:bg-black lg:hidden"
           >
-            <nav className="flex flex-col gap-1 px-4 py-4" aria-label="Mobile navigation">
+            <nav className="flex flex-col gap-1 px-4 py-4 pb-[max(1rem,env(safe-area-inset-bottom))]" aria-label="Mobile navigation">
               {NAV_LINKS.map((link) => (
                 <Link
                   key={link.path}
                   to={link.path}
                   onClick={() => setOpen(false)}
-                  className={`rounded-lg px-4 py-3 text-sm font-medium ${
-                    location.pathname === link.path
+                  className={`rounded-lg px-4 py-3.5 text-base font-medium ${
+                    isNavLinkActive(location.pathname, link.path)
                       ? 'bg-brand-primary/10 text-brand-primary'
                       : 'text-zinc-700 dark:text-zinc-300'
                   }`}

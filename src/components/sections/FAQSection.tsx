@@ -105,7 +105,7 @@ export function FAQSection({ category, categoryIndex, openId, onToggle }: FAQSec
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-40px' }}
       transition={{ duration: 0.45, delay: categoryIndex * 0.04, ease: easeSmooth }}
-      className="scroll-mt-28"
+      className="scroll-mt-header"
       aria-labelledby={`faq-${category.id}-heading`}
     >
       <div className="mb-5 flex flex-col gap-2 sm:mb-6">

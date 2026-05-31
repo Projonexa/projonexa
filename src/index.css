@@ -5,10 +5,12 @@
 @layer base {
   html {
     scroll-behavior: smooth;
+    overflow-x: clip;
   }
 
   body {
     @apply font-sans antialiased;
+    overflow-x: clip;
   }
 
   .dark body {
@@ -77,16 +79,30 @@
   }
 
   .services-deck-scroll-track {
-    scroll-margin-top: 7rem;
+    scroll-margin-top: 5.5rem;
+  }
+
+  @media (min-width: 1024px) {
+    .services-deck-scroll-track {
+      scroll-margin-top: 7rem;
+    }
   }
 
   .services-deck-viewport {
-    min-height: 460px;
-    overflow: visible;
-    padding: 0.5rem 0 1.25rem;
+    min-height: 400px;
+    overflow: hidden;
+    padding: 0.25rem 0 1rem;
   }
 
   @media (min-width: 640px) {
+    .services-deck-viewport {
+      min-height: 460px;
+      overflow: visible;
+      padding: 0.5rem 0 1.25rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
     .services-deck-viewport {
       min-height: 480px;
       padding-bottom: 1.5rem;
@@ -95,6 +111,13 @@
 
   .services-deck-sticky {
     overflow: visible;
+    top: 5.25rem;
+  }
+
+  @media (min-width: 1024px) {
+    .services-deck-sticky {
+      top: 7rem;
+    }
   }
 
   .services-deck-stage {
@@ -479,10 +502,25 @@
   .faq-category-nav {
     -ms-overflow-style: none;
     scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-x: contain;
+    padding-left: max(0.25rem, env(safe-area-inset-left));
+    padding-right: max(0.25rem, env(safe-area-inset-right));
   }
 
   .faq-category-nav::-webkit-scrollbar {
     display: none;
+  }
+
+  .site-header {
+    padding-top: env(safe-area-inset-top, 0);
+  }
+
+  .mobile-nav-panel {
+    max-height: min(70vh, calc(100dvh - 4.5rem));
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
   }
 
   .contact-sidebar-panel,
@@ -596,7 +634,25 @@
   }
 
   .section-padding {
-    @apply px-4 py-20 sm:px-6 lg:px-8 lg:py-28;
+    @apply px-4 py-14 sm:px-6 sm:py-20 lg:px-8 lg:py-28;
+  }
+
+  .section-display-title {
+    @apply text-[1.65rem] font-bold leading-[1.12] tracking-tight text-zinc-900 dark:text-white sm:text-3xl md:text-4xl lg:text-[2.65rem];
+  }
+
+  .page-header-band {
+    @apply border-b border-black/5 bg-white/50 pt-24 pb-12 backdrop-blur-sm dark:border-white/[0.06] dark:bg-black/40 sm:pt-28 sm:pb-14 md:pt-32 md:pb-16;
+  }
+
+  .scroll-mt-header {
+    scroll-margin-top: 5.5rem;
+  }
+
+  @media (min-width: 1024px) {
+    .scroll-mt-header {
+      scroll-margin-top: 7rem;
+    }
   }
 
   /* Technology + Why → Service Area — single gap, not double section padding (home) */

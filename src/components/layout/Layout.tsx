@@ -27,7 +27,7 @@ export function Layout() {
 
   return (
     <div
-      className="relative min-h-screen text-zinc-900 dark:text-zinc-100"
+      className="relative min-h-screen overflow-x-clip text-zinc-900 dark:text-zinc-100"
       onMouseMove={showCursor ? handleMouseMove : undefined}
       onMouseLeave={showCursor ? handleMouseLeave : undefined}
     >

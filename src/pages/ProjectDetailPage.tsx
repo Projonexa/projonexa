@@ -39,13 +39,13 @@ export function ProjectDetailPage() {
     <div className="project-detail-page">
       <SEO seo={buildProjectSEO(project)} />
 
-      <section className="relative border-b border-black/[0.06] bg-zinc-50/90 pt-24 backdrop-blur-sm dark:border-white/[0.06] dark:bg-zinc-950/80 sm:pt-28">
-        <div className="container-wide pb-10 sm:pb-12">
+      <section className="relative border-b border-black/[0.06] bg-zinc-50/90 pt-20 backdrop-blur-sm dark:border-white/[0.06] dark:bg-zinc-950/80 sm:pt-24 md:pt-28">
+        <div className="container-wide px-4 pb-8 sm:px-6 sm:pb-12 lg:px-8">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, ease: easeSmooth }}
-            className="project-detail-hero-card relative overflow-hidden rounded-3xl p-6 sm:p-8 lg:p-10"
+            className="project-detail-hero-card relative overflow-hidden rounded-2xl p-5 sm:rounded-3xl sm:p-8 lg:p-10"
           >
             <div
               aria-hidden

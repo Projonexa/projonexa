@@ -14,8 +14,8 @@ export function Footer() {
       <meta itemProp="name" content={BRAND.name} />
       <meta itemProp="url" content={BRAND.url} />
       <link itemProp="sameAs" href={FOUNDER.linkedin} />
-      <div className="container-wide section-padding !py-16">
-        <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-4">
+      <div className="container-wide section-padding !py-12 sm:!py-16">
+        <div className="grid gap-10 sm:gap-12 md:grid-cols-2 lg:grid-cols-4">
           <div className="lg:col-span-1">
             <Logo />
             <p className="mt-4 text-sm text-zinc-600 dark:text-zinc-400">{BRAND.tagline}</p>
@@ -63,7 +63,7 @@ export function Footer() {
               <li>
                 <a
                   href={`mailto:${FOUNDER.email}`}
-                  className="flex items-center gap-2 text-sm text-zinc-600 hover:text-brand-primary dark:text-zinc-400"
+                  className="flex items-start gap-2 break-all text-sm text-zinc-600 hover:text-brand-primary dark:text-zinc-400"
                   itemProp="email"
                 >
                   <Mail className="h-4 w-4" aria-hidden />
@@ -106,11 +106,11 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-black/5 pt-8 dark:border-white/[0.06] sm:flex-row">
-          <p className="text-sm text-zinc-500 dark:text-zinc-500">
+        <div className="mt-10 flex flex-col items-center justify-between gap-3 border-t border-black/5 pt-8 text-center dark:border-white/[0.06] sm:mt-12 sm:flex-row sm:gap-4 sm:text-left">
+          <p className="text-xs text-zinc-500 dark:text-zinc-500 sm:text-sm">
             © {new Date().getFullYear()} {BRAND.name}. All rights reserved.
           </p>
-          <p className="text-sm text-zinc-500 dark:text-zinc-500">
+          <p className="text-xs text-zinc-500 dark:text-zinc-500 sm:text-sm">
             Founded by {FOUNDER.name} · {FOUNDER.location}
           </p>
         </div>

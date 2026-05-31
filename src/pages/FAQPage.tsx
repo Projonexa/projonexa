@@ -49,7 +49,7 @@ export function FAQPage() {
             />
           </motion.div>
 
-          <div className="mx-auto flex max-w-4xl flex-col gap-12 lg:gap-14">
+          <div className="mx-auto flex max-w-4xl flex-col gap-10 sm:gap-12 lg:gap-14">
             {FAQ_CATEGORIES.map((category, index) => (
               <FAQSection
                 key={category.id}
@@ -66,7 +66,7 @@ export function FAQPage() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.45, ease: easeSmooth }}
-            className="faq-help-panel relative mx-auto mt-14 max-w-4xl overflow-hidden rounded-3xl border border-black/[0.07] p-6 sm:p-8"
+            className="faq-help-panel relative mx-auto mt-10 max-w-4xl overflow-hidden rounded-2xl border border-black/[0.07] p-5 sm:mt-14 sm:rounded-3xl sm:p-8"
           >
             <div
               aria-hidden

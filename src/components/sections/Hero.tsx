@@ -61,13 +61,13 @@ export function Hero() {
   const reducedMotion = useReducedMotion()
 
   return (
-    <section className="relative min-h-screen overflow-hidden pt-16">
-      <div className="container-wide relative flex min-h-[calc(100vh-4rem)] flex-col items-center justify-center px-4 py-20 text-center sm:px-6 sm:py-24 lg:px-8">
+    <section className="relative min-h-[100svh] overflow-hidden pt-16 sm:min-h-screen">
+      <div className="container-wide relative flex min-h-[calc(100svh-4rem)] flex-col items-center justify-center px-4 py-14 text-center sm:min-h-[calc(100vh-4rem)] sm:px-6 sm:py-24 lg:px-8">
         <HeroTagline reducedMotion={reducedMotion} />
 
         <motion.h1
           {...fadeUp(0.08, reducedMotion)}
-          className="max-w-5xl text-balance text-4xl font-bold leading-[1.08] tracking-tight text-zinc-900 dark:text-white sm:text-5xl md:text-6xl lg:text-[4.25rem] lg:leading-[1.05]"
+          className="max-w-5xl text-balance text-3xl font-bold leading-[1.1] tracking-tight text-zinc-900 dark:text-white sm:text-5xl md:text-6xl lg:text-[4.25rem] lg:leading-[1.05]"
         >
           Transform Your Ideas Into{' '}
           <span className="text-gradient">Real-World Innovation</span>

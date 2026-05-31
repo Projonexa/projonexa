@@ -8,7 +8,7 @@ interface PageHeaderProps {
 
 export function PageHeader({ title, description, eyebrow }: PageHeaderProps) {
   return (
-    <section className="relative overflow-hidden border-b border-black/5 bg-white/50 pt-32 pb-16 backdrop-blur-sm dark:border-white/[0.06] dark:bg-black/40">
+    <section className="page-header-band relative overflow-hidden">
       <div className="container-narrow relative px-4 sm:px-6 lg:px-8">
         {eyebrow && (
           <motion.p
@@ -23,7 +23,7 @@ export function PageHeader({ title, description, eyebrow }: PageHeaderProps) {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.05 }}
-          className="text-4xl font-bold tracking-tight text-zinc-900 dark:text-white sm:text-5xl"
+          className="text-pretty text-3xl font-bold tracking-tight text-zinc-900 dark:text-white sm:text-4xl md:text-5xl"
         >
           {title}
         </motion.h1>
@@ -31,7 +31,7 @@ export function PageHeader({ title, description, eyebrow }: PageHeaderProps) {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="mt-4 max-w-2xl text-lg text-zinc-600 dark:text-zinc-400"
+          className="mt-4 max-w-2xl text-pretty text-base leading-relaxed text-zinc-600 dark:text-zinc-400 sm:text-lg"
         >
           {description}
         </motion.p>

@@ -1,5 +1,6 @@
 import { useRef } from 'react'
 import { motion, useScroll, useTransform, type MotionValue } from 'framer-motion'
+import { useMediaQuery } from '@/hooks/useMediaQuery'
 import { useReducedMotion } from '@/hooks/useReducedMotion'
 import { ArrowRight, Check } from 'lucide-react'
 import { getServiceAccent, SERVICES, SERVICES_SECTION } from '@/data/services'
@@ -11,12 +12,14 @@ interface ServicesGridProps {
 }
 
 const easeSmooth = [0.22, 1, 0.36, 1] as const
-const SCROLL_VH_PER_CARD = 46
+const SCROLL_VH_PER_CARD_DESKTOP = 46
+const SCROLL_VH_PER_CARD_MOBILE = 32
 const PEEK_Y = 14
 const STACK_SCALE_STEP = 0.022
 const MAX_STACK_VISIBLE = 5
 const POP_LIFT_Y = 24
-const POP_X = 64
+const POP_X_DESKTOP = 64
+const POP_X_MOBILE = 24
 
 function getDeckState(progress: number, index: number, total: number) {
   const activeFloat = Math.min(progress * total, total - 1 + 0.998)
@@ -152,12 +155,14 @@ function ServiceDeckCard({
   total,
   scrollProgress,
   reducedMotion,
+  popX,
 }: {
   service: (typeof SERVICES)[number]
   index: number
   total: number
   scrollProgress: MotionValue<number>
   reducedMotion: boolean
+  popX: number
 }) {
   const y = useTransform(scrollProgress, (p) => {
     const { phase, popT, stackDepth } = getDeckState(p, index, total)
@@ -170,8 +175,8 @@ function ServiceDeckCard({
 
   const x = useTransform(scrollProgress, (p) => {
     const { phase, popT, dir } = getDeckState(p, index, total)
-    if (phase === 'popped') return dir * POP_X
-    if (phase === 'popping') return dir * popT * POP_X
+    if (phase === 'popped') return dir * popX
+    if (phase === 'popping') return dir * popT * popX
     return 0
   })
 
@@ -280,8 +285,11 @@ function ReducedDeckCard({
 
 function ServicesVerticalStack({ items }: { items: typeof SERVICES }) {
   const reducedMotion = useReducedMotion()
+  const compactDeck = useMediaQuery('(max-width: 1023px)')
   const scrollRef = useRef<HTMLDivElement>(null)
   const total = items.length
+  const scrollVhPerCard = compactDeck ? SCROLL_VH_PER_CARD_MOBILE : SCROLL_VH_PER_CARD_DESKTOP
+  const popX = compactDeck ? POP_X_MOBILE : POP_X_DESKTOP
 
   const { scrollYProgress } = useScroll({
     target: scrollRef,
@@ -292,10 +300,10 @@ function ServicesVerticalStack({ items }: { items: typeof SERVICES }) {
     <div
       ref={scrollRef}
       className="services-deck-scroll-track relative mx-auto w-full max-w-[34rem] sm:max-w-[36rem]"
-      style={{ height: `${total * SCROLL_VH_PER_CARD}vh` }}
+      style={{ height: `${total * scrollVhPerCard}vh` }}
       aria-label="Service cards — scroll the page to explore"
     >
-      <div className="services-deck-sticky sticky top-28 flex min-h-[calc(100vh-7.5rem)] items-center justify-center py-10 sm:py-12">
+      <div className="services-deck-sticky sticky flex min-h-[calc(100dvh-6.5rem)] items-center justify-center py-6 sm:min-h-[calc(100vh-7.5rem)] sm:py-10 lg:py-12">
         <div className="services-deck-stage services-deck-viewport relative w-full px-1">
           {items.map((service, i) => (
             <ServiceDeckCard
@@ -305,6 +313,7 @@ function ServicesVerticalStack({ items }: { items: typeof SERVICES }) {
               total={total}
               scrollProgress={scrollYProgress}
               reducedMotion={reducedMotion}
+              popX={popX}
             />
           ))}
         </div>
@@ -332,9 +341,7 @@ function ServicesIntro({ showViewAll, className = '' }: { showViewAll: boolean; 
         </p>
       </div>
 
-      <h2 className="mt-5 text-3xl font-bold leading-[1.12] tracking-tight text-zinc-900 dark:text-white sm:text-4xl lg:text-[2.65rem]">
-        {SERVICES_SECTION.title}
-      </h2>
+      <h2 className="section-display-title mt-5">{SERVICES_SECTION.title}</h2>
 
       <p className="mt-4 text-lg font-medium leading-relaxed text-zinc-700 dark:text-zinc-300">
         {SERVICES_SECTION.lead}
@@ -368,7 +375,7 @@ export function ServicesGrid({ limit, showViewAll = false }: ServicesGridProps) 
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="mx-auto mb-14 max-w-3xl text-center"
+            className="mx-auto mb-10 max-w-3xl text-center sm:mb-14"
           >
             <p className="text-sm font-semibold uppercase tracking-[0.2em] text-brand-primary">
               {SERVICES_SECTION.eyebrow}
@@ -405,10 +412,10 @@ export function ServicesGrid({ limit, showViewAll = false }: ServicesGridProps) 
     <section className="section-padding">
       <div className="container-wide">
         <div className="lg:hidden">
-          <ServicesIntro showViewAll={false} className="mb-10 max-w-xl" />
+          <ServicesIntro showViewAll={false} className="mb-8 max-w-xl sm:mb-10" />
         </div>
 
-        <div className="grid items-start gap-12 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:gap-16 xl:gap-20">
+        <div className="grid items-start gap-8 sm:gap-10 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:gap-16 xl:gap-20">
           <ServicesIntro
             showViewAll={showViewAll}
             className="sticky top-28 hidden max-w-xl lg:block"

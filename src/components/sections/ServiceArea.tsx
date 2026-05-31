@@ -87,7 +87,7 @@ export function ServiceArea({ variant = 'section' }: ServiceAreaProps) {
             </div>
             <h2
               id="service-area-heading"
-              className="mt-5 text-3xl font-bold leading-[1.12] tracking-tight text-zinc-900 dark:text-white sm:text-4xl lg:text-[2.65rem]"
+              className="section-display-title mt-5"
             >
               {SERVICE_AREA_SECTION.title}
             </h2>
