@@ -122,14 +122,18 @@ function ServiceCard({
           </p>
 
           <div className="mt-5">
-            <p className="mb-3 text-[10px] font-semibold uppercase tracking-[0.16em] text-zinc-500">
+            <p className="mb-3 text-[10px] font-semibold uppercase tracking-[0.16em] text-zinc-500 dark:text-zinc-400">
               What&apos;s included
             </p>
             <ul className="flex flex-wrap gap-2">
               {service.deliverables.map((d) => (
                 <li key={d}>
-                  <span className="inline-flex max-w-full items-center gap-1.5 rounded-full border border-black/[0.06] bg-white/60 px-2.5 py-1.5 text-[11px] font-medium leading-tight text-zinc-600 backdrop-blur-sm transition-colors duration-300 group-hover:border-brand-primary/15 group-hover:bg-white/80 dark:border-white/[0.08] dark:bg-white/[0.06] dark:text-zinc-300 dark:group-hover:border-brand-primary/20 sm:text-xs">
-                    <Check className="h-3 w-3 shrink-0" style={{ color: accent }} aria-hidden />
+                  <span className="service-deliverable-chip inline-flex max-w-full items-center gap-1.5 rounded-full border border-black/[0.06] bg-white/60 px-2.5 py-1.5 text-[11px] font-medium leading-tight text-zinc-700 backdrop-blur-sm transition-colors duration-300 group-hover:border-brand-primary/25 group-hover:bg-brand-primary/[0.08] group-hover:text-zinc-900 dark:border-brand-primary/20 dark:bg-brand-primary/[0.12] dark:text-zinc-100 sm:text-xs">
+                    <Check
+                      className="service-deliverable-chip-icon h-3 w-3 shrink-0"
+                      style={{ color: accent }}
+                      aria-hidden
+                    />
                     {d}
                   </span>
                 </li>

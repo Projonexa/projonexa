@@ -148,6 +148,17 @@
     background: rgba(14, 14, 16, 0.94);
   }
 
+  .dark .group:hover .service-deliverable-chip {
+    border-color: rgba(0, 200, 255, 0.45);
+    background: rgba(0, 200, 255, 0.18);
+    color: #f4f4f5;
+    box-shadow: 0 0 0 1px rgba(0, 200, 255, 0.12);
+  }
+
+  .dark .group:hover .service-deliverable-chip-icon {
+    color: #5ee9ff !important;
+  }
+
   .dark .section-heading-panel {
     border-color: rgba(255, 255, 255, 0.08);
     background-color: rgba(0, 0, 0, 0.42);
