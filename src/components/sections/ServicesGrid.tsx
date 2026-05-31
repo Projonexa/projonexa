@@ -1,5 +1,11 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
-import { motion, useInView } from 'framer-motion'
+import { useCallback, useRef, useState } from 'react'
+import {
+  motion,
+  useMotionValueEvent,
+  useScroll,
+  useTransform,
+  type MotionValue,
+} from 'framer-motion'
 import { useReducedMotion } from '@/hooks/useReducedMotion'
 import { ArrowRight, Check } from 'lucide-react'
 import { getServiceAccent, SERVICES, SERVICES_SECTION } from '@/data/services'
@@ -11,10 +17,32 @@ interface ServicesGridProps {
 }
 
 const easeSmooth = [0.22, 1, 0.36, 1] as const
-const STICKY_TOP_PX = 112
-const STACK_OFFSET_PX = 14
+const SCROLL_VH_PER_CARD = 52
+const PEEK_Y = 18
+const STACK_SCALE_STEP = 0.024
+const POP_Y = 130
+const POP_X = 110
 
-type SlideDirection = 'left' | 'right'
+function getDeckState(progress: number, index: number, total: number) {
+  const activeFloat = Math.min(progress * total, total - 1 + 0.998)
+  const activeIndex = Math.min(Math.floor(activeFloat), total - 1)
+  const popT = activeIndex === total - 1 ? 0 : activeFloat - activeIndex
+
+  if (index < activeIndex) {
+    const dir = index % 2 === 0 ? 1 : -1
+    return { phase: 'popped' as const, popT: 1, dir, stackDepth: 0 }
+  }
+  if (index === activeIndex) {
+    const dir = index % 2 === 0 ? 1 : -1
+    return { phase: 'popping' as const, popT, dir, stackDepth: 0 }
+  }
+  return {
+    phase: 'stacked' as const,
+    popT,
+    dir: index % 2 === 0 ? 1 : -1,
+    stackDepth: index - activeIndex,
+  }
+}
 
 function ServiceCard({
   service,
@@ -108,51 +136,131 @@ function ServiceCard({
   )
 }
 
-function getSlideMotion(direction: SlideDirection, reducedMotion: boolean) {
-  if (reducedMotion) {
-    return {
-      hidden: { opacity: 0, y: 16 },
-      visible: { opacity: 1, y: 0 },
-    }
-  }
-  const x = direction === 'right' ? 72 : -72
-  return {
-    hidden: { opacity: 0, x, scale: 0.96, filter: 'blur(10px)' },
-    visible: { opacity: 1, x: 0, scale: 1, filter: 'blur(0px)' },
-  }
-}
-
-function ServiceCardSlide({
+function ServiceDeckCard({
   service,
   index,
-  direction,
+  total,
+  scrollProgress,
   reducedMotion,
 }: {
   service: (typeof SERVICES)[number]
   index: number
-  direction: SlideDirection
+  total: number
+  scrollProgress: MotionValue<number>
   reducedMotion: boolean
 }) {
-  const ref = useRef<HTMLDivElement>(null)
-  const inView = useInView(ref, { amount: 0.32, margin: '0px 0px -18% 0px' })
-  const [opened, setOpened] = useState(false)
+  const y = useTransform(scrollProgress, (p) => {
+    const { phase, popT, stackDepth } = getDeckState(p, index, total)
+    if (phase === 'popped') return -POP_Y
+    if (phase === 'popping') return -popT * POP_Y
+    const baseY = PEEK_Y * stackDepth
+    return baseY - popT * PEEK_Y
+  })
 
-  useEffect(() => {
-    if (inView) setOpened(true)
-  }, [inView])
+  const x = useTransform(scrollProgress, (p) => {
+    const { phase, popT, dir } = getDeckState(p, index, total)
+    if (phase === 'popped') return dir * POP_X
+    if (phase === 'popping') return dir * popT * POP_X
+    return 0
+  })
 
-  const motionStates = getSlideMotion(direction, reducedMotion)
+  const scale = useTransform(scrollProgress, (p) => {
+    const { phase, popT, stackDepth } = getDeckState(p, index, total)
+    if (phase === 'popping') return 1 + popT * 0.05
+    if (phase === 'popped') return 1.04
+    const base = 1 - STACK_SCALE_STEP * stackDepth
+    return base + popT * STACK_SCALE_STEP
+  })
+
+  const opacity = useTransform(scrollProgress, (p) => {
+    const { phase, popT, stackDepth } = getDeckState(p, index, total)
+    if (phase === 'popped') return 0
+    if (phase === 'popping') return Math.max(0, 1 - popT * 1.15)
+    return Math.max(0.5, 1 - stackDepth * 0.09)
+  })
+
+  const rotate = useTransform(scrollProgress, (p) => {
+    const { phase, popT, dir } = getDeckState(p, index, total)
+    if (phase === 'popping') return dir * popT * 2.5
+    if (phase === 'popped') return dir * 4
+    return 0
+  })
+
+  const filter = useTransform(scrollProgress, (p) => {
+    const { phase, stackDepth, popT } = getDeckState(p, index, total)
+    if (phase === 'popped' || phase === 'popping') {
+      const blur = phase === 'popping' ? popT * 6 : 8
+      return `blur(${blur}px)`
+    }
+    if (stackDepth > 2) return `blur(${Math.min(2, (stackDepth - 2) * 0.6)}px)`
+    return 'blur(0px)'
+  })
+
+  const zIndex = useTransform(scrollProgress, (p) => {
+    const { phase, stackDepth } = getDeckState(p, index, total)
+    if (phase === 'popped') return 0
+    return total - stackDepth + 10
+  })
+
+  if (reducedMotion) {
+    return (
+      <ReducedDeckCard
+        service={service}
+        index={index}
+        total={total}
+        scrollProgress={scrollProgress}
+      />
+    )
+  }
+
+  const pointerEvents = useTransform(scrollProgress, (p) => {
+    const { phase, stackDepth } = getDeckState(p, index, total)
+    return phase !== 'popped' && stackDepth === 0 ? 'auto' : 'none'
+  })
 
   return (
     <motion.div
-      ref={ref}
-      initial={motionStates.hidden}
-      animate={opened ? motionStates.visible : motionStates.hidden}
-      transition={{ duration: reducedMotion ? 0.22 : 0.65, ease: easeSmooth }}
-      className="w-full will-change-transform"
-      style={{
-        transformOrigin: direction === 'right' ? 'center right' : 'center left',
-      }}
+      className="absolute left-0 right-0 top-0 w-full origin-top will-change-transform"
+      style={{ y, x, scale, opacity, rotateZ: rotate, filter, zIndex, pointerEvents }}
+    >
+      <ServiceCard service={service} index={index} />
+    </motion.div>
+  )
+}
+
+function ReducedDeckCard({
+  service,
+  index,
+  total,
+  scrollProgress,
+}: {
+  service: (typeof SERVICES)[number]
+  index: number
+  total: number
+  scrollProgress: MotionValue<number>
+}) {
+  const opacity = useTransform(scrollProgress, (p) => {
+    const active = Math.min(Math.floor(p * total), total - 1)
+    return index === active ? 1 : index > active ? 0.72 : 0
+  })
+
+  const y = useTransform(scrollProgress, (p) => {
+    const active = Math.min(Math.floor(p * total), total - 1)
+    if (index < active) return -24
+    if (index === active) return 0
+    return (index - active) * PEEK_Y
+  })
+
+  const zIndex = useTransform(scrollProgress, (p) => {
+    const active = Math.min(Math.floor(p * total), total - 1)
+    if (index < active) return 0
+    return total - (index - active) + 10
+  })
+
+  return (
+    <motion.div
+      className="absolute left-0 right-0 top-0 w-full"
+      style={{ y, opacity, zIndex }}
     >
       <ServiceCard service={service} index={index} />
     </motion.div>
@@ -162,49 +270,40 @@ function ServiceCardSlide({
 function ServicesVerticalStack({ items }: { items: typeof SERVICES }) {
   const [activeIndex, setActiveIndex] = useState(0)
   const reducedMotion = useReducedMotion()
-  const stackRef = useRef<HTMLDivElement>(null)
+  const scrollRef = useRef<HTMLDivElement>(null)
+  const total = items.length
+  const peekStackHeight = Math.min(total - 1, 5) * PEEK_Y
 
-  useEffect(() => {
-    const root = stackRef.current
-    if (!root) return
+  const { scrollYProgress } = useScroll({
+    target: scrollRef,
+    offset: ['start start', 'end end'],
+  })
 
-    const cards = Array.from(
-      root.querySelectorAll<HTMLElement>('[data-service-index]'),
-    )
-    if (cards.length === 0) return
+  useMotionValueEvent(scrollYProgress, 'change', (p) => {
+    const idx = Math.min(Math.floor(p * total), total - 1)
+    setActiveIndex(idx)
+  })
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const best = entries
-          .filter((e) => e.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0]
-        if (!best?.target) return
-        const idx = Number((best.target as HTMLElement).dataset.serviceIndex)
-        if (!Number.isNaN(idx)) setActiveIndex(idx)
-      },
-      { threshold: [0.15, 0.3, 0.45, 0.6], rootMargin: '-20% 0px -32% 0px' },
-    )
-
-    cards.forEach((el) => observer.observe(el))
-    return () => observer.disconnect()
-  }, [items.length])
-
-  const scrollToCard = useCallback((index: number) => {
-    document.getElementById(`service-stack-${index}`)?.scrollIntoView({
-      behavior: 'smooth',
-      block: 'start',
-    })
-  }, [])
+  const scrollToCard = useCallback(
+    (index: number) => {
+      const el = scrollRef.current
+      if (!el) return
+      const segment = el.offsetHeight / total
+      const top = el.offsetTop + segment * index + 8
+      window.scrollTo({ top, behavior: 'smooth' })
+    },
+    [total],
+  )
 
   return (
-    <div ref={stackRef} className="relative w-full">
+    <div className="relative w-full">
       <div className="mb-8 flex flex-wrap items-center justify-between gap-4">
-        <p className="max-w-xs text-xs font-medium uppercase tracking-[0.14em] text-zinc-500">
-          Scroll — cards stack and open · alternating left and right
+        <p className="max-w-sm text-xs font-medium uppercase tracking-[0.14em] text-zinc-500">
+          Scroll down — top card pops off to reveal the next in the stack
         </p>
         <div className="flex items-center gap-2">
           <span className="text-xs font-medium tabular-nums text-zinc-500">
-            {String(activeIndex + 1).padStart(2, '0')} / {String(items.length).padStart(2, '0')}
+            {String(activeIndex + 1).padStart(2, '0')} / {String(total).padStart(2, '0')}
           </span>
           <div className="flex items-center gap-1.5">
             {items.map((_, i) => (
@@ -225,40 +324,31 @@ function ServicesVerticalStack({ items }: { items: typeof SERVICES }) {
         </div>
       </div>
 
-      <div className="relative pb-4">
-        {items.map((service, i) => {
-          const direction: SlideDirection = i % 2 === 0 ? 'right' : 'left'
-          const isLast = i === items.length - 1
-          const stickyTop = STICKY_TOP_PX + i * STACK_OFFSET_PX
-
-          return (
-            <div
-              key={service.id}
-              id={`service-stack-${i}`}
-              data-service-index={i}
-              className="services-stack-layer relative"
-              style={{
-                zIndex: i + 1,
-                minHeight: isLast ? undefined : 'min(58vh, 520px)',
-              }}
-            >
-              <div
-                className="sticky shadow-[0_28px_60px_-28px_rgba(0,0,0,0.35)] dark:shadow-[0_28px_60px_-28px_rgba(0,0,0,0.65)]"
-                style={{ top: stickyTop }}
-              >
-                <ServiceCardSlide
-                  service={service}
-                  index={i}
-                  direction={direction}
-                  reducedMotion={reducedMotion}
-                />
-              </div>
-            </div>
-          )
-        })}
+      <div
+        ref={scrollRef}
+        className="services-deck-scroll relative"
+        style={{ height: `${total * SCROLL_VH_PER_CARD}vh` }}
+      >
+        <div className="sticky top-28">
+          <div
+            className="services-deck-stage relative mx-auto w-full max-w-xl lg:max-w-none"
+            style={{
+              minHeight: `calc(420px + ${peekStackHeight}px)`,
+            }}
+          >
+            {items.map((service, i) => (
+              <ServiceDeckCard
+                key={service.id}
+                service={service}
+                index={i}
+                total={total}
+                scrollProgress={scrollYProgress}
+                reducedMotion={reducedMotion}
+              />
+            ))}
+          </div>
+        </div>
       </div>
-
-      <div className="h-16 sm:h-24" aria-hidden />
     </div>
   )
 }
