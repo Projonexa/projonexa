@@ -61,6 +61,7 @@ const CLOUD_OPTIONS = {
 
 type TagCanvasApi = {
   SetSpeed: (id: string, speed: [number, number]) => void
+  Resume?: (id: string) => void
   TagToFront?: (
     id: string,
     options: {
@@ -187,6 +188,23 @@ export function TechIconCloud({
     },
     [tagCanvasId],
   )
+
+  const resumeIdleRotation = useCallback(() => {
+    clearFocusTimer()
+    clearLeaveTimer()
+    cancelRamp()
+    externalHighlightRef.current = false
+
+    const tc = getTagCanvas()
+    if (!tc) return
+
+    try {
+      tc.Resume?.(tagCanvasId)
+      tc.SetSpeed(tagCanvasId, IDLE_SPEED)
+    } catch {
+      /* cloud not ready yet */
+    }
+  }, [cancelRamp, clearFocusTimer, clearLeaveTimer, tagCanvasId])
 
   const rampToIdleSpeed = useCallback(() => {
     cancelRamp()
@@ -374,10 +392,8 @@ export function TechIconCloud({
     const hasPanelHover = Boolean(highlightSlug) || Boolean(highlightLabel)
 
     if (!hasPanelHover) {
-      if (!isHovered && externalHighlightRef.current) {
-        externalHighlightRef.current = false
-        clearFocusTimer()
-        rampToIdleSpeed()
+      if (!isHovered) {
+        resumeIdleRotation()
       }
       return
     }
@@ -401,6 +417,7 @@ export function TechIconCloud({
     clearLeaveTimer,
     clearFocusTimer,
     rampToIdleSpeed,
+    resumeIdleRotation,
     setCloudSpeed,
   ])
 

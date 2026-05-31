@@ -226,11 +226,6 @@
     }
   }
 
-  .tech-marquee-paused .tech-marquee-left,
-  .tech-marquee-paused .tech-marquee-right {
-    animation-play-state: paused;
-  }
-
   @media (prefers-reduced-motion: reduce) {
     .tech-marquee-left,
     .tech-marquee-right {

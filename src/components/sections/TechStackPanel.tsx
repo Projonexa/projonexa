@@ -57,7 +57,7 @@ export function TechStackPanel({ onTechHover }: TechStackPanelProps) {
   )
 
   const [activeIndex, setActiveIndex] = useState(0)
-  const [paused, setPaused] = useState(false)
+  const [cyclePaused, setCyclePaused] = useState(false)
   const [hoveredId, setHoveredId] = useState<string | null>(null)
 
   const active = grouped[activeIndex]
@@ -86,10 +86,10 @@ export function TechStackPanel({ onTechHover }: TechStackPanelProps) {
   }, [grouped.length, emitHover])
 
   useEffect(() => {
-    if (paused || grouped.length <= 1) return
+    if (cyclePaused || grouped.length <= 1) return
     const timer = window.setInterval(advance, AUTO_CYCLE_MS)
     return () => window.clearInterval(timer)
-  }, [paused, advance, grouped.length])
+  }, [cyclePaused, advance, grouped.length])
 
   const marqueeRowA = useMemo(() => [...TECHNOLOGIES, ...TECHNOLOGIES], [])
   const marqueeRowB = useMemo(
@@ -100,11 +100,9 @@ export function TechStackPanel({ onTechHover }: TechStackPanelProps) {
   return (
     <div
       className="tech-stack-premium relative overflow-hidden rounded-3xl shadow-[0_20px_60px_-24px_rgba(0,200,255,0.2)] dark:shadow-[0_20px_60px_-24px_rgba(0,200,255,0.12)]"
-      onMouseEnter={() => setPaused(true)}
       onMouseLeave={(e) => {
         const next = e.relatedTarget as Node | null
         if (next && e.currentTarget.contains(next)) return
-        setPaused(false)
         emitHover(null)
       }}
     >
@@ -132,8 +130,16 @@ export function TechStackPanel({ onTechHover }: TechStackPanelProps) {
           </span>
         </div>
 
-        {/* Compact spotlight */}
-        <div className="relative mb-4 overflow-hidden rounded-2xl border border-black/[0.06] bg-white/50 backdrop-blur-xl dark:border-white/[0.08] dark:bg-black/45">
+        {/* Compact spotlight — pause domain auto-cycle only here, not the marquee */}
+        <div
+          className="relative mb-4 overflow-hidden rounded-2xl border border-black/[0.06] bg-white/50 backdrop-blur-xl dark:border-white/[0.08] dark:bg-black/45"
+          onMouseEnter={() => setCyclePaused(true)}
+          onMouseLeave={(e) => {
+            const next = e.relatedTarget as Node | null
+            if (next && e.currentTarget.contains(next)) return
+            setCyclePaused(false)
+          }}
+        >
           <AnimatePresence mode="wait">
             <motion.div
               aria-hidden
@@ -283,7 +289,7 @@ export function TechStackPanel({ onTechHover }: TechStackPanelProps) {
             className="pointer-events-none absolute inset-y-0 right-0 z-10 w-10 bg-gradient-to-l from-zinc-50 to-transparent dark:from-black"
           />
 
-          <div className={`space-y-2 ${paused ? 'tech-marquee-paused' : ''}`}>
+          <div className="space-y-2">
             <MarqueeRow
               items={marqueeRowA}
               direction="left"
