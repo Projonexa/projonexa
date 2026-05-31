@@ -110,24 +110,26 @@ export const AEO_HIGHLIGHTS = [
   },
 ] as const
 
+export const FOUNDER_SECTION = {
+  eyebrow: 'Founder',
+  title: 'Meet the Vision Behind Projonexa',
+  lead: 'A platform built from real project challenges — focused on delivery, mentorship, and outcomes clients can trust.',
+} as const
+
 export const FOUNDER = {
   name: 'Nisarga Lokhande',
-  title: 'Founder, CEO, Student Entrepreneur & Software Engineer',
+  role: 'Founder & CEO',
   linkedin: 'https://www.linkedin.com/in/nslokhande/',
   github: 'https://github.com/nikobuddy/',
   email: 'nisargalokhande@gmail.com',
   location: 'Maharashtra, India',
   story: `Hi, I'm Nisarga Lokhande.
 
-Like many students, I once struggled to transform ideas into working projects. I had the vision but faced challenges finding the right resources, guidance, documentation, and technical support.
+Like many students, I once struggled to turn ideas into working projects — missing the right guidance, documentation, and technical support when it mattered most.
 
-That experience inspired me to build Projonexa.
+That experience led me to build Projonexa: a place where students, startups, and businesses get structured delivery, expert mentorship, and production-ready results — not half-finished prototypes.
 
-Today, Projonexa exists to help students, innovators, startups, and businesses turn their ideas into reality with the support of experienced developers, designers, and technology experts.
-
-Our mission is simple:
-
-To make innovation accessible to everyone.`,
+Our mission is simple: make innovation accessible to everyone.`,
 } as const
 
 export const VISION =
@@ -135,14 +137,6 @@ export const VISION =
 
 export const MISSION =
   'To empower students and innovators by providing access to technical expertise, mentorship, development resources, and end-to-end project execution.'
-
-export const ACHIEVEMENTS = [
-  { title: 'SIH 2025 Winner', subtitle: 'Team Leader' },
-  { title: 'Indian Railways Innovation', subtitle: 'Proposed Innovation Project' },
-  { title: '100+ Projects', subtitle: 'Successfully Delivered' },
-  { title: '150+ Freelancers', subtitle: 'Growing Expert Network' },
-  { title: 'Multi-Domain Expertise', subtitle: 'Across Technology Stacks' },
-] as const
 
 export const STATS_SECTION = {
   eyebrow: 'Impact',

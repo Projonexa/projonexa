@@ -154,6 +154,18 @@
     box-shadow: 0 4px 24px -4px rgba(0, 0, 0, 0.5);
   }
 
+  .founder-panel {
+    box-shadow:
+      0 0 0 1px rgba(0, 200, 255, 0.06),
+      0 20px 48px -24px rgba(0, 200, 255, 0.14);
+  }
+
+  .dark .founder-panel {
+    box-shadow:
+      0 0 0 1px rgba(0, 200, 255, 0.1),
+      0 20px 48px -24px rgba(0, 200, 255, 0.1);
+  }
+
   .service-area-card {
     box-shadow:
       0 0 0 1px rgba(0, 200, 255, 0.05),

@@ -1,15 +1,3 @@
-import type { ReactNode } from 'react'
-import { motion } from 'framer-motion'
-import {
-  Building2,
-  Check,
-  Globe2,
-  GraduationCap,
-  MapPinned,
-  Radio,
-  Rocket,
-  Users,
-} from 'lucide-react'
 import {
   GEO,
   SERVICE_AREA_CLIENTS,
@@ -17,6 +5,18 @@ import {
   SERVICE_AREA_REGIONS,
   SERVICE_AREA_SECTION,
 } from '@/data/brand'
+import {
+  Building2,
+  Globe2,
+  GraduationCap,
+  MapPinned,
+  Radio,
+  Rocket,
+  Users
+} from 'lucide-react'
+
+import { motion } from 'framer-motion'
+import type { ReactNode } from 'react'
 
 const easeSmooth = [0.22, 1, 0.36, 1] as const
 
@@ -182,11 +182,7 @@ export function ServiceArea() {
           transition={{ duration: 0.45, delay: 0.2, ease: easeSmooth }}
           className="mt-8 flex items-start gap-2 text-center text-xs text-zinc-500 dark:text-zinc-500 sm:mt-10 sm:items-center sm:justify-center sm:text-sm"
         >
-          <Check className="mt-0.5 h-4 w-4 shrink-0 text-brand-primary sm:mt-0" aria-hidden />
-          <span>
-            Same mentor-led process for startups, businesses, students, and colleges — in India or
-            abroad.
-          </span>
+
         </motion.p>
       </div>
     </section>
