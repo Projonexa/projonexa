@@ -76,13 +76,39 @@
     @apply sm:px-10 sm:py-10;
   }
 
-  .services-deck-scroll {
-    scroll-margin-top: 6rem;
+  .services-deck-panel {
+    height: min(72vh, 620px);
+    max-height: 620px;
+  }
+
+  .services-deck-viewport {
+    height: 400px;
+    overflow: hidden;
+  }
+
+  @media (min-width: 640px) {
+    .services-deck-viewport {
+      height: 420px;
+    }
+  }
+
+  .services-deck-scroll-inner {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(0, 200, 255, 0.35) transparent;
+  }
+
+  .services-deck-scroll-inner::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  .services-deck-scroll-inner::-webkit-scrollbar-thumb {
+    border-radius: 9999px;
+    background: rgba(0, 200, 255, 0.35);
   }
 
   .services-deck-backdrop {
     position: absolute;
-    inset: -1.25rem -1rem;
+    inset: -0.75rem -0.5rem;
     border-radius: 1.5rem;
     border: 1px solid rgba(0, 0, 0, 0.07);
     background: rgba(255, 255, 255, 0.78);

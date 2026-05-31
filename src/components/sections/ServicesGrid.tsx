@@ -17,9 +17,10 @@ interface ServicesGridProps {
 }
 
 const easeSmooth = [0.22, 1, 0.36, 1] as const
-const SCROLL_VH_PER_CARD = 52
-const PEEK_Y = 18
-const STACK_SCALE_STEP = 0.024
+const SCROLL_STEP_PX = 300
+const PEEK_Y = 11
+const STACK_SCALE_STEP = 0.032
+const MAX_VISIBLE_PEEK = 4
 const POP_Y = 130
 const POP_X = 110
 
@@ -164,7 +165,8 @@ function ServiceDeckCard({
     const { phase, popT, stackDepth } = getDeckState(p, index, total)
     if (phase === 'popped') return -POP_Y
     if (phase === 'popping') return -popT * POP_Y
-    const baseY = PEEK_Y * stackDepth
+    const depth = Math.min(stackDepth, MAX_VISIBLE_PEEK)
+    const baseY = PEEK_Y * depth
     return baseY - popT * PEEK_Y
   })
 
@@ -177,16 +179,19 @@ function ServiceDeckCard({
 
   const scale = useTransform(scrollProgress, (p) => {
     const { phase, popT, stackDepth } = getDeckState(p, index, total)
-    if (phase === 'popping') return 1 + popT * 0.05
-    if (phase === 'popped') return 1.04
-    const base = 1 - STACK_SCALE_STEP * stackDepth
+    if (phase === 'popping') return 1 + popT * 0.04
+    if (phase === 'popped') return 1.03
+    const depth = Math.min(stackDepth, MAX_VISIBLE_PEEK)
+    const base = 1 - STACK_SCALE_STEP * depth
     return base + popT * STACK_SCALE_STEP
   })
 
   const opacity = useTransform(scrollProgress, (p) => {
-    const { phase, popT } = getDeckState(p, index, total)
+    const { phase, popT, stackDepth } = getDeckState(p, index, total)
     if (phase === 'popped') return 0
     if (phase === 'popping') return Math.max(0, 1 - popT * 1.1)
+    if (stackDepth > MAX_VISIBLE_PEEK) return 0
+    if (stackDepth > 2) return 0.88
     return 1
   })
 
@@ -227,7 +232,7 @@ function ServiceDeckCard({
 
   return (
     <motion.div
-      className="absolute left-0 right-0 top-0 w-full origin-top will-change-transform"
+      className="absolute left-1/2 top-0 w-full max-w-full -translate-x-1/2 origin-top will-change-transform"
       style={{ y, x, scale, opacity, rotateZ: rotate, filter, zIndex, pointerEvents }}
     >
       <ServiceCard service={service} index={index} variant="deck" />
@@ -267,7 +272,7 @@ function ReducedDeckCard({
 
   return (
     <motion.div
-      className="absolute left-0 right-0 top-0 w-full"
+      className="absolute left-1/2 top-0 w-full max-w-full -translate-x-1/2 origin-top"
       style={{ y, opacity, zIndex }}
     >
       <ServiceCard service={service} index={index} variant="deck" />
@@ -279,11 +284,13 @@ function ServicesVerticalStack({ items }: { items: typeof SERVICES }) {
   const [activeIndex, setActiveIndex] = useState(0)
   const reducedMotion = useReducedMotion()
   const scrollRef = useRef<HTMLDivElement>(null)
+  const scrollTrackRef = useRef<HTMLDivElement>(null)
   const total = items.length
-  const peekStackHeight = Math.min(total - 1, 5) * PEEK_Y
+  const scrollTrackHeight = total * SCROLL_STEP_PX
 
   const { scrollYProgress } = useScroll({
-    target: scrollRef,
+    container: scrollRef,
+    target: scrollTrackRef,
     offset: ['start start', 'end end'],
   })
 
@@ -292,22 +299,18 @@ function ServicesVerticalStack({ items }: { items: typeof SERVICES }) {
     setActiveIndex(idx)
   })
 
-  const scrollToCard = useCallback(
-    (index: number) => {
-      const el = scrollRef.current
-      if (!el) return
-      const segment = el.offsetHeight / total
-      const top = el.offsetTop + segment * index + 8
-      window.scrollTo({ top, behavior: 'smooth' })
-    },
-    [total],
-  )
+  const scrollToCard = useCallback((index: number) => {
+    const container = scrollRef.current
+    if (!container) return
+    const top = index * SCROLL_STEP_PX
+    container.scrollTo({ top, behavior: 'smooth' })
+  }, [])
 
   return (
-    <div className="relative mx-auto w-full max-w-[38rem]">
-      <div className="mb-8 flex flex-wrap items-center justify-between gap-4 px-1">
+    <div className="services-deck-panel relative mx-auto flex w-full max-w-[38rem] flex-col">
+      <div className="mb-5 flex shrink-0 flex-wrap items-center justify-between gap-4 px-1">
         <p className="max-w-sm text-xs font-medium uppercase tracking-[0.14em] text-zinc-500">
-          Scroll down — top card pops off to reveal the next in the stack
+          Scroll in the stack — top card pops to reveal the next
         </p>
         <div className="flex items-center gap-2">
           <span className="text-xs font-medium tabular-nums text-zinc-500">
@@ -334,29 +337,30 @@ function ServicesVerticalStack({ items }: { items: typeof SERVICES }) {
 
       <div
         ref={scrollRef}
-        className="services-deck-scroll relative"
-        style={{ height: `${total * SCROLL_VH_PER_CARD}vh` }}
+        className="services-deck-scroll-inner relative min-h-0 flex-1 overflow-y-auto overscroll-contain rounded-2xl"
+        aria-label="Service cards stack — scroll to explore"
       >
-        <div className="sticky top-24 flex min-h-[calc(100dvh-6.5rem)] items-center justify-center py-8 sm:top-28 sm:min-h-[calc(100dvh-7.5rem)] sm:py-10">
-          <div className="relative mx-auto w-full max-w-[34rem] px-2 sm:max-w-[36rem] lg:max-w-[38rem]">
-            <div className="services-deck-backdrop" aria-hidden />
+        <div
+          ref={scrollTrackRef}
+          className="relative"
+          style={{ height: scrollTrackHeight }}
+        >
+          <div className="sticky top-0 flex items-center justify-center py-3">
+            <div className="relative mx-auto w-full max-w-[32rem] px-2 sm:max-w-[34rem]">
+              <div className="services-deck-backdrop" aria-hidden />
 
-            <div
-              className="services-deck-stage relative w-full"
-              style={{
-                minHeight: `calc(400px + ${peekStackHeight}px)`,
-              }}
-            >
-              {items.map((service, i) => (
-                <ServiceDeckCard
-                  key={service.id}
-                  service={service}
-                  index={i}
-                  total={total}
-                  scrollProgress={scrollYProgress}
-                  reducedMotion={reducedMotion}
-                />
-              ))}
+              <div className="services-deck-stage services-deck-viewport relative mx-auto w-full">
+                {items.map((service, i) => (
+                  <ServiceDeckCard
+                    key={service.id}
+                    service={service}
+                    index={i}
+                    total={total}
+                    scrollProgress={scrollYProgress}
+                    reducedMotion={reducedMotion}
+                  />
+                ))}
+              </div>
             </div>
           </div>
         </div>
