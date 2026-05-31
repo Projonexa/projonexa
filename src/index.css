@@ -93,8 +93,17 @@
   }
 
   .services-deck-scroll-inner {
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    background: rgba(255, 255, 255, 0.18);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
     scrollbar-width: thin;
     scrollbar-color: rgba(0, 200, 255, 0.35) transparent;
+  }
+
+  .dark .services-deck-scroll-inner {
+    border-color: rgba(255, 255, 255, 0.07);
+    background: rgba(0, 0, 0, 0.22);
   }
 
   .services-deck-scroll-inner::-webkit-scrollbar {
@@ -104,28 +113,6 @@
   .services-deck-scroll-inner::-webkit-scrollbar-thumb {
     border-radius: 9999px;
     background: rgba(0, 200, 255, 0.35);
-  }
-
-  .services-deck-backdrop {
-    position: absolute;
-    inset: -0.75rem -0.5rem;
-    border-radius: 1.5rem;
-    border: 1px solid rgba(0, 0, 0, 0.07);
-    background: rgba(255, 255, 255, 0.78);
-    backdrop-filter: blur(28px);
-    -webkit-backdrop-filter: blur(28px);
-    box-shadow:
-      0 24px 60px -28px rgba(0, 0, 0, 0.18),
-      inset 0 1px 0 rgba(255, 255, 255, 0.65);
-    pointer-events: none;
-  }
-
-  .dark .services-deck-backdrop {
-    border-color: rgba(255, 255, 255, 0.1);
-    background: rgba(12, 12, 14, 0.82);
-    box-shadow:
-      0 28px 64px -28px rgba(0, 0, 0, 0.65),
-      inset 0 1px 0 rgba(255, 255, 255, 0.06);
   }
 
   .services-deck-stage {
