@@ -1,61 +1,102 @@
-export interface Project {
-  id: string
-  title: string
-  category: string
-  description: string
-  tech: string[]
-  highlight?: string
+export type DeploymentLinkType = 'play-store' | 'app-store' | 'web' | 'github' | 'demo'
+
+export interface DeploymentLink {
+  label: string
+  url: string
+  type: DeploymentLinkType
 }
 
-export const FEATURED_PROJECTS: Project[] = [
+export interface MyProject {
+  id: string
+  name: string
+  tagline: string
+  description: string
+  overview: string
+  category: string
+  platform: string
+  status: 'live' | 'in-development'
+  iconUrl: string
+  thumbnailUrl: string
+  techStack: string[]
+  features: string[]
+  contentHighlights: string[]
+  supportedBranches?: string[]
+  deploymentLinks: DeploymentLink[]
+  stats?: { label: string; value: string }[]
+  contactEmail?: string
+  updatedAt?: string
+}
+
+export const PROJECTS_SECTION = {
+  eyebrow: 'My Projects',
+  title: 'Products Built for Real Users',
+  lead: 'Live apps and platforms we have designed, built, and shipped — starting with tools that help SPPU students learn smarter.',
+  body: 'Each project includes a clear overview, tech stack, feature set, and live deployment links where available.',
+} as const
+
+export const MY_PROJECTS: MyProject[] = [
   {
-    id: 'railways-innovation',
-    title: 'Indian Railways Innovation System',
-    category: 'Government Innovation',
+    id: 'sppu-buddy',
+    name: 'SPPU BUDDY',
+    tagline: 'Your complete SPPU study companion — notes, PYQs, syllabus & tools in one app.',
     description:
-      'Proposed innovation project for Indian Railways focusing on operational efficiency, safety monitoring, and data-driven decision support.',
-    tech: ['IoT', 'Cloud', 'Analytics', 'Mobile'],
-    highlight: 'Proposed Innovation Project',
-  },
-  {
-    id: 'sih-winner',
-    title: 'Smart India Hackathon 2025 Solution',
-    category: 'Hackathon Winner',
-    description:
-      'Award-winning SIH 2025 project led by our founder, demonstrating rapid prototyping, team leadership, and scalable problem-solving.',
-    tech: ['AI/ML', 'React', 'Node.js', 'Cloud'],
-    highlight: 'SIH 2025 Winner',
-  },
-  {
-    id: 'health-ai',
-    title: 'AI-Powered Health Diagnostics Platform',
-    category: 'AI / Healthcare',
-    description:
-      'Machine learning platform for preliminary health screening with doctor dashboard, patient records, and explainable AI outputs.',
-    tech: ['Python', 'TensorFlow', 'React', 'PostgreSQL'],
-  },
-  {
-    id: 'campus-erp',
-    title: 'University Campus Management System',
-    category: 'Web Application',
-    description:
-      'Full-stack ERP for attendance, exams, fees, and faculty management with role-based access and real-time notifications.',
-    tech: ['Next.js', 'Node.js', 'MongoDB', 'AWS'],
-  },
-  {
-    id: 'smart-agri',
-    title: 'Smart Agriculture IoT Suite',
-    category: 'IoT',
-    description:
-      'Sensor-based crop monitoring with soil moisture, weather integration, and automated irrigation control via mobile app.',
-    tech: ['Arduino', 'MQTT', 'React Native', 'Firebase'],
-  },
-  {
-    id: 'fintech-mvp',
-    title: 'FinTech Startup MVP',
-    category: 'Startup MVP',
-    description:
-      'Investor-ready fintech prototype with KYC flow, wallet management, transaction history, and admin analytics dashboard.',
-    tech: ['React', 'Golang', 'PostgreSQL', 'Docker'],
+      'A free Android education app for Savitribai Phule Pune University (SPPU) students — from First Year Engineering through Final Year BE across major branches.',
+    overview:
+      'SPPU BUDDY helps SPPU students prepare for exams and stay on top of coursework with unit-wise notes, previous-year question papers (PYQs), full syllabus coverage from FE to BE, and handy academic tools. Built with a clean interface, dark mode for late-night reading, and an SGPA converter — it is continuously updated to make learning easier for thousands of SPPU learners.',
+    category: 'Education',
+    platform: 'Android',
+    status: 'live',
+    iconUrl:
+      'https://play-lh.googleusercontent.com/of2gZbbEmBSFeXvVn1hRpcWuvO9JJ-m-P8OyIPNCmq82WlIR9-7n0sQw2pm1Z6C0K_s=w240-h480',
+    thumbnailUrl:
+      'https://play-lh.googleusercontent.com/0kFfQGDf2jf0JO-KJjeC1w2V0Pd_65qMOKjF0s5YafGiH4Kb1gEvpBddJXtp4hohAu4p=w1052-h592',
+    techStack: ['React Native', 'Firebase', 'Android', 'Google Play', 'AI Chatbot'],
+    contentHighlights: [
+      'Unit-wise notes',
+      'PYQs from previous exams',
+      'Syllabus from First Year (FE) to Final Year (BE)',
+      'Useful tools to support your study journey',
+    ],
+    supportedBranches: [
+      'First Year Engineering (Common)',
+      'Computer Engineering',
+      'IT',
+      'E&TC',
+      'Mechanical',
+      'Civil',
+      'Electrical',
+      'AI & DS',
+      'Robotics & Automation',
+    ],
+    features: [
+      'Free to use',
+      'Clean interface with minimal ads',
+      'Dark mode for late-night reading',
+      'SGPA converter for easy grade calculations',
+      'AI bot for SPPU-related questions (syllabus, exams, results)',
+    ],
+    deploymentLinks: [
+      {
+        label: 'Get on Google Play',
+        url: 'https://play.google.com/store/apps/details?id=com.caygnus.sppubuddy',
+        type: 'play-store',
+      },
+      {
+        label: 'Contact & feedback',
+        url: 'mailto:nisargalokhande@gmail.com',
+        type: 'web',
+      },
+    ],
+    stats: [
+      { label: 'Downloads', value: '1K+' },
+      { label: 'Category', value: 'Education' },
+      { label: 'Audience', value: 'SPPU students' },
+    ],
+    contactEmail: 'nisargalokhande@gmail.com',
+    updatedAt: 'Jan 2026',
   },
 ]
+
+/** @deprecated Use MY_PROJECTS — kept for any legacy imports */
+export type Project = MyProject
+export const FEATURED_PROJECTS = MY_PROJECTS

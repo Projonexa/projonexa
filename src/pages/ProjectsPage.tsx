@@ -2,6 +2,7 @@ import { SEO } from '@/components/seo/SEO'
 import { PageHeader } from '@/components/ui/PageHeader'
 import { CTA } from '@/components/sections/CTA'
 import { ProjectsGrid } from '@/components/sections/ProjectsGrid'
+import { PROJECTS_SECTION } from '@/data/projects'
 import { PAGE_SEO } from '@/data/seo'
 
 export function ProjectsPage() {
@@ -10,11 +11,11 @@ export function ProjectsPage() {
       <SEO seo={PAGE_SEO.projects} />
       <PageHeader
         eyebrow="Projects"
-        title="Innovation Delivered Across Domains"
-        description="Explore representative projects showcasing our expertise in AI, web, mobile, IoT, government innovation, and startup solutions."
+        title={PROJECTS_SECTION.title}
+        description={PROJECTS_SECTION.lead}
       />
       <section className="section-padding">
-        <ProjectsGrid />
+        <ProjectsGrid showSectionIntro={false} />
       </section>
       <CTA />
     </>

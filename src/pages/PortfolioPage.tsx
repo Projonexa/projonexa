@@ -13,11 +13,11 @@ export function PortfolioPage() {
       <PageHeader
         eyebrow="Portfolio"
         title="100+ Projects. Proven Excellence."
-        description="A curated showcase of academic and industry projects delivered with precision and passion."
+        description="Live products and shipped work from our team — including apps built for real student communities."
       />
       <Stats />
       <section className="section-padding !pt-0">
-        <ProjectsGrid />
+        <ProjectsGrid showSectionIntro />
       </section>
       <TechnologyShowcase />
       <CTA />

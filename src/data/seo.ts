@@ -74,10 +74,17 @@ export const PAGE_SEO: Record<string, PageSEO> = {
     serviceSchema: true,
   },
   projects: {
-    title: `Projects Portfolio | ${BRAND.name} — 100+ Delivered`,
+    title: `My Projects | ${BRAND.name} — SPPU BUDDY & More`,
     description:
-      'Explore 100+ academic and industry projects delivered by Projonexa — AI, web, mobile, IoT, government innovation, and startup solutions for students and businesses in India.',
-    keywords: [...BASE_KEYWORDS, 'project portfolio', 'completed engineering projects'],
+      'Explore live products from Projonexa — including SPPU BUDDY, the free Android app for Savitribai Phule Pune University students with notes, PYQs, syllabus, dark mode, and SGPA tools.',
+    keywords: [
+      ...BASE_KEYWORDS,
+      'SPPU BUDDY',
+      'SPPU app',
+      'SPPU notes app',
+      'engineering student app',
+      'my projects portfolio',
+    ],
     path: '/projects',
     breadcrumb: [{ name: 'Projects', path: '/projects' }],
   },

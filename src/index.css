@@ -159,6 +159,12 @@
     color: #5ee9ff !important;
   }
 
+  .dark .project-card:hover .project-branch-chip {
+    border-color: rgba(0, 200, 255, 0.35);
+    background: rgba(0, 200, 255, 0.14);
+    color: #f4f4f5;
+  }
+
   .dark .section-heading-panel {
     border-color: rgba(255, 255, 255, 0.08);
     background-color: rgba(0, 0, 0, 0.42);
