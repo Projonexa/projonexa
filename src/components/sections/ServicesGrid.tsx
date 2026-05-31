@@ -47,25 +47,36 @@ function getDeckState(progress: number, index: number, total: number) {
 function ServiceCard({
   service,
   index,
+  variant = 'grid',
 }: {
   service: (typeof SERVICES)[number]
   index: number
+  variant?: 'grid' | 'deck'
 }) {
   const Icon = service.icon
   const accent = getServiceAccent(index)
   const indexLabel = String(index + 1).padStart(2, '0')
+  const isDeck = variant === 'deck'
 
   return (
     <article className="group relative flex w-full flex-col">
       <div
-        className="absolute inset-0 rounded-[1.25rem] opacity-40 transition-opacity duration-300 group-hover:opacity-100"
+        className={`absolute inset-0 rounded-[1.25rem] transition-opacity duration-300 ${
+          isDeck ? 'opacity-55 group-hover:opacity-80' : 'opacity-40 group-hover:opacity-100'
+        }`}
         style={{
           background: `linear-gradient(135deg, ${accent}55, transparent 45%, ${accent}33)`,
         }}
         aria-hidden
       />
 
-      <div className="relative flex flex-col overflow-hidden rounded-[1.2rem] border border-black/[0.07] bg-white/55 shadow-card backdrop-blur-xl transition-all duration-300 group-hover:border-brand-primary/25 group-hover:shadow-glow-sm dark:border-white/[0.09] dark:bg-black/45 dark:shadow-card-dark">
+      <div
+        className={`relative flex flex-col overflow-hidden rounded-[1.2rem] border transition-all duration-300 group-hover:border-brand-primary/25 group-hover:shadow-glow-sm ${
+          isDeck
+            ? 'service-card-deck-surface border-black/[0.09] shadow-[0_20px_48px_-22px_rgba(0,0,0,0.22)] dark:border-white/[0.12] dark:shadow-[0_24px_56px_-24px_rgba(0,0,0,0.55)]'
+            : 'border-black/[0.07] bg-white/55 shadow-card backdrop-blur-xl dark:border-white/[0.09] dark:bg-black/45 dark:shadow-card-dark'
+        }`}
+      >
         <div
           className="pointer-events-none absolute inset-x-0 top-0 h-1 opacity-80 transition-opacity group-hover:opacity-100"
           style={{ background: `linear-gradient(90deg, ${accent}, transparent)` }}
@@ -173,10 +184,10 @@ function ServiceDeckCard({
   })
 
   const opacity = useTransform(scrollProgress, (p) => {
-    const { phase, popT, stackDepth } = getDeckState(p, index, total)
+    const { phase, popT } = getDeckState(p, index, total)
     if (phase === 'popped') return 0
-    if (phase === 'popping') return Math.max(0, 1 - popT * 1.15)
-    return Math.max(0.5, 1 - stackDepth * 0.09)
+    if (phase === 'popping') return Math.max(0, 1 - popT * 1.1)
+    return 1
   })
 
   const rotate = useTransform(scrollProgress, (p) => {
@@ -187,12 +198,8 @@ function ServiceDeckCard({
   })
 
   const filter = useTransform(scrollProgress, (p) => {
-    const { phase, stackDepth, popT } = getDeckState(p, index, total)
-    if (phase === 'popped' || phase === 'popping') {
-      const blur = phase === 'popping' ? popT * 6 : 8
-      return `blur(${blur}px)`
-    }
-    if (stackDepth > 2) return `blur(${Math.min(2, (stackDepth - 2) * 0.6)}px)`
+    const { phase, popT } = getDeckState(p, index, total)
+    if (phase === 'popping') return `blur(${popT * 5}px)`
     return 'blur(0px)'
   })
 
@@ -223,7 +230,7 @@ function ServiceDeckCard({
       className="absolute left-0 right-0 top-0 w-full origin-top will-change-transform"
       style={{ y, x, scale, opacity, rotateZ: rotate, filter, zIndex, pointerEvents }}
     >
-      <ServiceCard service={service} index={index} />
+      <ServiceCard service={service} index={index} variant="deck" />
     </motion.div>
   )
 }
@@ -241,7 +248,8 @@ function ReducedDeckCard({
 }) {
   const opacity = useTransform(scrollProgress, (p) => {
     const active = Math.min(Math.floor(p * total), total - 1)
-    return index === active ? 1 : index > active ? 0.72 : 0
+    if (index < active) return 0
+    return 1
   })
 
   const y = useTransform(scrollProgress, (p) => {
@@ -262,7 +270,7 @@ function ReducedDeckCard({
       className="absolute left-0 right-0 top-0 w-full"
       style={{ y, opacity, zIndex }}
     >
-      <ServiceCard service={service} index={index} />
+      <ServiceCard service={service} index={index} variant="deck" />
     </motion.div>
   )
 }
@@ -296,8 +304,8 @@ function ServicesVerticalStack({ items }: { items: typeof SERVICES }) {
   )
 
   return (
-    <div className="relative w-full">
-      <div className="mb-8 flex flex-wrap items-center justify-between gap-4">
+    <div className="relative mx-auto w-full max-w-[38rem]">
+      <div className="mb-8 flex flex-wrap items-center justify-between gap-4 px-1">
         <p className="max-w-sm text-xs font-medium uppercase tracking-[0.14em] text-zinc-500">
           Scroll down — top card pops off to reveal the next in the stack
         </p>
@@ -329,23 +337,27 @@ function ServicesVerticalStack({ items }: { items: typeof SERVICES }) {
         className="services-deck-scroll relative"
         style={{ height: `${total * SCROLL_VH_PER_CARD}vh` }}
       >
-        <div className="sticky top-28">
-          <div
-            className="services-deck-stage relative mx-auto w-full max-w-xl lg:max-w-none"
-            style={{
-              minHeight: `calc(420px + ${peekStackHeight}px)`,
-            }}
-          >
-            {items.map((service, i) => (
-              <ServiceDeckCard
-                key={service.id}
-                service={service}
-                index={i}
-                total={total}
-                scrollProgress={scrollYProgress}
-                reducedMotion={reducedMotion}
-              />
-            ))}
+        <div className="sticky top-24 flex min-h-[calc(100dvh-6.5rem)] items-center justify-center py-8 sm:top-28 sm:min-h-[calc(100dvh-7.5rem)] sm:py-10">
+          <div className="relative mx-auto w-full max-w-[34rem] px-2 sm:max-w-[36rem] lg:max-w-[38rem]">
+            <div className="services-deck-backdrop" aria-hidden />
+
+            <div
+              className="services-deck-stage relative w-full"
+              style={{
+                minHeight: `calc(400px + ${peekStackHeight}px)`,
+              }}
+            >
+              {items.map((service, i) => (
+                <ServiceDeckCard
+                  key={service.id}
+                  service={service}
+                  index={i}
+                  total={total}
+                  scrollProgress={scrollYProgress}
+                  reducedMotion={reducedMotion}
+                />
+              ))}
+            </div>
           </div>
         </div>
       </div>
@@ -448,13 +460,13 @@ export function ServicesGrid({ limit, showViewAll = false }: ServicesGridProps) 
           <ServicesIntro showViewAll={false} className="mb-10 max-w-xl" />
         </div>
 
-        <div className="grid items-start gap-12 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:gap-16 xl:gap-20">
+        <div className="grid items-center gap-12 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:gap-16 xl:gap-20">
           <ServicesIntro
             showViewAll={showViewAll}
-            className="sticky top-28 hidden max-w-xl lg:block"
+            className="sticky top-28 hidden max-w-xl self-center lg:block"
           />
 
-          <div className="w-full min-w-0">
+          <div className="flex w-full min-w-0 items-center justify-center">
             <ServicesVerticalStack items={items} />
 
             {showViewAll && (
