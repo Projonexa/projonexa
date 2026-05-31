@@ -329,12 +329,27 @@
       inset 0 1px 0 rgba(255, 255, 255, 0.04);
   }
 
-  .careers-apply-page {
-    background: linear-gradient(180deg, #f4f4f5 0%, #fafafa 8%, transparent 24%);
+  .careers-apply-standalone {
+    background: #f8fafc;
   }
 
-  .dark .careers-apply-page {
-    background: linear-gradient(180deg, rgba(0, 0, 0, 0.4) 0%, transparent 20%);
+  .dark .careers-apply-standalone {
+    background: #09090b;
+  }
+
+  .careers-apply-standalone .careers-form-panel {
+    box-shadow:
+      0 0 0 1px rgba(0, 200, 255, 0.1),
+      inset 0 1px 0 rgba(255, 255, 255, 0.92),
+      0 28px 64px -32px rgba(0, 200, 255, 0.22),
+      0 16px 40px -24px rgba(0, 0, 0, 0.08);
+  }
+
+  .dark .careers-apply-standalone .careers-form-panel {
+    box-shadow:
+      0 0 0 1px rgba(0, 200, 255, 0.14),
+      inset 0 1px 0 rgba(255, 255, 255, 0.05),
+      0 28px 64px -32px rgba(0, 200, 255, 0.14);
   }
 
   .careers-form-panel {

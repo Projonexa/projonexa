@@ -21,6 +21,7 @@ export default function App() {
       <ThemeProvider>
         <BrowserRouter>
           <Routes>
+            <Route path="careers/apply" element={<CareersApplyPage />} />
             <Route element={<Layout />}>
               <Route index element={<HomePage />} />
               <Route path="about" element={<AboutPage />} />
@@ -32,7 +33,6 @@ export default function App() {
               <Route path="portfolio" element={<PortfolioPage />} />
               <Route path="pricing" element={<PricingPage />} />
               <Route path="careers" element={<CareersPage />} />
-              <Route path="careers/apply" element={<CareersApplyPage />} />
               <Route path="faq" element={<FAQPage />} />
               <Route path="contact" element={<ContactPage />} />
             </Route>

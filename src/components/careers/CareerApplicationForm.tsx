@@ -117,8 +117,8 @@ export function CareerApplicationForm({
       id="apply-form"
       {...motionProps}
       onSubmit={handleSubmit}
-      className={`careers-form-panel mx-auto w-full rounded-3xl p-6 sm:p-8 lg:p-10 ${
-        isStandalone ? 'max-w-2xl' : 'max-w-none'
+      className={`careers-form-panel mx-auto w-full rounded-3xl p-6 sm:p-8 ${
+        isStandalone ? 'max-w-2xl' : 'max-w-none lg:p-10'
       }`}
     >
       {!isStandalone && (
