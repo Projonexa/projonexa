@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { createPortal } from 'react-dom'
 import { Link, useLocation } from 'react-router-dom'
 import { AnimatePresence, motion } from 'framer-motion'
 import { ArrowRight, Menu, Moon, Sun, X } from 'lucide-react'
@@ -33,23 +34,42 @@ function ThemeToggleButton({
 export function Header() {
   const [open, setOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+  const [mounted, setMounted] = useState(false)
   const { theme, toggleTheme } = useTheme()
   const location = useLocation()
 
   useBodyScrollLock(open)
 
   useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  useEffect(() => {
     setOpen(false)
   }, [location.pathname])
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 16)
-    onScroll()
+    let ticking = false
+
+    const updateScrolled = () => {
+      const scrollTop = window.scrollY || document.documentElement.scrollTop
+      setScrolled(scrollTop > 8)
+      ticking = false
+    }
+
+    const onScroll = () => {
+      if (!ticking) {
+        ticking = true
+        requestAnimationFrame(updateScrolled)
+      }
+    }
+
+    updateScrolled()
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
-  return (
+  const header = (
     <>
       <a
         href="#main-content"
@@ -58,9 +78,9 @@ export function Header() {
         Skip to main content
       </a>
       <header
-        className={`site-header site-header-shell ${scrolled ? 'is-scrolled' : ''} ${open ? 'is-menu-open' : ''}`}
+        className={`site-header-shell ${scrolled ? 'is-scrolled' : ''} ${open ? 'is-menu-open' : ''}`}
       >
-        <div className="container-wide flex h-[4.25rem] items-center justify-between gap-4 px-4 sm:h-16 sm:px-6 lg:px-8">
+        <div className="container-wide flex h-[4.25rem] shrink-0 items-center justify-between gap-4 px-4 sm:h-16 sm:px-6 lg:px-8">
           <Logo className="shrink-0" />
 
           <nav
@@ -161,4 +181,10 @@ export function Header() {
       </header>
     </>
   )
+
+  if (!mounted) {
+    return null
+  }
+
+  return createPortal(header, document.body)
 }
