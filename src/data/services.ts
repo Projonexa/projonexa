@@ -22,6 +22,32 @@ export interface Service {
   icon: LucideIcon
 }
 
+export const SERVICES_SECTION = {
+  eyebrow: 'Services',
+  title: 'End-to-End Project Development',
+  lead: 'From mini projects to startup MVPs — comprehensive solutions tailored to your goals.',
+  body: 'Whether you need a final-year submission, a research-backed prototype, or an investor-ready product, Projonexa pairs expert developers with structured delivery — code, documentation, demos, and mentor support in one place.',
+} as const
+
+const SERVICE_ACCENTS = [
+  '#00C8FF',
+  '#6C63FF',
+  '#3D8BFF',
+  '#67E8F9',
+  '#00C8FF',
+  '#6C63FF',
+  '#3D8BFF',
+  '#67E8F9',
+  '#00C8FF',
+  '#6C63FF',
+  '#3D8BFF',
+  '#67E8F9',
+] as const
+
+export function getServiceAccent(index: number): string {
+  return SERVICE_ACCENTS[index % SERVICE_ACCENTS.length]
+}
+
 export const SERVICES: Service[] = [
   {
     id: 'final-year',
