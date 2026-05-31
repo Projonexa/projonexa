@@ -6,18 +6,18 @@ import { useCountUp } from '@/hooks/useCountUp'
 import { useReducedMotion } from '@/hooks/useReducedMotion'
 
 const COUNT_DURATION_MS = 3000
-const HOLD_AFTER_REVEAL_MS = 1800
+const HOLD_AFTER_COUNT_MS = 2000
 
 const slideTransition = { duration: 0.55, ease: [0.22, 1, 0.36, 1] as const }
 
 const contentStagger = {
   initial: {},
-  animate: { transition: { staggerChildren: 0.12, delayChildren: 0.04 } },
+  animate: { transition: { staggerChildren: 0.1, delayChildren: 0.06 } },
 }
 
 const fadeUpItem = {
-  initial: { opacity: 0, y: 14 },
-  animate: { opacity: 1, y: 0, transition: { duration: 0.45, ease: [0.22, 1, 0.36, 1] } },
+  initial: { opacity: 0, y: 12 },
+  animate: { opacity: 1, y: 0, transition: { duration: 0.4, ease: [0.22, 1, 0.36, 1] } },
 }
 
 function StatSpotlight({
@@ -34,7 +34,7 @@ function StatSpotlight({
   onSequenceComplete: () => void
 }) {
   const stat = STATS[index]
-  const [detailsVisible, setDetailsVisible] = useState(false)
+  const [countDone, setCountDone] = useState(false)
   const holdTimerRef = useRef<number | null>(null)
 
   const clearHoldTimer = useCallback(() => {
@@ -45,38 +45,31 @@ function StatSpotlight({
   }, [])
 
   useEffect(() => {
-    setDetailsVisible(false)
+    setCountDone(false)
     clearHoldTimer()
   }, [index, clearHoldTimer])
 
   useEffect(() => () => clearHoldTimer(), [clearHoldTimer])
 
   const handleCountComplete = useCallback(() => {
-    setDetailsVisible(true)
+    setCountDone(true)
   }, [])
 
   const countDuration = reducedMotion ? 0 : COUNT_DURATION_MS
   const count = useCountUp(stat.value, countDuration, start, handleCountComplete)
 
   useEffect(() => {
-    if (!detailsVisible || !start || paused) {
+    if (!countDone || !start || paused) {
       clearHoldTimer()
       return
     }
 
     holdTimerRef.current = window.setTimeout(() => {
       onSequenceComplete()
-    }, reducedMotion ? 2000 : HOLD_AFTER_REVEAL_MS)
+    }, HOLD_AFTER_COUNT_MS)
 
     return clearHoldTimer
-  }, [
-    detailsVisible,
-    start,
-    paused,
-    reducedMotion,
-    onSequenceComplete,
-    clearHoldTimer,
-  ])
+  }, [countDone, start, paused, onSequenceComplete, clearHoldTimer])
 
   return (
     <motion.div
@@ -100,35 +93,24 @@ function StatSpotlight({
         <span>{stat.suffix}</span>
       </motion.p>
 
-      <AnimatePresence>
-        {detailsVisible && (
-          <motion.div
-            key={`details-${index}`}
-            initial="initial"
-            animate="animate"
-            variants={contentStagger}
-          >
-            <motion.h3
-              variants={fadeUpItem}
-              className="mt-4 text-xl font-semibold tracking-tight text-zinc-900 dark:text-white sm:text-2xl"
-            >
-              {stat.label}
-            </motion.h3>
+      <motion.h3
+        variants={fadeUpItem}
+        className="mt-4 text-xl font-semibold tracking-tight text-zinc-900 dark:text-white sm:text-2xl"
+      >
+        {stat.label}
+      </motion.h3>
 
-            <motion.hr
-              variants={fadeUpItem}
-              className="mt-6 h-px border-0 bg-gradient-to-r from-brand-primary/60 via-brand-mid/40 to-transparent dark:from-brand-primary/50 dark:via-brand-mid/30"
-            />
+      <motion.hr
+        variants={fadeUpItem}
+        className="mt-5 h-px border-0 bg-gradient-to-r from-brand-primary/60 via-brand-mid/40 to-transparent dark:from-brand-primary/50 dark:via-brand-mid/30"
+      />
 
-            <motion.p
-              variants={fadeUpItem}
-              className="mt-6 max-w-lg text-base leading-relaxed text-zinc-600 dark:text-zinc-400 sm:text-lg"
-            >
-              {stat.description}
-            </motion.p>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      <motion.p
+        variants={fadeUpItem}
+        className="mt-5 max-w-lg text-base leading-relaxed text-zinc-600 dark:text-zinc-400 sm:text-lg"
+      >
+        {stat.description}
+      </motion.p>
     </motion.div>
   )
 }
