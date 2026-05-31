@@ -154,6 +154,34 @@
     box-shadow: 0 4px 24px -4px rgba(0, 0, 0, 0.5);
   }
 
+  .why-pillar-card {
+    transition:
+      border-color 0.3s ease,
+      box-shadow 0.3s ease,
+      transform 0.3s ease;
+  }
+
+  .why-pillar-card:hover {
+    border-color: rgba(0, 200, 255, 0.22);
+    box-shadow: 0 12px 40px -16px rgba(0, 200, 255, 0.2);
+    transform: translateY(-2px);
+  }
+
+  .why-choose-card:hover > div {
+    border-color: rgba(0, 200, 255, 0.2);
+    box-shadow: 0 16px 48px -20px rgba(0, 200, 255, 0.18);
+  }
+
+  .dark .why-pillar-card:hover {
+    border-color: rgba(0, 200, 255, 0.28);
+    box-shadow: 0 12px 40px -16px rgba(0, 200, 255, 0.12);
+  }
+
+  .dark .why-choose-card:hover > div {
+    border-color: rgba(0, 200, 255, 0.25);
+    box-shadow: 0 16px 48px -20px rgba(0, 200, 255, 0.1);
+  }
+
   .section-padding {
     @apply px-4 py-20 sm:px-6 lg:px-8 lg:py-28;
   }

@@ -135,6 +135,27 @@ export const STATS = [
   },
 ] as const
 
+export const WHY_SECTION = {
+  eyebrow: 'Why Projonexa',
+  title: 'The Premium Choice for Project Excellence',
+  lead: 'We combine technical depth, academic rigor, and startup velocity in every engagement.',
+} as const
+
+export const WHY_PILLARS = [
+  {
+    label: 'Technical Depth',
+    description: 'Production-grade stacks, scalable architecture, and code you can defend in review.',
+  },
+  {
+    label: 'Academic Rigor',
+    description: 'SRS, reports, and viva-ready documentation aligned to university standards.',
+  },
+  {
+    label: 'Startup Velocity',
+    description: 'MVPs and prototypes built for real users, demos, and fast iteration.',
+  },
+] as const
+
 export const WHY_CHOOSE = [
   {
     title: 'End-to-End Project Development',
