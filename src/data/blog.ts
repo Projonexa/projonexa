@@ -36,15 +36,6 @@ export const BLOG_POSTS: BlogPost[] = [
     date: '2026-01-20',
   },
   {
-    id: 'research-paper-tips',
-    title: 'Writing Your First IEEE Research Paper: A Step-by-Step Guide',
-    excerpt:
-      'From literature review to submission — everything you need to publish a credible research paper as a student.',
-    category: 'Research',
-    readTime: '15 min read',
-    date: '2026-02-08',
-  },
-  {
     id: 'documentation-matters',
     title: 'Why Documentation Can Make or Break Your Project Grade',
     excerpt:

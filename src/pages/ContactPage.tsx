@@ -109,7 +109,6 @@ export function ContactPage() {
                 <option value="Mini Project Inquiry">Mini Project</option>
                 <option value="AI/ML Project Inquiry">AI / ML Project</option>
                 <option value="Startup MVP Inquiry">Startup MVP</option>
-                <option value="Research Paper Inquiry">Research Paper</option>
                 <option value="Custom Software Inquiry">Custom Software</option>
                 <option value="Other Inquiry">Other</option>
               </select>

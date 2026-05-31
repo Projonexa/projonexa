@@ -19,8 +19,8 @@ const ROLES = [
   },
   {
     icon: Search,
-    title: 'Research Associate',
-    description: 'Support literature reviews, paper writing, and research implementations.',
+    title: 'QA & Testing Engineer',
+    description: 'Validate deliverables, test applications, and ensure production-ready quality.',
   },
   {
     icon: Users,
@@ -41,7 +41,7 @@ export function CareersPage() {
       <section className="section-padding">
         <div className="container-narrow mb-12 text-center">
           <p className="text-lg text-zinc-600 dark:text-zinc-400">
-            We are always looking for talented developers, designers, researchers, and mentors who
+            We are always looking for talented developers, designers, and mentors who
             share our passion for making innovation accessible. Work remotely, choose your projects,
             and grow with a fast-moving startup.
           </p>

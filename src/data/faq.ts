@@ -7,7 +7,7 @@ export const FAQ_ITEMS: FAQItem[] = [
   {
     question: 'What types of projects does Projonexa handle?',
     answer:
-      'We deliver mini projects, final year projects, engineering projects, AI/ML systems, web and mobile applications, IoT solutions, startup MVPs, custom software, research papers, technical documentation, and internship projects across all major engineering streams.',
+      'We deliver mini projects, final year projects, engineering projects, AI/ML systems, web and mobile applications, IoT solutions, startup MVPs, custom software, technical documentation, and internship projects across all major engineering streams.',
   },
   {
     question: 'How does the project development process work?',
@@ -18,11 +18,6 @@ export const FAQ_ITEMS: FAQItem[] = [
     question: 'Will I receive complete source code and documentation?',
     answer:
       'Yes. Every project includes full source code, setup instructions, SRS and design documentation, testing reports, presentation slides, and a code walkthrough session so you can confidently explain your project during evaluation or viva.',
-  },
-  {
-    question: 'Can you help with research papers and publications?',
-    answer:
-      'Absolutely. Our research team assists with topic selection, literature review, methodology design, implementation, results analysis, IEEE/Scopus formatting, plagiarism checks, and submission guidance.',
   },
   {
     question: 'How long does a typical final year project take?',
@@ -45,9 +40,9 @@ export const FAQ_ITEMS: FAQItem[] = [
       'Yes. We build lean, scalable MVPs designed for investor demos, user testing, and rapid iteration. Our startup packages include technical architecture, analytics setup, and a clear roadmap for post-MVP growth.',
   },
   {
-    question: 'Does Projonexa serve students outside Maharashtra?',
+    question: 'Does Projonexa serve clients outside India?',
     answer:
-      'Yes. Projonexa is based in Maharashtra, India but serves students and clients across the entire country — including Mumbai, Pune, Nagpur, Delhi, Bangalore, and internationally through remote collaboration.',
+      'Yes. We work with students and institutions across India and support startups and businesses globally through remote collaboration.',
   },
   {
     question: 'How do I get started?',

@@ -13,7 +13,7 @@ export function PortfolioPage() {
       <PageHeader
         eyebrow="Portfolio"
         title="100+ Projects. Proven Excellence."
-        description="A curated showcase of academic, research, and industry projects delivered with precision and passion."
+        description="A curated showcase of academic and industry projects delivered with precision and passion."
       />
       <Stats />
       <section className="section-padding !pt-0">

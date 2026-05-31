@@ -3,7 +3,6 @@ export const NAV_LINKS = [
   { label: 'About', path: '/about' },
   { label: 'Services', path: '/services' },
   { label: 'Projects', path: '/projects' },
-  { label: 'Research', path: '/research' },
   { label: 'Blog', path: '/blog' },
   { label: 'Portfolio', path: '/portfolio' },
   { label: 'Pricing', path: '/pricing' },
@@ -21,7 +20,6 @@ export const FOOTER_LINKS = {
   ],
   resources: [
     { label: 'Projects', path: '/projects' },
-    { label: 'Research', path: '/research' },
     { label: 'Blog', path: '/blog' },
     { label: 'FAQ', path: '/faq' },
   ],

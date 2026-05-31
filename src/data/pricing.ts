@@ -44,22 +44,6 @@ export const PRICING_PLANS: PricingPlan[] = [
     cta: 'Get Started',
   },
   {
-    id: 'research',
-    name: 'Research Plus',
-    description: 'Research paper and implementation combined.',
-    price: 'Custom',
-    period: 'per project',
-    features: [
-      'Topic & methodology',
-      'Implementation support',
-      'IEEE-formatted paper',
-      'Plagiarism report',
-      'Results & analysis',
-      'Submission guidance',
-    ],
-    cta: 'Discuss Research',
-  },
-  {
     id: 'startup',
     name: 'Startup MVP',
     description: 'Investor-ready product for founders and innovators.',

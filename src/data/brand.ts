@@ -23,24 +23,15 @@ export const GEO = {
   /** Approximate geo centre — Maharashtra, India */
   latitude: 19.7515,
   longitude: 75.7139,
-  areaServed: [
-    'India',
-    'Maharashtra',
-    'Mumbai',
-    'Pune',
-    'Nagpur',
-    'Nashik',
-    'Aurangabad',
-    'Global',
-  ],
-  serviceRadius: 'Worldwide with focus on India',
+  areaServed: ['India', 'Global'],
+  serviceRadius: 'India and worldwide',
 } as const
 
 /** Service Area section — home page */
 export const SERVICE_AREA_SECTION = {
   eyebrow: 'Service Area',
   title: 'Serving Students & Clients Across India and Globally',
-  lead: 'Based in Maharashtra, India — delivering projects remotely to colleges, startups, and innovators nationwide.',
+  lead: 'Remote delivery for students, colleges, startups, and businesses — across India and internationally.',
 } as const
 
 export const SERVICE_AREA_DELIVERY = [
@@ -58,17 +49,28 @@ export const SERVICE_AREA_DELIVERY = [
   },
 ] as const
 
-/** Maharashtra & major cities — shown as primary service hubs */
-export const GEO_PRIMARY_HUBS = [
-  'Maharashtra',
-  'Mumbai',
-  'Pune',
-  'Nagpur',
-  'Nashik',
-  'Aurangabad',
+export const SERVICE_AREA_REGIONS = [
+  {
+    label: 'India',
+    description: 'Students, colleges, and businesses nationwide — remote collaboration with mentor support.',
+  },
+  {
+    label: 'Global',
+    description: 'Startups and international clients — timezone-friendly delivery and clear milestones.',
+  },
 ] as const
 
 export const SERVICE_AREA_CLIENTS = [
+  {
+    title: 'Startups & entrepreneurs',
+    detail: 'MVPs, prototypes, and product validation',
+    priority: true,
+  },
+  {
+    title: 'Businesses & international clients',
+    detail: 'Custom software, AI systems, and long-term delivery',
+    priority: true,
+  },
   {
     title: 'Engineering & CS students',
     detail: 'BE, BTech, MCA, BCA — final year and mini projects',
@@ -77,23 +79,11 @@ export const SERVICE_AREA_CLIENTS = [
     title: 'Colleges & universities',
     detail: 'Department partnerships and bulk student project support',
   },
-  {
-    title: 'Startups & entrepreneurs',
-    detail: 'MVPs, prototypes, and product validation',
-  },
-  {
-    title: 'Researchers & MBA scholars',
-    detail: 'Literature review, methodology, and paper assistance',
-  },
-  {
-    title: 'Businesses & international clients',
-    detail: 'Custom software, AI systems, and long-term delivery',
-  },
 ] as const
 
 /** One-line definition for AEO / AI answer engines */
 export const AEO_DEFINITION =
-  'Projonexa is a technology-driven innovation platform based in Maharashtra, India that helps students, colleges, startups, and businesses transform ideas into real-world projects — including final year projects, AI/ML systems, startup MVPs, IoT solutions, and research paper assistance with full documentation and mentor support.'
+  'Projonexa is a technology-driven innovation platform based in Maharashtra, India that helps students, colleges, startups, and businesses transform ideas into real-world projects — including final year projects, AI/ML systems, startup MVPs, IoT solutions, and custom software with full documentation and mentor support.'
 
 export const AEO_SECTION = {
   eyebrow: 'About Projonexa',
@@ -113,12 +103,12 @@ export const AEO_HIGHLIGHTS = [
     description: 'Modern stacks from machine learning pipelines to deployed cloud apps.',
   },
   {
-    title: 'Startups & research',
-    description: 'MVPs for founders plus literature review, methodology, and paper formatting.',
+    title: 'Startups & MVPs',
+    description: 'Investor-ready products for founders — prototypes, demos, and scalable foundations.',
   },
   {
-    title: 'India-wide delivery',
-    description: 'Headquartered in Maharashtra — remote collaboration across India and abroad.',
+    title: 'India & global delivery',
+    description: 'Remote collaboration for clients across India and international markets.',
   },
 ] as const
 
@@ -135,7 +125,7 @@ Like many students, I once struggled to transform ideas into working projects. I
 
 That experience inspired me to build Projonexa.
 
-Today, Projonexa exists to help students, innovators, researchers, startups, and businesses turn their ideas into reality with the support of experienced developers, designers, researchers, and technology experts.
+Today, Projonexa exists to help students, innovators, startups, and businesses turn their ideas into reality with the support of experienced developers, designers, and technology experts.
 
 Our mission is simple:
 
@@ -143,10 +133,10 @@ To make innovation accessible to everyone.`,
 } as const
 
 export const VISION =
-  "To become the world's leading innovation platform connecting students, freelancers, researchers, startups, and businesses through technology-driven project development."
+  "To become the world's leading innovation platform connecting students, freelancers, startups, and businesses through technology-driven project development."
 
 export const MISSION =
-  'To empower students and innovators by providing access to technical expertise, mentorship, development resources, research support, and end-to-end project execution.'
+  'To empower students and innovators by providing access to technical expertise, mentorship, development resources, and end-to-end project execution.'
 
 export const ACHIEVEMENTS = [
   { title: 'SIH 2025 Winner', subtitle: 'Team Leader' },
@@ -174,7 +164,7 @@ export const STATS = [
     value: 150,
     suffix: '+',
     label: 'Freelancers Network',
-    description: 'Developers, designers, and researchers on our expert roster',
+    description: 'Developers, designers, and specialists on our expert roster',
   },
   {
     value: 10,
@@ -213,9 +203,9 @@ export const WHY_PILLARS = [
 
 /** Benefit indices under each pillar column (Technical · Academic · Startup) */
 export const WHY_BENEFIT_GROUPS = [
-  [0, 1, 2, 3],
-  [4, 5, 6],
-  [7, 8, 9],
+  [0, 1, 2],
+  [3, 4, 5],
+  [6, 7, 8],
 ] as const
 
 export const WHY_CHOOSE = [
@@ -232,12 +222,7 @@ export const WHY_CHOOSE = [
   {
     title: 'Expert Mentor Support',
     description:
-      'Guidance from experienced developers, researchers, and domain specialists throughout your project journey.',
-  },
-  {
-    title: 'Research Assistance',
-    description:
-      'Literature review, methodology design, paper formatting, and publication-ready research support.',
+      'Guidance from experienced developers and domain specialists throughout your project journey.',
   },
   {
     title: 'Scalable Architecture',

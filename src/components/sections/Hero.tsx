@@ -78,7 +78,7 @@ export function Hero() {
           className="mt-7 max-w-2xl text-pretty text-lg leading-relaxed text-zinc-600 dark:text-zinc-400 sm:text-xl sm:leading-relaxed"
         >
           From academic projects to startup solutions, Projonexa helps students, innovators,
-          researchers, and businesses build impactful technology products.
+          startups, and businesses build impactful technology products.
         </motion.p>
 
         <motion.div

@@ -12,7 +12,7 @@ export function BlogPage() {
       <PageHeader
         eyebrow="Blog"
         title="Insights, Guides & Innovation Stories"
-        description="Expert perspectives on project development, AI trends, research methodologies, and startup building."
+        description="Expert perspectives on project development, AI trends, engineering best practices, and startup building."
       />
       <section className="section-padding">
         <div className="container-wide grid gap-6 md:grid-cols-2 lg:grid-cols-3">

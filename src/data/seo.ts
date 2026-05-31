@@ -33,14 +33,12 @@ const BASE_KEYWORDS = [
   'final year projects',
   'engineering projects',
   'AI projects',
-  'research projects',
   'startup MVP development',
   'software development',
   'project assistance',
   'academic projects',
   'mini projects',
   'internship projects',
-  'IEEE research paper',
   'IoT projects',
   'web development projects',
   'mobile app projects',
@@ -52,7 +50,7 @@ export const PAGE_SEO: Record<string, PageSEO> = {
   home: {
     title: `${BRAND.name} | Final Year Projects & Innovation Platform — ${GEO.region}, ${GEO.country}`,
     description:
-      'Projonexa is India\'s trusted innovation platform for final year projects, AI/ML, startup MVPs, and research assistance. End-to-end development with documentation, deployment & viva prep. Based in Maharashtra — serving students & clients nationwide.',
+      'Projonexa is India\'s trusted innovation platform for final year projects, AI/ML, and startup MVPs. End-to-end development with documentation, deployment & viva prep — serving students & clients across India and globally.',
     keywords: BASE_KEYWORDS,
     path: '/',
     faqSchema: true,
@@ -69,7 +67,7 @@ export const PAGE_SEO: Record<string, PageSEO> = {
   services: {
     title: `Project Development Services | ${BRAND.name} — Final Year, AI, MVP`,
     description:
-      'Projonexa services: final year projects, mini projects, AI/ML, web & mobile apps, IoT, research papers, startup MVPs, and custom software. Complete deliverables — code, SRS, PPT, deployment & viva support across India.',
+      'Projonexa services: final year projects, mini projects, AI/ML, web & mobile apps, IoT, startup MVPs, and custom software. Complete deliverables — code, SRS, PPT, deployment & viva support across India.',
     keywords: [...BASE_KEYWORDS, 'project development services', 'final year project help'],
     path: '/services',
     breadcrumb: [{ name: 'Services', path: '/services' }],
@@ -83,18 +81,10 @@ export const PAGE_SEO: Record<string, PageSEO> = {
     path: '/projects',
     breadcrumb: [{ name: 'Projects', path: '/projects' }],
   },
-  research: {
-    title: `Research Paper Assistance | ${BRAND.name} — IEEE & Scopus`,
-    description:
-      'Research paper help from Projonexa: topic selection, literature review, methodology, IEEE/Scopus formatting, plagiarism check, and submission guidance for students and researchers in India.',
-    keywords: [...BASE_KEYWORDS, 'research paper help', 'IEEE paper assistance India'],
-    path: '/research',
-    breadcrumb: [{ name: 'Research', path: '/research' }],
-  },
   blog: {
     title: `Blog | ${BRAND.name} — Project Guides & Tech Insights`,
     description:
-      'Expert guides on final year projects, AI development, startup MVPs, research methodologies, and engineering trends — from the Projonexa team serving students across India.',
+      'Expert guides on final year projects, AI development, startup MVPs, and engineering trends — from the Projonexa team serving students across India.',
     keywords: [...BASE_KEYWORDS, 'tech blog', 'final year project guide'],
     path: '/blog',
     breadcrumb: [{ name: 'Blog', path: '/blog' }],
@@ -110,7 +100,7 @@ export const PAGE_SEO: Record<string, PageSEO> = {
   pricing: {
     title: `Pricing | ${BRAND.name} — Affordable Student Project Plans`,
     description:
-      'Transparent, student-friendly pricing for mini projects, final year projects, research packages, and startup MVPs. Custom quotes aligned to your college deadline and scope.',
+      'Transparent, student-friendly pricing for mini projects, final year projects, and startup MVPs. Custom quotes aligned to your college deadline and scope.',
     keywords: [...BASE_KEYWORDS, 'project pricing India', 'affordable final year project'],
     path: '/pricing',
     breadcrumb: [{ name: 'Pricing', path: '/pricing' }],
@@ -118,7 +108,7 @@ export const PAGE_SEO: Record<string, PageSEO> = {
   careers: {
     title: `Careers | Join ${BRAND.name} — 150+ Expert Network`,
     description:
-      'Join Projonexa\'s growing network of 150+ freelancers and core team. Remote opportunities for developers, designers, researchers, and mentors across India.',
+      'Join Projonexa\'s growing network of 150+ freelancers and core team. Remote opportunities for developers, designers, and mentors across India.',
     keywords: [...BASE_KEYWORDS, 'freelance developer India', 'projonexa careers'],
     path: '/careers',
     breadcrumb: [{ name: 'Careers', path: '/careers' }],
@@ -126,7 +116,7 @@ export const PAGE_SEO: Record<string, PageSEO> = {
   faq: {
     title: `FAQ | ${BRAND.name} — Project Development Questions Answered`,
     description:
-      'Answers to common questions about Projonexa: project types, deliverables, timelines, pricing, documentation, viva prep, research help, and how to get started in India.',
+      'Answers to common questions about Projonexa: project types, deliverables, timelines, pricing, documentation, viva prep, and how to get started in India.',
     keywords: [...BASE_KEYWORDS, 'final year project FAQ', 'project help questions'],
     path: '/faq',
     breadcrumb: [{ name: 'FAQ', path: '/faq' }],
@@ -135,7 +125,7 @@ export const PAGE_SEO: Record<string, PageSEO> = {
   contact: {
     title: `Contact ${BRAND.name} | Start Your Project — ${GEO.region}, ${GEO.country}`,
     description:
-      'Contact Projonexa for final year projects, AI/ML, startup MVPs, and research assistance. Email nisargalokhande@gmail.com — response within 24 hours. Serving students & clients across India.',
+      'Contact Projonexa for final year projects, AI/ML, and startup MVPs. Email nisargalokhande@gmail.com — response within 24 hours. Serving students & clients across India and globally.',
     keywords: [...BASE_KEYWORDS, 'contact projonexa', 'project inquiry India'],
     path: '/contact',
     breadcrumb: [{ name: 'Contact', path: '/contact' }],
@@ -147,12 +137,12 @@ export const AEO_HOME_FAQ = [
   {
     question: 'What is Projonexa?',
     answer:
-      'Projonexa is a technology-driven innovation platform based in Maharashtra, India that provides end-to-end project development for students, colleges, startups, and businesses — including final year projects, AI/ML systems, startup MVPs, IoT solutions, and research paper assistance.',
+      'Projonexa is a technology-driven innovation platform based in Maharashtra, India that provides end-to-end project development for students, colleges, startups, and businesses — including final year projects, AI/ML systems, startup MVPs, IoT solutions, and custom software.',
   },
   {
     question: 'Who is Projonexa for?',
     answer:
-      'Projonexa serves engineering and computer science students, MBA researchers, college faculty, startups, freelancers, and businesses who need professional help building academic projects, research implementations, or production-ready software products.',
+      'Projonexa serves engineering and computer science students, college faculty, startups, freelancers, and businesses who need professional help building academic projects or production-ready software products.',
   },
   {
     question: 'What does Projonexa deliver with every project?',
@@ -162,7 +152,7 @@ export const AEO_HOME_FAQ = [
   {
     question: 'Where is Projonexa located and who does it serve?',
     answer:
-      'Projonexa is headquartered in Maharashtra, India and serves clients across India — including Mumbai, Pune, Nagpur, and nationwide — as well as international students and businesses through remote collaboration.',
+      'Projonexa is based in Maharashtra, India and serves clients across India and globally through remote collaboration.',
   },
   {
     question: 'How do I start a project with Projonexa?',

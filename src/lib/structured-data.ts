@@ -50,7 +50,6 @@ export function organizationSchema(description: string) {
       'Artificial Intelligence',
       'Machine Learning',
       'Startup MVP Development',
-      'Research Paper Assistance',
       'Web Development',
       'Mobile Application Development',
       'IoT Development',

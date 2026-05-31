@@ -5,22 +5,22 @@ import {
   Check,
   Globe2,
   GraduationCap,
-  MapPin,
+  MapPinned,
   Radio,
   Rocket,
   Users,
 } from 'lucide-react'
 import {
   GEO,
-  GEO_PRIMARY_HUBS,
   SERVICE_AREA_CLIENTS,
   SERVICE_AREA_DELIVERY,
+  SERVICE_AREA_REGIONS,
   SERVICE_AREA_SECTION,
 } from '@/data/brand'
 
 const easeSmooth = [0.22, 1, 0.36, 1] as const
 
-const CLIENT_ICONS = [GraduationCap, Building2, Rocket, Users, Globe2] as const
+const CLIENT_ICONS = [Rocket, Globe2, GraduationCap, Building2] as const
 
 function AreaCard({
   icon: Icon,
@@ -28,18 +28,12 @@ function AreaCard({
   children,
   delay = 0,
   className = '',
-  schema,
 }: {
-  icon: typeof MapPin
+  icon: typeof Globe2
   title: string
   children: ReactNode
   delay?: number
   className?: string
-  schema?: {
-    itemProp?: string
-    itemScope?: boolean
-    itemType?: string
-  }
 }) {
   return (
     <motion.article
@@ -47,9 +41,6 @@ function AreaCard({
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-40px' }}
       transition={{ duration: 0.5, delay, ease: easeSmooth }}
-      itemProp={schema?.itemProp}
-      itemScope={schema?.itemScope}
-      itemType={schema?.itemType}
       className={`service-area-card flex h-full flex-col rounded-2xl border border-black/[0.07] bg-white/50 p-6 shadow-[inset_0_1px_0_rgba(255,255,255,0.65)] backdrop-blur-xl dark:border-white/[0.08] dark:bg-black/40 sm:p-7 ${className}`}
     >
       <span className="flex h-11 w-11 items-center justify-center rounded-xl border border-brand-primary/25 bg-brand-primary/10 text-brand-primary dark:bg-brand-primary/15">
@@ -74,6 +65,8 @@ export function ServiceArea() {
     >
       <meta itemProp="name" content="Projonexa" />
       <meta itemProp="areaServed" content={GEO.serviceRadius} />
+      <meta itemProp="addressRegion" content={GEO.region} />
+      <meta itemProp="addressCountry" content={GEO.country} />
 
       <div className="container-wide">
         <div className="grid items-end gap-6 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:gap-12">
@@ -136,69 +129,57 @@ export function ServiceArea() {
           ))}
         </div>
 
-        <div className="mt-8 grid grid-cols-1 gap-6 lg:mt-10 lg:grid-cols-3 lg:gap-8">
-          <AreaCard
-            icon={MapPin}
-            title="Headquarters"
-            schema={{
-              itemProp: 'address',
-              itemScope: true,
-              itemType: 'https://schema.org/PostalAddress',
-            }}
-          >
-            <p className="text-base font-medium text-zinc-800 dark:text-zinc-200">
-              <span itemProp="addressRegion">{GEO.region}</span>,{' '}
-              <span itemProp="addressCountry">{GEO.country}</span>
+        <div className="mt-8 grid grid-cols-1 gap-6 lg:mt-10 lg:grid-cols-2 lg:gap-8">
+          <AreaCard icon={MapPinned} title="Regions we serve" delay={0.08}>
+            <p className="mb-4 text-zinc-600 dark:text-zinc-400">
+              End-to-end project delivery at national and international scale.
             </p>
-            <p className="mt-2 text-zinc-600 dark:text-zinc-400">{GEO.placename}</p>
-            <p className="mt-4 text-xs font-medium uppercase tracking-[0.14em] text-brand-primary">
-              {GEO.serviceRadius}
-            </p>
-            <meta itemProp="latitude" content={String(GEO.latitude)} />
-            <meta itemProp="longitude" content={String(GEO.longitude)} />
+            <ul className="flex flex-col gap-4">
+              {SERVICE_AREA_REGIONS.map((region) => (
+                <li
+                  key={region.label}
+                  className="rounded-xl border border-black/[0.06] bg-white/55 px-4 py-3.5 dark:border-white/[0.08] dark:bg-white/[0.04]"
+                >
+                  <span className="inline-flex rounded-full border border-brand-primary/25 bg-brand-primary/10 px-3 py-1 text-xs font-bold uppercase tracking-wide text-brand-primary">
+                    {region.label}
+                  </span>
+                  <p className="mt-2 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
+                    {region.description}
+                  </p>
+                </li>
+              ))}
+            </ul>
           </AreaCard>
 
-          <AreaCard icon={Globe2} title="Regions we serve" delay={0.08}>
-            <p className="mb-3 text-zinc-600 dark:text-zinc-400">
-              Primary hubs across Maharashtra, with nationwide and international delivery.
-            </p>
-            <div className="space-y-3">
-              <div>
-                <p className="mb-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-zinc-500 dark:text-zinc-500">
-                  Primary hubs
-                </p>
-                <ul className="flex flex-wrap gap-2">
-                  {GEO_PRIMARY_HUBS.map((place) => (
-                    <li key={place}>
-                      <span className="inline-flex rounded-full border border-brand-primary/20 bg-brand-primary/10 px-3 py-1 text-xs font-medium text-brand-primary dark:border-brand-primary/30">
-                        {place}
-                      </span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <div className="flex flex-wrap gap-2 pt-1">
-                <span className="inline-flex items-center gap-1.5 rounded-full border border-black/[0.08] bg-zinc-100/80 px-3 py-1 text-xs font-semibold text-zinc-800 dark:border-white/[0.1] dark:bg-white/[0.06] dark:text-zinc-200">
-                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" aria-hidden />
-                  All India
-                </span>
-                <span className="inline-flex rounded-full border border-brand-secondary/25 bg-brand-secondary/10 px-3 py-1 text-xs font-semibold text-brand-secondary dark:text-brand-accent">
-                  Global
-                </span>
-              </div>
-            </div>
-          </AreaCard>
-
-          <AreaCard icon={Users} title="Who we work with" delay={0.16}>
+          <AreaCard icon={Users} title="Who we work with" delay={0.12}>
             <ul className="flex flex-col gap-3">
               {SERVICE_AREA_CLIENTS.map((client, i) => {
                 const ClientIcon = CLIENT_ICONS[i] ?? Users
+                const isPriority = 'priority' in client && client.priority
                 return (
-                  <li key={client.title} className="flex gap-3">
-                    <span className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-lg border border-black/[0.06] bg-white/70 text-brand-primary dark:border-white/[0.08] dark:bg-black/50">
+                  <li
+                    key={client.title}
+                    className={`flex gap-3 rounded-xl px-2 py-2 ${
+                      isPriority
+                        ? 'border border-brand-primary/15 bg-brand-primary/[0.06] dark:border-brand-primary/20 dark:bg-brand-primary/[0.08]'
+                        : ''
+                    }`}
+                  >
+                    <span
+                      className={`mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-lg border text-brand-primary ${
+                        isPriority
+                          ? 'border-brand-primary/30 bg-brand-primary/15 dark:bg-brand-primary/20'
+                          : 'border-black/[0.06] bg-white/70 dark:border-white/[0.08] dark:bg-black/50'
+                      }`}
+                    >
                       <ClientIcon className="h-3.5 w-3.5" strokeWidth={2} aria-hidden />
                     </span>
                     <span className="min-w-0">
+                      {isPriority && (
+                        <span className="mb-1 block text-[10px] font-bold uppercase tracking-[0.14em] text-brand-primary">
+                          Priority
+                        </span>
+                      )}
                       <span className="block text-sm font-semibold text-zinc-800 dark:text-zinc-200">
                         {client.title}
                       </span>
@@ -222,7 +203,7 @@ export function ServiceArea() {
         >
           <Check className="mt-0.5 h-4 w-4 shrink-0 text-brand-primary sm:mt-0" aria-hidden />
           <span>
-            Same mentor-led process whether you are on campus in Pune, Mumbai, or collaborating from
+            Same mentor-led process for startups, businesses, students, and colleges — in India or
             abroad.
           </span>
         </motion.p>
