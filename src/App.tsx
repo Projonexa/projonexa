@@ -11,6 +11,7 @@ import { BlogPage } from '@/pages/BlogPage'
 import { PortfolioPage } from '@/pages/PortfolioPage'
 import { PricingPage } from '@/pages/PricingPage'
 import { CareersPage } from '@/pages/CareersPage'
+import { CareersApplyPage } from '@/pages/CareersApplyPage'
 import { FAQPage } from '@/pages/FAQPage'
 import { ContactPage } from '@/pages/ContactPage'
 
@@ -31,6 +32,7 @@ export default function App() {
               <Route path="portfolio" element={<PortfolioPage />} />
               <Route path="pricing" element={<PricingPage />} />
               <Route path="careers" element={<CareersPage />} />
+              <Route path="careers/apply" element={<CareersApplyPage />} />
               <Route path="faq" element={<FAQPage />} />
               <Route path="contact" element={<ContactPage />} />
             </Route>

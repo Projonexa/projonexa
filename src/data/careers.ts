@@ -107,3 +107,23 @@ export const CAREER_AVAILABILITY_OPTIONS = [
 ] as const
 
 export const CAREER_APPLICATION_EMAIL = 'nisargalokhande@gmail.com'
+
+export const CAREERS_APPLY_SECTION = {
+  eyebrow: 'Team application',
+  title: 'Apply to Join Projonexa',
+  lead: 'Complete the form below to request joining our team. We review every application and respond within a few business days.',
+} as const
+
+export function careersApplyPath(roleId?: string) {
+  if (!roleId) return '/careers/apply'
+  return `/careers/apply?role=${encodeURIComponent(roleId)}`
+}
+
+export function getCareerRoleById(roleId: string | null | undefined) {
+  if (!roleId) return undefined
+  return CAREER_ROLES.find((r) => r.id === roleId)
+}
+
+export function resolveCareerRoleId(roleId: string | null | undefined) {
+  return getCareerRoleById(roleId)?.id ?? 'open-application'
+}

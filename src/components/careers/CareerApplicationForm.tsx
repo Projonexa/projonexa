@@ -9,31 +9,29 @@ import {
   CAREER_ROLES,
 } from '@/data/careers'
 
+const easeSmooth = [0.22, 1, 0.36, 1] as const
+
 const inputClass =
   'w-full rounded-xl border border-black/[0.1] bg-white px-4 py-3 text-sm text-zinc-900 shadow-sm outline-none transition-colors placeholder:text-zinc-400 focus:border-brand-primary focus:ring-2 focus:ring-brand-primary/20 dark:border-white/[0.1] dark:bg-zinc-900/80 dark:text-zinc-100 dark:placeholder:text-zinc-500 dark:focus:border-brand-accent dark:focus:ring-brand-accent/20'
 
 const labelClass = 'mb-1.5 block text-sm font-medium text-zinc-800 dark:text-zinc-200'
 
 interface CareerApplicationFormProps {
-  selectedRoleId: string
-  onRoleChange: (roleId: string) => void
+  initialRoleId?: string
+  variant?: 'standalone' | 'embedded'
 }
 
 export function CareerApplicationForm({
-  selectedRoleId,
-  onRoleChange,
+  initialRoleId = 'open-application',
+  variant = 'embedded',
 }: CareerApplicationFormProps) {
   const [submitted, setSubmitted] = useState(false)
-  const [roleId, setRoleId] = useState(selectedRoleId)
+  const [roleId, setRoleId] = useState(initialRoleId)
+  const isStandalone = variant === 'standalone'
 
   useEffect(() => {
-    setRoleId(selectedRoleId)
-  }, [selectedRoleId])
-
-  const handleRoleSelect = (value: string) => {
-    setRoleId(value)
-    onRoleChange(value)
-  }
+    setRoleId(initialRoleId)
+  }, [initialRoleId])
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -79,15 +77,25 @@ export function CareerApplicationForm({
     setSubmitted(true)
   }
 
+  const motionProps = isStandalone
+    ? { initial: { opacity: 0, y: 20 }, animate: { opacity: 1, y: 0 }, transition: { duration: 0.5, ease: easeSmooth } }
+    : {
+        initial: { opacity: 0, y: 16 },
+        whileInView: { opacity: 1, y: 0 },
+        viewport: { once: true },
+        transition: { duration: 0.45, ease: easeSmooth },
+      }
+
   if (submitted) {
     return (
       <motion.div
-        initial={{ opacity: 0, scale: 0.98 }}
-        animate={{ opacity: 1, scale: 1 }}
-        className="careers-form-panel flex flex-col items-center rounded-3xl px-6 py-14 text-center sm:px-10"
+        {...motionProps}
+        className="careers-form-panel mx-auto flex max-w-2xl flex-col items-center rounded-3xl px-6 py-14 text-center sm:px-10"
       >
         <CheckCircle2 className="h-14 w-14 text-emerald-500" aria-hidden />
-        <h3 className="mt-5 text-xl font-bold text-zinc-900 dark:text-white">Application ready to send</h3>
+        <h2 className="mt-5 text-xl font-bold text-zinc-900 dark:text-white sm:text-2xl">
+          Application ready to send
+        </h2>
         <p className="mt-2 max-w-md text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
           Your email client should open with your details pre-filled. Send the message to complete
           your request to join the Projonexa team.
@@ -107,29 +115,38 @@ export function CareerApplicationForm({
   return (
     <motion.form
       id="apply-form"
-      initial={{ opacity: 0, y: 16 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
+      {...motionProps}
       onSubmit={handleSubmit}
-      className="careers-form-panel rounded-3xl p-6 sm:p-8 lg:p-10"
+      className={`careers-form-panel mx-auto w-full rounded-3xl p-6 sm:p-8 lg:p-10 ${
+        isStandalone ? 'max-w-2xl' : 'max-w-none'
+      }`}
     >
-      <div className="mb-8 border-b border-black/[0.06] pb-6 dark:border-white/[0.08]">
-        <p className="text-xs font-semibold uppercase tracking-[0.18em] text-brand-primary dark:text-brand-accent">
-          Application form
+      {!isStandalone && (
+        <div className="mb-8 border-b border-black/[0.06] pb-6 dark:border-white/[0.08]">
+          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-brand-primary dark:text-brand-accent">
+            Application form
+          </p>
+          <h2 className="mt-2 text-2xl font-bold tracking-tight text-zinc-900 dark:text-white sm:text-3xl">
+            Apply to join the team
+          </h2>
+          <p className="mt-2 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
+            Fields marked with <span className="text-brand-primary dark:text-brand-accent">*</span>{' '}
+            are required.
+          </p>
+        </div>
+      )}
+
+      {isStandalone && (
+        <p className="mb-6 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
+          Fields marked with <span className="font-medium text-brand-primary dark:text-brand-accent">*</span>{' '}
+          are required.
         </p>
-        <h2 className="mt-2 text-2xl font-bold tracking-tight text-zinc-900 dark:text-white sm:text-3xl">
-          Apply to join the team
-        </h2>
-        <p className="mt-2 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
-          All fields marked with <span className="text-brand-primary dark:text-brand-accent">*</span>{' '}
-          are required. We review every application and respond within a few business days.
-        </p>
-      </div>
+      )}
 
       <div className="grid gap-5 sm:grid-cols-2">
         <div className="sm:col-span-2">
           <label htmlFor="career-name" className={labelClass}>
-            Full name <span className="text-brand-primary">*</span>
+            Full name <span className="text-brand-primary dark:text-brand-accent">*</span>
           </label>
           <input
             id="career-name"
@@ -143,7 +160,7 @@ export function CareerApplicationForm({
 
         <div>
           <label htmlFor="career-email" className={labelClass}>
-            Email <span className="text-brand-primary">*</span>
+            Email <span className="text-brand-primary dark:text-brand-accent">*</span>
           </label>
           <input
             id="career-email"
@@ -172,14 +189,14 @@ export function CareerApplicationForm({
 
         <div className="sm:col-span-2">
           <label htmlFor="career-role" className={labelClass}>
-            Role you&apos;re applying for <span className="text-brand-primary">*</span>
+            Role you&apos;re applying for <span className="text-brand-primary dark:text-brand-accent">*</span>
           </label>
           <select
             id="career-role"
             name="role"
             required
             value={roleId}
-            onChange={(e) => handleRoleSelect(e.target.value)}
+            onChange={(e) => setRoleId(e.target.value)}
             className={inputClass}
           >
             {CAREER_ROLES.map((role) => (
@@ -192,7 +209,7 @@ export function CareerApplicationForm({
 
         <div>
           <label htmlFor="career-experience" className={labelClass}>
-            Experience level <span className="text-brand-primary">*</span>
+            Experience level <span className="text-brand-primary dark:text-brand-accent">*</span>
           </label>
           <select
             id="career-experience"
@@ -211,7 +228,7 @@ export function CareerApplicationForm({
 
         <div>
           <label htmlFor="career-availability" className={labelClass}>
-            Availability <span className="text-brand-primary">*</span>
+            Availability <span className="text-brand-primary dark:text-brand-accent">*</span>
           </label>
           <select
             id="career-availability"
@@ -255,7 +272,7 @@ export function CareerApplicationForm({
 
         <div className="sm:col-span-2">
           <label htmlFor="career-skills" className={labelClass}>
-            Skills & technologies <span className="text-brand-primary">*</span>
+            Skills & technologies <span className="text-brand-primary dark:text-brand-accent">*</span>
           </label>
           <textarea
             id="career-skills"
@@ -269,7 +286,8 @@ export function CareerApplicationForm({
 
         <div className="sm:col-span-2">
           <label htmlFor="career-motivation" className={labelClass}>
-            Why do you want to join Projonexa? <span className="text-brand-primary">*</span>
+            Why do you want to join Projonexa?{' '}
+            <span className="text-brand-primary dark:text-brand-accent">*</span>
           </label>
           <textarea
             id="career-motivation"
@@ -287,11 +305,17 @@ export function CareerApplicationForm({
         purposes only.
       </p>
 
-      <Button type="submit" variant="primary" className="mt-6 w-full shadow-glow-sm sm:w-auto">
-        <Send className="h-4 w-4" aria-hidden />
-        Submit application
-        <ArrowUpRight className="h-4 w-4 opacity-80" aria-hidden />
-      </Button>
+      <div className={isStandalone ? 'mt-8 flex justify-center' : 'mt-6'}>
+        <Button
+          type="submit"
+          variant="primary"
+          className={`shadow-glow-sm ${isStandalone ? 'w-full sm:min-w-[240px]' : 'w-full sm:w-auto'}`}
+        >
+          <Send className="h-4 w-4" aria-hidden />
+          Submit application
+          <ArrowUpRight className="h-4 w-4 opacity-80" aria-hidden />
+        </Button>
+      </div>
     </motion.form>
   )
 }

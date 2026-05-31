@@ -113,12 +113,23 @@ export const PAGE_SEO: Record<string, PageSEO> = {
     breadcrumb: [{ name: 'Pricing', path: '/pricing' }],
   },
   careers: {
-    title: `Careers | Join ${BRAND.name} Team — Apply Online`,
+    title: `Careers | Join ${BRAND.name} Team`,
     description:
-      'Apply to join the Projonexa team — developers, designers, QA, mentors, interns, and open applications. Remote-friendly roles across India and globally.',
+      'Explore roles at Projonexa — developers, designers, QA, mentors, interns, and more. Apply online to join our innovation team.',
     keywords: [...BASE_KEYWORDS, 'freelance developer India', 'projonexa careers'],
     path: '/careers',
     breadcrumb: [{ name: 'Careers', path: '/careers' }],
+  },
+  careersApply: {
+    title: `Apply to Join ${BRAND.name}`,
+    description:
+      'Submit your application to join the Projonexa team. Share your role, skills, experience, and availability — we respond within a few business days.',
+    keywords: [...BASE_KEYWORDS, 'projonexa apply', 'join projonexa team'],
+    path: '/careers/apply',
+    breadcrumb: [
+      { name: 'Careers', path: '/careers' },
+      { name: 'Apply', path: '/careers/apply' },
+    ],
   },
   faq: {
     title: `FAQ | ${BRAND.name} — Project Development Questions Answered`,
