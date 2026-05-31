@@ -6,6 +6,7 @@ import { HomePage } from '@/pages/HomePage'
 import { AboutPage } from '@/pages/AboutPage'
 import { ServicesPage } from '@/pages/ServicesPage'
 import { ProjectsPage } from '@/pages/ProjectsPage'
+import { ProjectDetailPage } from '@/pages/ProjectDetailPage'
 import { BlogPage } from '@/pages/BlogPage'
 import { PortfolioPage } from '@/pages/PortfolioPage'
 import { PricingPage } from '@/pages/PricingPage'
@@ -24,6 +25,7 @@ export default function App() {
               <Route path="about" element={<AboutPage />} />
               <Route path="services" element={<ServicesPage />} />
               <Route path="projects" element={<ProjectsPage />} />
+              <Route path="projects/:slug" element={<ProjectDetailPage />} />
               <Route path="research" element={<Navigate to="/services" replace />} />
               <Route path="blog" element={<BlogPage />} />
               <Route path="portfolio" element={<PortfolioPage />} />

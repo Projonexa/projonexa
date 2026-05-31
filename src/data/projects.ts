@@ -31,8 +31,17 @@ export const PROJECTS_SECTION = {
   eyebrow: 'My Projects',
   title: 'Products Built for Real Users',
   lead: 'Live apps and platforms we have designed, built, and shipped — starting with tools that help SPPU students learn smarter.',
-  body: 'Hover a card to preview, then click to open full details, tech stack, and live deployment links.',
+  body: 'Hover a card to preview, then open its dedicated page for full details, tech stack, and live deployment links.',
 } as const
+
+export function projectPath(slug: string) {
+  return `/projects/${slug}`
+}
+
+export function getProjectBySlug(slug: string | undefined): MyProject | undefined {
+  if (!slug) return undefined
+  return MY_PROJECTS.find((p) => p.id === slug)
+}
 
 export const MY_PROJECTS: MyProject[] = [
   {

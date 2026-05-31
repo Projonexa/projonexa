@@ -160,7 +160,7 @@
   }
 
   .dark .project-card:hover .project-branch-chip,
-  .dark .project-modal-panel .project-branch-chip {
+  .dark .project-detail-section .project-branch-chip {
     border-color: rgba(0, 200, 255, 0.35);
     background: rgba(0, 200, 255, 0.14);
     color: #f4f4f5;

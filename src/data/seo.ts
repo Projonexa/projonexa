@@ -29,7 +29,7 @@ const GEO_KEYWORDS = [
   'student project assistance India',
 ]
 
-const BASE_KEYWORDS = [
+export const BASE_KEYWORDS = [
   'final year projects',
   'engineering projects',
   'AI projects',
