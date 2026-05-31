@@ -1,10 +1,10 @@
-import { useCallback, useEffect } from 'react'
-import { motion, useMotionValue, useSpring } from 'framer-motion'
+import { useEffect } from 'react'
+import { motion, useSpring, useTransform } from 'framer-motion'
 import { ArrowRight, MapPin } from 'lucide-react'
 import { BRAND } from '@/data/brand'
 import { Button } from '@/components/ui/Button'
 import { HeroBackground } from '@/components/sections/HeroBackground'
-import { usePointerFine } from '@/hooks/usePointerFine'
+import { useHeroCursor } from '@/hooks/useHeroCursor'
 import { useReducedMotion } from '@/hooks/useReducedMotion'
 
 const fadeUp = (delay: number, reduced: boolean) =>
@@ -64,44 +64,49 @@ function HeroTagline({ reducedMotion }: { reducedMotion: boolean }) {
 
 export function Hero() {
   const reducedMotion = useReducedMotion()
-  const pointerFine = usePointerFine()
-  const interactive = pointerFine && !reducedMotion
+  const showCursor = !reducedMotion
 
-  const contentX = useMotionValue(0)
-  const contentY = useMotionValue(0)
-  const smoothContentX = useSpring(contentX, contentSpring)
-  const smoothContentY = useSpring(contentY, contentSpring)
+  const {
+    sectionRef,
+    mouseX,
+    mouseY,
+    parallaxX,
+    parallaxY,
+    isActive,
+    handleMouseMove,
+    handleMouseLeave,
+  } = useHeroCursor(showCursor)
 
-  const handleParallax = useCallback(
-    (p: { x: number; y: number }) => {
-      contentX.set(p.x * 14)
-      contentY.set(p.y * 10)
-    },
-    [contentX, contentY],
-  )
+  const contentX = useSpring(useTransform(parallaxX, (v) => v * 16), contentSpring)
+  const contentY = useSpring(useTransform(parallaxY, (v) => v * 12), contentSpring)
 
   useEffect(() => {
-    if (!interactive) {
-      contentX.set(0)
-      contentY.set(0)
+    if (reducedMotion) {
+      parallaxX.set(0)
+      parallaxY.set(0)
     }
-  }, [interactive, contentX, contentY])
+  }, [reducedMotion, parallaxX, parallaxY])
 
   return (
-    <section className="relative min-h-screen overflow-hidden pt-16">
+    <section
+      ref={sectionRef}
+      className="relative min-h-screen overflow-hidden pt-16"
+      onMouseMove={showCursor ? handleMouseMove : undefined}
+      onMouseLeave={showCursor ? handleMouseLeave : undefined}
+    >
       <HeroBackground
         reducedMotion={reducedMotion}
-        interactive={interactive}
-        onParallax={handleParallax}
+        showCursor={showCursor}
+        mouseX={mouseX}
+        mouseY={mouseY}
+        parallaxX={parallaxX}
+        parallaxY={parallaxY}
+        isActive={isActive}
       />
 
       <motion.div
-        className="container-wide relative z-10 flex min-h-[calc(100vh-4rem)] flex-col items-center justify-center px-4 py-20 text-center sm:px-6 sm:py-24 lg:px-8"
-        style={
-          interactive
-            ? { x: smoothContentX, y: smoothContentY }
-            : undefined
-        }
+        className="container-wide pointer-events-none relative z-10 flex min-h-[calc(100vh-4rem)] flex-col items-center justify-center px-4 py-20 text-center sm:px-6 sm:py-24 lg:px-8"
+        style={showCursor ? { x: contentX, y: contentY } : undefined}
       >
         <HeroTagline reducedMotion={reducedMotion} />
 
@@ -123,7 +128,7 @@ export function Hero() {
 
         <motion.div
           {...fadeUp(0.22, reducedMotion)}
-          className="mt-6 inline-flex max-w-xl flex-wrap items-center justify-center gap-2 rounded-full border border-black/[0.06] bg-white/70 px-4 py-2.5 text-sm font-medium text-zinc-600 shadow-sm backdrop-blur-md dark:border-white/[0.1] dark:bg-white/[0.06] dark:text-zinc-300"
+          className="mt-6 inline-flex max-w-xl flex-wrap items-center justify-center gap-2 rounded-full border border-black/[0.08] bg-white/80 px-4 py-2.5 text-sm font-medium text-zinc-600 shadow-sm backdrop-blur-md dark:border-white/[0.12] dark:bg-white/[0.08] dark:text-zinc-300"
         >
           <span className="text-base leading-none" role="img" aria-label="India">
             🇮🇳
@@ -140,7 +145,7 @@ export function Hero() {
 
         <motion.div
           {...fadeUp(0.3, reducedMotion)}
-          className="mt-10 flex w-full max-w-md flex-col items-stretch gap-3 sm:max-w-none sm:flex-row sm:flex-wrap sm:items-center sm:justify-center sm:gap-4"
+          className="pointer-events-auto mt-10 flex w-full max-w-md flex-col items-stretch gap-3 sm:max-w-none sm:flex-row sm:flex-wrap sm:items-center sm:justify-center sm:gap-4"
         >
           <Button
             to="/services"
@@ -153,7 +158,7 @@ export function Hero() {
           <Button
             to="/contact"
             variant="outline"
-            className="w-full border-zinc-300/80 bg-white/60 text-zinc-800 backdrop-blur-sm hover:border-brand-primary/40 hover:bg-brand-primary/5 hover:text-brand-mid dark:border-white/15 dark:bg-white/[0.04] dark:text-zinc-100 dark:hover:border-brand-primary/50 dark:hover:bg-brand-primary/10 dark:hover:text-brand-accent sm:w-auto"
+            className="w-full border-zinc-300/80 bg-white/70 text-zinc-800 backdrop-blur-sm hover:border-brand-primary/40 hover:bg-brand-primary/5 hover:text-brand-mid dark:border-white/15 dark:bg-white/[0.06] dark:text-zinc-100 dark:hover:border-brand-primary/50 dark:hover:bg-brand-primary/10 dark:hover:text-brand-accent sm:w-auto"
           >
             Get Started
           </Button>
@@ -164,7 +169,7 @@ export function Hero() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.9, duration: 0.8 }}
-            className="pointer-events-none absolute bottom-8 left-1/2 hidden -translate-x-1/2 sm:block"
+            className="absolute bottom-8 left-1/2 hidden -translate-x-1/2 sm:block"
             aria-hidden
           >
             <div className="flex flex-col items-center gap-2">

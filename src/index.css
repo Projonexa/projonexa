@@ -133,8 +133,83 @@
     }
   }
 
+  .hero-mesh {
+    background-image:
+      radial-gradient(at 27% 18%, rgba(0, 200, 255, 0.28) 0px, transparent 52%),
+      radial-gradient(at 85% 12%, rgba(108, 99, 255, 0.22) 0px, transparent 48%),
+      radial-gradient(at 12% 62%, rgba(61, 139, 255, 0.2) 0px, transparent 50%),
+      radial-gradient(at 72% 78%, rgba(0, 200, 255, 0.16) 0px, transparent 48%);
+    animation: hero-mesh-shift 16s ease-in-out infinite;
+  }
+
+  .dark .hero-mesh {
+    background-image:
+      radial-gradient(at 27% 18%, rgba(0, 200, 255, 0.18) 0px, transparent 52%),
+      radial-gradient(at 85% 12%, rgba(108, 99, 255, 0.14) 0px, transparent 48%),
+      radial-gradient(at 12% 62%, rgba(61, 139, 255, 0.12) 0px, transparent 50%),
+      radial-gradient(at 72% 78%, rgba(0, 200, 255, 0.1) 0px, transparent 48%);
+  }
+
+  .hero-grid {
+    background-image:
+      linear-gradient(rgba(0, 0, 0, 0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0, 0, 0, 0.06) 1px, transparent 1px);
+    background-size: 56px 56px;
+    mask-image: radial-gradient(ellipse 80% 70% at 50% 45%, black 10%, transparent 75%);
+  }
+
+  .dark .hero-grid {
+    background-image:
+      linear-gradient(rgba(255, 255, 255, 0.07) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.07) 1px, transparent 1px);
+  }
+
+  .hero-dots {
+    background-image: radial-gradient(rgba(0, 200, 255, 0.35) 1px, transparent 1px);
+    background-size: 28px 28px;
+    mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, black 5%, transparent 70%);
+  }
+
+  .dark .hero-dots {
+    background-image: radial-gradient(rgba(0, 200, 255, 0.2) 1px, transparent 1px);
+  }
+
+  .hero-beam {
+    pointer-events: none;
+  }
+
+  .hero-beam-a {
+    animation: hero-beam-drift 14s ease-in-out infinite;
+  }
+
+  .hero-beam-b {
+    animation: hero-beam-drift 18s ease-in-out infinite reverse;
+  }
+
+  @keyframes hero-mesh-shift {
+    0%,
+    100% {
+      opacity: 1;
+      transform: scale(1) translate(0, 0);
+    }
+    50% {
+      opacity: 0.85;
+      transform: scale(1.04) translate(1%, -1%);
+    }
+  }
+
+  @keyframes hero-beam-drift {
+    0%,
+    100% {
+      opacity: 0.35;
+    }
+    50% {
+      opacity: 0.85;
+    }
+  }
+
   .hero-aurora-blob {
-    filter: blur(40px);
+    filter: blur(48px);
     will-change: transform;
   }
 
@@ -223,6 +298,9 @@
   }
 
   @media (prefers-reduced-motion: reduce) {
+    .hero-mesh,
+    .hero-beam-a,
+    .hero-beam-b,
     .hero-aurora-blob-a,
     .hero-aurora-blob-b,
     .hero-aurora-blob-c,
