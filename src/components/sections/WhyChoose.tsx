@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { type CSSProperties } from 'react'
 import { motion } from 'framer-motion'
 import {
   BadgeDollarSign,
@@ -15,15 +15,7 @@ import {
   Zap,
   type LucideIcon,
 } from 'lucide-react'
-import { WhyFlowLines } from '@/components/sections/WhyFlowLines'
-import { WHY_CHOOSE, WHY_PILLARS, WHY_SECTION } from '@/data/brand'
-import {
-  FLOW_HUB,
-  FLOW_PILLARS,
-  flowToPercent,
-  getBenefitPosition,
-} from '@/data/whyFlowLayout'
-import { useReducedMotion } from '@/hooks/useReducedMotion'
+import { WHY_BENEFIT_GROUPS, WHY_CHOOSE, WHY_PILLARS, WHY_SECTION } from '@/data/brand'
 
 const easeSmooth = [0.22, 1, 0.36, 1] as const
 
@@ -43,79 +35,95 @@ const WHY_ICONS: LucideIcon[] = [
 const PILLAR_ICONS = [Code2, GraduationCap, Rocket] as const
 const PILLAR_ACCENTS = ['#00c8ff', '#6c63ff', '#00e5a0'] as const
 
-function FlowNode({
+function BenefitStep({
   icon: Icon,
-  label,
+  title,
   hint,
-  accent,
-  pos,
-  visible,
-  delay = 0,
+  delay,
 }: {
   icon: LucideIcon
-  label: string
-  hint?: string
-  accent?: string
-  pos: { x: number; y: number }
-  visible: boolean
-  delay?: number
+  title: string
+  hint: string
+  delay: number
 }) {
-  const { left, top } = flowToPercent(pos.x, pos.y)
+  return (
+    <motion.li
+      initial={{ opacity: 0, x: -8 }}
+      whileInView={{ opacity: 1, x: 0 }}
+      viewport={{ once: true, margin: '-20px' }}
+      transition={{ duration: 0.35, delay, ease: easeSmooth }}
+      title={hint}
+      className="why-tree-step group relative flex items-center gap-3 rounded-xl border border-transparent px-2 py-2 transition-colors hover:border-brand-primary/15 hover:bg-white/50 dark:hover:bg-white/[0.04]"
+    >
+      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-brand-primary/15 bg-brand-primary/10 text-brand-primary dark:border-brand-primary/25 dark:bg-brand-primary/15">
+        <Icon className="h-4 w-4" strokeWidth={1.75} aria-hidden />
+      </span>
+      <span className="min-w-0 text-xs font-semibold leading-snug text-zinc-800 dark:text-zinc-200 sm:text-[13px]">
+        {title}
+      </span>
+    </motion.li>
+  )
+}
+
+function PillarColumn({
+  pillarIndex,
+  inViewDelay,
+}: {
+  pillarIndex: number
+  inViewDelay: number
+}) {
+  const pillar = WHY_PILLARS[pillarIndex]
+  const PillarIcon = PILLAR_ICONS[pillarIndex]
+  const accent = PILLAR_ACCENTS[pillarIndex]
+  const benefitIndices = WHY_BENEFIT_GROUPS[pillarIndex]
 
   return (
     <motion.div
-      initial={{ opacity: 0, scale: 0.9 }}
-      animate={visible ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.9 }}
-      transition={{ duration: 0.35, delay, ease: easeSmooth }}
-      title={hint}
-      className="why-flow-node absolute z-[2] flex w-[4.75rem] -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-1.5 text-center sm:w-[5.5rem]"
-      style={{ left, top }}
+      initial={{ opacity: 0, y: 16 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-40px' }}
+      transition={{ duration: 0.5, delay: inViewDelay, ease: easeSmooth }}
+      className="why-tree-column relative flex flex-col"
+      style={{ '--pillar-accent': accent } as CSSProperties}
     >
       <div
-        className="relative flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-brand-primary/20 bg-white/80 shadow-sm backdrop-blur-sm transition-transform duration-200 hover:scale-105 dark:border-brand-primary/30 dark:bg-black/60 sm:h-10 sm:w-10"
-        style={
-          accent
-            ? { boxShadow: `0 0 18px -4px ${accent}55` }
-            : undefined
-        }
+        className="why-tree-pillar relative z-[1] mx-auto flex w-full max-w-[220px] flex-col items-center rounded-xl border border-black/[0.06] bg-white/70 px-3 py-3 text-center backdrop-blur-md dark:border-white/[0.08] dark:bg-black/50"
+        style={{ borderTopColor: accent, borderTopWidth: 2 }}
       >
-        <Icon
-          className="h-4 w-4 text-brand-primary sm:h-[18px] sm:w-[18px]"
-          strokeWidth={1.75}
-          aria-hidden
-        />
-        <span className="why-flow-port pointer-events-none absolute -top-0.5 left-1/2 -translate-x-1/2" aria-hidden />
+        <span
+          className="mb-2 flex h-10 w-10 items-center justify-center rounded-lg text-white shadow-glow-sm"
+          style={{ background: `linear-gradient(135deg, ${accent}, ${accent}99)` }}
+        >
+          <PillarIcon className="h-5 w-5" strokeWidth={1.75} aria-hidden />
+        </span>
+        <h3 className="text-sm font-bold text-zinc-900 dark:text-white">{pillar.label}</h3>
+        <p className="mt-1 text-[11px] leading-relaxed text-zinc-500 dark:text-zinc-400">
+          {pillar.description}
+        </p>
       </div>
-      <span className="line-clamp-2 text-[10px] font-semibold leading-tight text-zinc-800 dark:text-zinc-200 sm:text-[11px]">
-        {label}
-      </span>
+
+      <div className="relative z-[1] mx-auto mt-4 flex w-full max-w-[220px] flex-1 flex-col">
+        <ul className="flex flex-col gap-1.5">
+          {benefitIndices.map((benefitIndex, i) => {
+            const item = WHY_CHOOSE[benefitIndex]
+            const Icon = WHY_ICONS[benefitIndex] ?? Layers
+            return (
+              <BenefitStep
+                key={item.title}
+                icon={Icon}
+                title={item.title}
+                hint={item.description}
+                delay={inViewDelay + 0.08 + i * 0.04}
+              />
+            )
+          })}
+        </ul>
+      </div>
     </motion.div>
   )
 }
 
 export function WhyChoose() {
-  const reducedMotion = useReducedMotion()
-  const canvasRef = useRef<HTMLDivElement>(null)
-  const [inView, setInView] = useState(false)
-
-  useEffect(() => {
-    const el = canvasRef.current
-    if (!el) return
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setInView(true)
-          observer.disconnect()
-        }
-      },
-      { threshold: 0.15 },
-    )
-
-    observer.observe(el)
-    return () => observer.disconnect()
-  }, [])
-
   return (
     <section
       className="section-padding section-frosted overflow-hidden"
@@ -167,73 +175,34 @@ export function WhyChoose() {
         </div>
 
         <motion.div
-          ref={canvasRef}
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-40px' }}
           transition={{ duration: 0.55, delay: 0.08, ease: easeSmooth }}
-          className="why-flow-canvas relative mx-auto mt-12 w-full max-w-5xl"
+          className="why-tree-panel relative mx-auto mt-12 w-full max-w-5xl rounded-2xl border border-black/[0.07] bg-white/45 p-6 shadow-[inset_0_1px_0_rgba(255,255,255,0.65)] backdrop-blur-xl dark:border-white/[0.08] dark:bg-black/40 sm:p-8"
         >
-          <div className="why-flow-canvas-inner relative aspect-[960/520] w-full overflow-hidden rounded-2xl border border-black/[0.07] bg-white/40 shadow-[inset_0_1px_0_rgba(255,255,255,0.6)] backdrop-blur-xl dark:border-white/[0.08] dark:bg-black/35">
-            <WhyFlowLines animate={inView} reducedMotion={reducedMotion} />
-
-            <div className="absolute inset-0 z-[1]">
-              <FlowNode
-                icon={Sparkles}
-                label="Start"
-                hint="Your project journey begins here"
-                pos={FLOW_HUB}
-                visible={inView}
-                delay={0.12}
-              />
-
-              {WHY_PILLARS.map((pillar, i) => (
-                <FlowNode
-                  key={pillar.label}
-                  icon={PILLAR_ICONS[i]}
-                  label={pillar.label}
-                  hint={pillar.description}
-                  accent={PILLAR_ACCENTS[i]}
-                  pos={FLOW_PILLARS[i]}
-                  visible={inView}
-                  delay={0.18 + i * 0.05}
-                />
-              ))}
-
-              {WHY_CHOOSE.map((item, i) => {
-                const Icon = WHY_ICONS[i] ?? Layers
-                const pos = getBenefitPosition(i)
-                return (
-                  <FlowNode
-                    key={item.title}
-                    icon={Icon}
-                    label={item.title}
-                    hint={item.description}
-                    pos={pos}
-                    visible={inView}
-                    delay={0.32 + i * 0.03}
-                  />
-                )
-              })}
-            </div>
+          <div className="why-tree-hub-row flex flex-col items-center">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.92 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.45, ease: easeSmooth }}
+              className="why-tree-hub relative z-[2] flex flex-col items-center text-center"
+            >
+              <span className="flex h-12 w-12 items-center justify-center rounded-xl border border-brand-primary/30 bg-white/80 shadow-glow-sm backdrop-blur-md dark:bg-black/55">
+                <Sparkles className="h-6 w-6 text-brand-primary" strokeWidth={1.5} aria-hidden />
+              </span>
+              <span className="mt-2 text-xs font-bold uppercase tracking-[0.14em] text-brand-primary">
+                Start
+              </span>
+            </motion.div>
           </div>
 
-          <p className="mt-4 text-center text-xs text-zinc-500 dark:text-zinc-400">
-            Three pillars from Start · Each column flows to your deliverables · Hover for details
-          </p>
-
-          <ul className="sr-only">
-            {WHY_PILLARS.map((p) => (
-              <li key={p.label}>
-                {p.label}: {p.description}
-              </li>
-            ))}
-            {WHY_CHOOSE.map((item) => (
-              <li key={item.title}>
-                {item.title}: {item.description}
-              </li>
-            ))}
-          </ul>
+          <div className="mt-8 grid grid-cols-1 gap-10 md:mt-10 md:grid-cols-3 md:gap-6">
+            <PillarColumn pillarIndex={0} inViewDelay={0.12} />
+            <PillarColumn pillarIndex={1} inViewDelay={0.18} />
+            <PillarColumn pillarIndex={2} inViewDelay={0.24} />
+          </div>
         </motion.div>
       </div>
     </section>

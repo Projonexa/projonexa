@@ -154,54 +154,16 @@
     box-shadow: 0 4px 24px -4px rgba(0, 0, 0, 0.5);
   }
 
-  .why-flow-canvas-inner {
+  .why-tree-panel {
     box-shadow:
-      0 0 0 1px rgba(0, 200, 255, 0.06),
-      0 20px 50px -24px rgba(0, 200, 255, 0.15);
+      0 0 0 1px rgba(0, 200, 255, 0.08),
+      0 24px 56px -28px rgba(0, 200, 255, 0.2);
   }
 
-  .dark .why-flow-canvas-inner {
+  .dark .why-tree-panel {
     box-shadow:
-      0 0 0 1px rgba(0, 200, 255, 0.1),
-      0 20px 50px -24px rgba(0, 200, 255, 0.08);
-  }
-
-  .why-flow-svg {
-    z-index: 0;
-  }
-
-  .why-flow-frame {
-    stroke: rgba(0, 200, 255, 0.14);
-    stroke-width: 1.5;
-  }
-
-  .dark .why-flow-frame {
-    stroke: rgba(0, 200, 255, 0.22);
-  }
-
-  .why-flow-path-dim {
-    stroke: rgba(0, 200, 255, 0.1);
-  }
-
-  .dark .why-flow-path-dim {
-    stroke: rgba(0, 200, 255, 0.16);
-  }
-
-  .why-flow-port {
-    width: 6px;
-    height: 6px;
-    border-radius: 9999px;
-    background: linear-gradient(135deg, #00c8ff, #6c63ff);
-    box-shadow: 0 0 8px rgba(0, 200, 255, 0.7);
-  }
-
-  .why-flow-node:hover {
-    z-index: 3;
-  }
-
-  .why-flow-node:hover .why-flow-port {
-    transform: scale(1.2);
-    box-shadow: 0 0 12px rgba(0, 200, 255, 0.95);
+      0 0 0 1px rgba(0, 200, 255, 0.12),
+      0 24px 56px -28px rgba(0, 200, 255, 0.1);
   }
 
   .section-padding {
