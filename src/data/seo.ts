@@ -132,10 +132,15 @@ export const PAGE_SEO: Record<string, PageSEO> = {
     ],
   },
   faq: {
-    title: `FAQ | ${BRAND.name} — Project Development Questions Answered`,
+    title: `FAQ | ${BRAND.name} — Projects, Pricing, Careers & Support`,
     description:
-      'Answers to common questions about Projonexa: project types, deliverables, timelines, pricing, documentation, viva prep, and how to get started in India.',
-    keywords: [...BASE_KEYWORDS, 'final year project FAQ', 'project help questions'],
+      'Projonexa FAQ: project types, deliverables, timelines, student pricing, viva prep, startup MVPs, careers, SPPU BUDDY, and how to contact us in India and globally.',
+    keywords: [
+      ...BASE_KEYWORDS,
+      'final year project FAQ',
+      'projonexa careers FAQ',
+      'project deliverables India',
+    ],
     path: '/faq',
     breadcrumb: [{ name: 'FAQ', path: '/faq' }],
     faqSchema: true,

@@ -458,6 +458,33 @@
     -webkit-backdrop-filter: blur(20px);
   }
 
+  .faq-help-panel {
+    background: rgba(255, 255, 255, 0.92);
+    box-shadow:
+      0 0 0 1px rgba(0, 200, 255, 0.08),
+      inset 0 1px 0 rgba(255, 255, 255, 0.85),
+      0 20px 48px -24px rgba(0, 200, 255, 0.16);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+  }
+
+  .dark .faq-help-panel {
+    background: rgba(14, 14, 16, 0.9);
+    box-shadow:
+      0 0 0 1px rgba(0, 200, 255, 0.1),
+      inset 0 1px 0 rgba(255, 255, 255, 0.04),
+      0 20px 48px -24px rgba(0, 200, 255, 0.1);
+  }
+
+  .faq-category-nav {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .faq-category-nav::-webkit-scrollbar {
+    display: none;
+  }
+
   .dark .careers-form-panel {
     background: rgba(14, 14, 16, 0.92);
     border-color: rgba(255, 255, 255, 0.09);
