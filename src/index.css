@@ -76,47 +76,8 @@
     @apply sm:px-10 sm:py-10;
   }
 
-  .services-deck-panel {
-    height: auto;
-  }
-
-  .services-deck-frame {
-    width: 100%;
-    border-radius: 1.25rem;
-    border: 1px solid rgba(0, 0, 0, 0.06);
-    background: rgba(255, 255, 255, 0.22);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    box-shadow: 0 16px 40px -24px rgba(0, 0, 0, 0.15);
-    padding: 0.875rem 1rem 1rem;
-  }
-
-  .dark .services-deck-frame {
-    border-color: rgba(255, 255, 255, 0.08);
-    background: rgba(0, 0, 0, 0.28);
-    box-shadow: 0 20px 48px -24px rgba(0, 0, 0, 0.55);
-  }
-
-  .services-deck-scroll-inner {
-    height: 500px;
-    overflow-x: hidden;
-    overflow-y: auto;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-    background: transparent;
-    border: none;
-  }
-
-  @media (min-width: 640px) {
-    .services-deck-scroll-inner {
-      height: 520px;
-    }
-  }
-
-  .services-deck-scroll-inner::-webkit-scrollbar {
-    display: none;
-    width: 0;
-    height: 0;
+  .services-deck-scroll-track {
+    scroll-margin-top: 7rem;
   }
 
   .services-deck-viewport {
