@@ -18,11 +18,11 @@ interface ServicesGridProps {
 
 const easeSmooth = [0.22, 1, 0.36, 1] as const
 const SCROLL_STEP_PX = 300
-const PEEK_Y = 11
-const STACK_SCALE_STEP = 0.032
-const MAX_VISIBLE_PEEK = 4
-const POP_Y = 72
-const POP_X = 56
+const PEEK_Y = 14
+const STACK_SCALE_STEP = 0.022
+const MAX_STACK_VISIBLE = 5
+const POP_LIFT_Y = 24
+const POP_X = 64
 
 function getDeckState(progress: number, index: number, total: number) {
   const activeFloat = Math.min(progress * total, total - 1 + 0.998)
@@ -163,9 +163,9 @@ function ServiceDeckCard({
 }) {
   const y = useTransform(scrollProgress, (p) => {
     const { phase, popT, stackDepth } = getDeckState(p, index, total)
-    if (phase === 'popped') return -POP_Y
-    if (phase === 'popping') return -popT * POP_Y
-    const depth = Math.min(stackDepth, MAX_VISIBLE_PEEK)
+    if (phase === 'popped') return -POP_LIFT_Y
+    if (phase === 'popping') return -popT * POP_LIFT_Y
+    const depth = Math.min(stackDepth, MAX_STACK_VISIBLE)
     const baseY = PEEK_Y * depth
     return baseY - popT * PEEK_Y
   })
@@ -179,9 +179,9 @@ function ServiceDeckCard({
 
   const scale = useTransform(scrollProgress, (p) => {
     const { phase, popT, stackDepth } = getDeckState(p, index, total)
-    if (phase === 'popping') return 1 + popT * 0.04
-    if (phase === 'popped') return 1.03
-    const depth = Math.min(stackDepth, MAX_VISIBLE_PEEK)
+    if (phase === 'popping') return 1 + popT * 0.03
+    if (phase === 'popped') return 1.02
+    const depth = Math.min(stackDepth, MAX_STACK_VISIBLE)
     const base = 1 - STACK_SCALE_STEP * depth
     return base + popT * STACK_SCALE_STEP
   })
@@ -189,29 +189,15 @@ function ServiceDeckCard({
   const opacity = useTransform(scrollProgress, (p) => {
     const { phase, popT, stackDepth } = getDeckState(p, index, total)
     if (phase === 'popped') return 0
-    if (phase === 'popping') return Math.max(0, 1 - popT * 1.1)
-    if (stackDepth > MAX_VISIBLE_PEEK) return 0
-    if (stackDepth > 2) return 0.88
-    return 1
+    if (phase === 'popping') return Math.max(0, 1 - popT * 1.05)
+    if (stackDepth > MAX_STACK_VISIBLE) return 0
+    return Math.max(0.82, 1 - stackDepth * 0.035)
   })
 
   const rotate = useTransform(scrollProgress, (p) => {
     const { phase, popT, dir } = getDeckState(p, index, total)
-    if (phase === 'popping') return dir * popT * 1.25
+    if (phase === 'popping') return dir * popT * 0.8
     return 0
-  })
-
-  const clipPath = useTransform(scrollProgress, (p) => {
-    const { phase, stackDepth } = getDeckState(p, index, total)
-    if (phase !== 'stacked' || stackDepth === 0) return 'inset(0% 0% 0% 0% round 1.2rem)'
-    const peekPx = Math.max(40, 58 - stackDepth * 10)
-    return `inset(0% 0% calc(100% - ${peekPx}px) 0% round 1.1rem)`
-  })
-
-  const filter = useTransform(scrollProgress, (p) => {
-    const { phase, popT } = getDeckState(p, index, total)
-    if (phase === 'popping') return `blur(${popT * 5}px)`
-    return 'blur(0px)'
   })
 
   const zIndex = useTransform(scrollProgress, (p) => {
@@ -245,10 +231,8 @@ function ServiceDeckCard({
         scale,
         opacity,
         rotateZ: rotate,
-        filter,
         zIndex,
         pointerEvents,
-        clipPath,
       }}
     >
       <ServiceCard service={service} index={index} variant="deck" />
@@ -326,7 +310,7 @@ function ServicesVerticalStack({ items }: { items: typeof SERVICES }) {
     <div className="services-deck-panel relative mx-auto flex w-full max-w-[38rem] flex-col">
       <div className="mb-5 flex shrink-0 flex-wrap items-center justify-between gap-4 px-1">
         <p className="max-w-sm text-xs font-medium uppercase tracking-[0.14em] text-zinc-500">
-          Scroll in the stack — top card pops to reveal the next
+          Scroll or use dots — top card pops to reveal the next
         </p>
         <div className="flex items-center gap-2">
           <span className="text-xs font-medium tabular-nums text-zinc-500">
@@ -351,28 +335,30 @@ function ServicesVerticalStack({ items }: { items: typeof SERVICES }) {
         </div>
       </div>
 
-      <div
-        ref={scrollRef}
-        className="services-deck-scroll-inner relative min-h-0 flex-1 overflow-y-auto overscroll-contain rounded-2xl"
-        aria-label="Service cards stack — scroll to explore"
-      >
+      <div className="services-deck-frame mx-auto w-full">
         <div
-          ref={scrollTrackRef}
-          className="relative"
-          style={{ height: scrollTrackHeight }}
+          ref={scrollRef}
+          className="services-deck-scroll-inner relative overscroll-contain"
+          aria-label="Service cards stack — scroll to explore"
         >
-          <div className="sticky top-0 flex items-center justify-center px-3 py-4">
-            <div className="services-deck-stage services-deck-viewport relative w-full max-w-[30rem] sm:max-w-[32rem]">
-              {items.map((service, i) => (
-                <ServiceDeckCard
-                  key={service.id}
-                  service={service}
-                  index={i}
-                  total={total}
-                  scrollProgress={scrollYProgress}
-                  reducedMotion={reducedMotion}
-                />
-              ))}
+          <div
+            ref={scrollTrackRef}
+            className="relative"
+            style={{ height: scrollTrackHeight }}
+          >
+            <div className="services-deck-sticky sticky top-0 flex items-center justify-center pt-4 pb-5">
+              <div className="services-deck-stage services-deck-viewport relative w-full">
+                {items.map((service, i) => (
+                  <ServiceDeckCard
+                    key={service.id}
+                    service={service}
+                    index={i}
+                    total={total}
+                    scrollProgress={scrollYProgress}
+                    reducedMotion={reducedMotion}
+                  />
+                ))}
+              </div>
             </div>
           </div>
         </div>

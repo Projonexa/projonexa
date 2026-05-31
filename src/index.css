@@ -77,42 +77,63 @@
   }
 
   .services-deck-panel {
-    height: min(72vh, 620px);
-    max-height: 620px;
+    height: auto;
+  }
+
+  .services-deck-frame {
+    width: 100%;
+    border-radius: 1.25rem;
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    background: rgba(255, 255, 255, 0.22);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    box-shadow: 0 16px 40px -24px rgba(0, 0, 0, 0.15);
+    padding: 0.875rem 1rem 1rem;
+  }
+
+  .dark .services-deck-frame {
+    border-color: rgba(255, 255, 255, 0.08);
+    background: rgba(0, 0, 0, 0.28);
+    box-shadow: 0 20px 48px -24px rgba(0, 0, 0, 0.55);
+  }
+
+  .services-deck-scroll-inner {
+    height: 500px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    background: transparent;
+    border: none;
+  }
+
+  @media (min-width: 640px) {
+    .services-deck-scroll-inner {
+      height: 520px;
+    }
+  }
+
+  .services-deck-scroll-inner::-webkit-scrollbar {
+    display: none;
+    width: 0;
+    height: 0;
   }
 
   .services-deck-viewport {
-    height: 400px;
-    overflow: hidden;
+    min-height: 460px;
+    overflow: visible;
+    padding: 0.5rem 0 1.25rem;
   }
 
   @media (min-width: 640px) {
     .services-deck-viewport {
-      height: 420px;
+      min-height: 480px;
+      padding-bottom: 1.5rem;
     }
   }
 
-  .services-deck-scroll-inner {
-    border: 1px solid rgba(0, 0, 0, 0.05);
-    background: rgba(255, 255, 255, 0.18);
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
-    scrollbar-width: thin;
-    scrollbar-color: rgba(0, 200, 255, 0.35) transparent;
-  }
-
-  .dark .services-deck-scroll-inner {
-    border-color: rgba(255, 255, 255, 0.07);
-    background: rgba(0, 0, 0, 0.22);
-  }
-
-  .services-deck-scroll-inner::-webkit-scrollbar {
-    width: 4px;
-  }
-
-  .services-deck-scroll-inner::-webkit-scrollbar-thumb {
-    border-radius: 9999px;
-    background: rgba(0, 200, 255, 0.35);
+  .services-deck-sticky {
+    overflow: visible;
   }
 
   .services-deck-stage {
