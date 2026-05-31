@@ -122,6 +122,7 @@ export const FOUNDER = {
   linkedin: 'https://www.linkedin.com/in/nslokhande/',
   github: 'https://github.com/nikobuddy/',
   email: 'nisargalokhande@gmail.com',
+  location: 'Maharashtra, India',
   story: `Hi, I'm Nisarga Lokhande.
 
 Like many students, I once struggled to turn ideas into working projects — missing the right guidance, documentation, and technical support when it mattered most.
@@ -131,11 +132,23 @@ That experience led me to build Projonexa: a place where students, startups, and
 Our mission is simple: make innovation accessible to everyone.`,
 } as const
 
-export const VISION =
-  "To become the world's leading innovation platform connecting students, freelancers, startups, and businesses through technology-driven project development."
+export const VISION_MISSION_SECTION = {
+  eyebrow: 'Purpose',
+  title: 'Vision & Mission',
+  lead: 'Where we are headed — and how we help every client move from idea to shipped product.',
+} as const
 
-export const MISSION =
-  'To empower students and innovators by providing access to technical expertise, mentorship, development resources, and end-to-end project execution.'
+export const VISION = {
+  title: 'Our Vision',
+  statement:
+    "To become the world's leading innovation platform connecting students, freelancers, startups, and businesses through technology-driven project development.",
+} as const
+
+export const MISSION = {
+  title: 'Our Mission',
+  statement:
+    'To empower students and innovators by providing access to technical expertise, mentorship, development resources, and end-to-end project execution.',
+} as const
 
 export const STATS_SECTION = {
   eyebrow: 'Impact',
