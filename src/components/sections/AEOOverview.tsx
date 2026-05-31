@@ -8,7 +8,7 @@ import { SectionHeading } from '@/components/ui/SectionHeading'
 export function AEOOverview() {
   return (
     <section
-      className="section-padding section-alt"
+      className="section-padding section-surface"
       aria-labelledby="aeo-overview-heading"
     >
       <div className="container-wide">

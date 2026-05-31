@@ -32,7 +32,7 @@ export function Stats() {
   const { ref, inView } = useInView()
 
   return (
-    <section ref={ref} className="section-padding section-alt">
+    <section ref={ref} className="section-padding section-surface">
       <div className="container-wide">
         <SectionHeading
           eyebrow="Impact"

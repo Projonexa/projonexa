@@ -8,7 +8,7 @@ export function Founder() {
   const storyParagraphs = FOUNDER.story.split('\n\n')
 
   return (
-    <section className="section-padding section-alt">
+    <section className="section-padding section-surface">
       <div className="container-wide">
         <SectionHeading
           eyebrow="Founder"
@@ -62,7 +62,7 @@ export function Founder() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.08 }}
-                className="flex items-start gap-4 rounded-2xl border border-black/5 bg-white p-5 dark:border-white/[0.08] dark:bg-surface-card"
+                className="glass flex items-start gap-4 rounded-2xl p-5"
               >
                 <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-brand-primary/15 text-brand-primary">
                   <Award className="h-5 w-5" />
