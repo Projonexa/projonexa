@@ -11,6 +11,10 @@ interface ServicesGridProps {
 }
 
 const easeSmooth = [0.22, 1, 0.36, 1] as const
+const STICKY_TOP_PX = 112
+const STACK_OFFSET_PX = 14
+
+type SlideDirection = 'left' | 'right'
 
 function ServiceCard({
   service,
@@ -40,12 +44,20 @@ function ServiceCard({
           aria-hidden
         />
 
-        <span
-          className="pointer-events-none absolute -right-1 -top-3 select-none text-[4.5rem] font-bold leading-none tabular-nums text-black/[0.04] dark:text-white/[0.05]"
+        <div
+          className="pointer-events-none absolute right-4 top-4 flex flex-col items-end sm:right-5 sm:top-5"
           aria-hidden
         >
-          {indexLabel}
-        </span>
+          <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-zinc-400 dark:text-zinc-500">
+            Service
+          </span>
+          <span
+            className="mt-0.5 text-4xl font-bold leading-none tabular-nums tracking-tight sm:text-[2.75rem]"
+            style={{ color: `${accent}4d` }}
+          >
+            {indexLabel}
+          </span>
+        </div>
 
         <div
           className="pointer-events-none absolute -left-8 top-1/2 h-32 w-32 -translate-y-1/2 rounded-full opacity-0 blur-3xl transition-opacity duration-500 group-hover:opacity-100"
@@ -53,7 +65,7 @@ function ServiceCard({
           aria-hidden
         />
 
-        <div className="relative flex flex-col p-5 sm:p-6">
+        <div className="relative flex flex-col p-5 pr-16 sm:p-6 sm:pr-20">
           <div className="mb-4 flex items-start gap-3">
             <div
               className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl ring-1 ring-black/[0.06] transition-transform duration-300 group-hover:scale-105 dark:ring-white/[0.08]"
@@ -65,13 +77,7 @@ function ServiceCard({
               <Icon className="h-5 w-5" style={{ color: accent }} strokeWidth={2} aria-hidden />
             </div>
             <div className="min-w-0 flex-1 pt-0.5">
-              <span
-                className="inline-flex rounded-md px-2 py-0.5 text-[10px] font-bold tabular-nums tracking-widest"
-                style={{ color: accent, backgroundColor: `${accent}18` }}
-              >
-                {indexLabel}
-              </span>
-              <h3 className="mt-2 text-base font-semibold leading-snug text-zinc-900 transition-colors duration-300 group-hover:text-brand-mid dark:text-white dark:group-hover:text-brand-accent sm:text-lg">
+              <h3 className="text-base font-semibold leading-snug text-zinc-900 transition-colors duration-300 group-hover:text-brand-mid dark:text-white dark:group-hover:text-brand-accent sm:text-lg">
                 {service.title}
               </h3>
             </div>
@@ -102,55 +108,54 @@ function ServiceCard({
   )
 }
 
+function getSlideMotion(direction: SlideDirection, reducedMotion: boolean) {
+  if (reducedMotion) {
+    return {
+      hidden: { opacity: 0, y: 16 },
+      visible: { opacity: 1, y: 0 },
+    }
+  }
+  const x = direction === 'right' ? 72 : -72
+  return {
+    hidden: { opacity: 0, x, scale: 0.96, filter: 'blur(10px)' },
+    visible: { opacity: 1, x: 0, scale: 1, filter: 'blur(0px)' },
+  }
+}
+
 function ServiceCardSlide({
   service,
   index,
-  isLast,
+  direction,
   reducedMotion,
 }: {
   service: (typeof SERVICES)[number]
   index: number
-  isLast: boolean
+  direction: SlideDirection
   reducedMotion: boolean
 }) {
   const ref = useRef<HTMLDivElement>(null)
-  const inView = useInView(ref, { amount: 0.4, margin: '0px 0px -14% 0px' })
+  const inView = useInView(ref, { amount: 0.32, margin: '0px 0px -18% 0px' })
   const [opened, setOpened] = useState(false)
 
   useEffect(() => {
     if (inView) setOpened(true)
   }, [inView])
 
-  const hidden = reducedMotion
-    ? { opacity: 0, y: 12 }
-    : { opacity: 0, x: 48, scale: 0.97, filter: 'blur(10px)' }
-  const visible = reducedMotion
-    ? { opacity: 1, y: 0 }
-    : { opacity: 1, x: 0, scale: 1, filter: 'blur(0px)' }
+  const motionStates = getSlideMotion(direction, reducedMotion)
 
   return (
-    <div
+    <motion.div
       ref={ref}
-      id={`service-card-${index}`}
-      data-service-index={index}
-      data-in-view={inView ? 'true' : 'false'}
-      className="services-snap-item relative scroll-mt-28"
+      initial={motionStates.hidden}
+      animate={opened ? motionStates.visible : motionStates.hidden}
+      transition={{ duration: reducedMotion ? 0.22 : 0.65, ease: easeSmooth }}
+      className="w-full will-change-transform"
+      style={{
+        transformOrigin: direction === 'right' ? 'center right' : 'center left',
+      }}
     >
-      <motion.div
-        initial={hidden}
-        animate={opened ? visible : hidden}
-        transition={{ duration: reducedMotion ? 0.2 : 0.6, ease: easeSmooth }}
-        className="w-full origin-top"
-      >
-        <ServiceCard service={service} index={index} />
-      </motion.div>
-
-      {!isLast && (
-        <div className="flex justify-center py-8 lg:py-10" aria-hidden>
-          <div className="h-12 w-px bg-gradient-to-b from-brand-primary/55 via-brand-mid/35 to-transparent" />
-        </div>
-      )}
-    </div>
+      <ServiceCard service={service} index={index} />
+    </motion.div>
   )
 }
 
@@ -177,7 +182,7 @@ function ServicesVerticalStack({ items }: { items: typeof SERVICES }) {
         const idx = Number((best.target as HTMLElement).dataset.serviceIndex)
         if (!Number.isNaN(idx)) setActiveIndex(idx)
       },
-      { threshold: [0.2, 0.35, 0.5, 0.65, 0.8], rootMargin: '-18% 0px -28% 0px' },
+      { threshold: [0.15, 0.3, 0.45, 0.6], rootMargin: '-20% 0px -32% 0px' },
     )
 
     cards.forEach((el) => observer.observe(el))
@@ -185,7 +190,7 @@ function ServicesVerticalStack({ items }: { items: typeof SERVICES }) {
   }, [items.length])
 
   const scrollToCard = useCallback((index: number) => {
-    document.getElementById(`service-card-${index}`)?.scrollIntoView({
+    document.getElementById(`service-stack-${index}`)?.scrollIntoView({
       behavior: 'smooth',
       block: 'start',
     })
@@ -193,9 +198,9 @@ function ServicesVerticalStack({ items }: { items: typeof SERVICES }) {
 
   return (
     <div ref={stackRef} className="relative w-full">
-      <div className="mb-6 flex flex-wrap items-center justify-between gap-4">
-        <p className="text-xs font-medium uppercase tracking-[0.14em] text-zinc-500">
-          Scroll — each service card opens as the next one appears below
+      <div className="mb-8 flex flex-wrap items-center justify-between gap-4">
+        <p className="max-w-xs text-xs font-medium uppercase tracking-[0.14em] text-zinc-500">
+          Scroll — cards stack and open · alternating left and right
         </p>
         <div className="flex items-center gap-2">
           <span className="text-xs font-medium tabular-nums text-zinc-500">
@@ -220,17 +225,40 @@ function ServicesVerticalStack({ items }: { items: typeof SERVICES }) {
         </div>
       </div>
 
-      <div className="flex flex-col gap-0">
-        {items.map((service, i) => (
-          <ServiceCardSlide
-            key={service.id}
-            service={service}
-            index={i}
-            isLast={i === items.length - 1}
-            reducedMotion={reducedMotion}
-          />
-        ))}
+      <div className="relative pb-4">
+        {items.map((service, i) => {
+          const direction: SlideDirection = i % 2 === 0 ? 'right' : 'left'
+          const isLast = i === items.length - 1
+          const stickyTop = STICKY_TOP_PX + i * STACK_OFFSET_PX
+
+          return (
+            <div
+              key={service.id}
+              id={`service-stack-${i}`}
+              data-service-index={i}
+              className="services-stack-layer relative"
+              style={{
+                zIndex: i + 1,
+                minHeight: isLast ? undefined : 'min(58vh, 520px)',
+              }}
+            >
+              <div
+                className="sticky shadow-[0_28px_60px_-28px_rgba(0,0,0,0.35)] dark:shadow-[0_28px_60px_-28px_rgba(0,0,0,0.65)]"
+                style={{ top: stickyTop }}
+              >
+                <ServiceCardSlide
+                  service={service}
+                  index={i}
+                  direction={direction}
+                  reducedMotion={reducedMotion}
+                />
+              </div>
+            </div>
+          )
+        })}
       </div>
+
+      <div className="h-16 sm:h-24" aria-hidden />
     </div>
   )
 }

@@ -76,8 +76,24 @@
     @apply sm:px-10 sm:py-10;
   }
 
-  .services-snap-item {
+  .services-stack-layer {
     scroll-margin-top: 7rem;
+  }
+
+  .services-stack-layer:not(:first-child) {
+    margin-top: -4.5rem;
+  }
+
+  @media (min-width: 640px) {
+    .services-stack-layer:not(:first-child) {
+      margin-top: -5.5rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .services-stack-layer:not(:first-child) {
+      margin-top: -6rem;
+    }
   }
 
   .dark .section-heading-panel {
