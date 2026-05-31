@@ -1,10 +1,11 @@
-import type { ReactNode } from 'react'
-import { Link } from 'react-router-dom'
-import { Github, Linkedin, Mail, MapPin } from 'lucide-react'
 import { BRAND, FOUNDER } from '@/data/brand'
-import { FOOTER_LINKS } from '@/data/navigation'
+import { Github, Linkedin, Mail, MapPin } from 'lucide-react'
+
 import { BrandWordmark } from '@/components/ui/BrandWordmark'
+import { FOOTER_LINKS } from '@/data/navigation'
+import { Link } from 'react-router-dom'
 import { Logo } from '@/components/ui/Logo'
+import type { ReactNode } from 'react'
 
 function FooterColumn({ title, children }: { title: string; children: ReactNode }) {
   return (
