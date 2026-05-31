@@ -8,6 +8,20 @@ import {
   AEO_HIGHLIGHTS,
   AEO_SECTION,
 } from '@/data/brand'
+import { useReducedMotion } from '@/hooks/useReducedMotion'
+
+const easeSmooth = [0.22, 1, 0.36, 1] as const
+
+const panelTransition = {
+  height: { duration: 0.42, ease: easeSmooth },
+  opacity: { duration: 0.28, ease: easeSmooth },
+}
+
+const answerContentTransition = {
+  duration: 0.38,
+  ease: easeSmooth,
+  delay: 0.06,
+}
 
 function FaqItem({
   index,
@@ -22,66 +36,121 @@ function FaqItem({
   isOpen: boolean
   onToggle: () => void
 }) {
+  const reducedMotion = useReducedMotion()
+
   return (
-    <article
-      className={`glass overflow-hidden rounded-2xl transition-shadow duration-300 ${
-        isOpen ? 'shadow-glow-sm ring-1 ring-brand-primary/20' : ''
+    <motion.article
+      layout={!reducedMotion}
+      initial={false}
+      animate={{
+        boxShadow: isOpen
+          ? '0 0 30px -8px rgba(0, 200, 255, 0.25)'
+          : '0 0 0 0 rgba(0, 0, 0, 0)',
+      }}
+      transition={{ duration: 0.35, ease: easeSmooth }}
+      className={`glass overflow-hidden rounded-2xl ${
+        isOpen ? 'ring-1 ring-brand-primary/25' : 'ring-1 ring-transparent'
       }`}
       itemScope
       itemType="https://schema.org/Question"
     >
-      <button
+      <motion.button
         type="button"
         onClick={onToggle}
-        className="flex w-full items-start gap-4 px-5 py-5 text-left sm:px-6"
         aria-expanded={isOpen}
         aria-controls={`aeo-answer-${index}`}
         id={`aeo-q-${index}`}
+        className="relative flex w-full items-start gap-4 overflow-hidden px-5 py-5 text-left sm:px-6"
+        whileTap={reducedMotion ? undefined : { scale: 0.985 }}
+        transition={{ type: 'spring', stiffness: 420, damping: 26 }}
       >
-        <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-brand-primary/10 text-xs font-bold tabular-nums text-brand-mid dark:text-brand-accent">
+        <motion.span
+          aria-hidden
+          className="pointer-events-none absolute inset-0 bg-brand-primary/0"
+          animate={{
+            backgroundColor: isOpen
+              ? 'rgba(0, 200, 255, 0.06)'
+              : 'rgba(0, 200, 255, 0)',
+          }}
+          transition={{ duration: 0.3 }}
+        />
+
+        <motion.span
+          className="relative mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-xs font-bold tabular-nums"
+          animate={{
+            scale: isOpen ? 1.05 : 1,
+            backgroundColor: isOpen
+              ? 'rgba(0, 200, 255, 0.22)'
+              : 'rgba(0, 200, 255, 0.1)',
+            color: isOpen ? '#00c8ff' : undefined,
+          }}
+          whileTap={reducedMotion ? undefined : { scale: 0.92 }}
+          transition={{ type: 'spring', stiffness: 380, damping: 22 }}
+        >
           {String(index + 1).padStart(2, '0')}
-        </span>
-        <span className="min-w-0 flex-1">
+        </motion.span>
+
+        <span className="relative min-w-0 flex-1">
           <h3
-            className="text-base font-semibold leading-snug text-zinc-900 dark:text-white sm:text-lg"
+            className={`text-base font-semibold leading-snug transition-colors duration-300 sm:text-lg ${
+              isOpen ? 'text-brand-mid dark:text-brand-accent' : 'text-zinc-900 dark:text-white'
+            }`}
             itemProp="name"
           >
             {question}
           </h3>
         </span>
-        <ChevronDown
-          className={`mt-1 h-5 w-5 shrink-0 text-zinc-500 transition-transform duration-300 ${
-            isOpen ? 'rotate-180 text-brand-primary' : ''
-          }`}
-          aria-hidden
-        />
-      </button>
+
+        <motion.span
+          className="relative mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-black/[0.06] bg-white/50 dark:border-white/[0.08] dark:bg-black/40"
+          animate={{
+            rotate: isOpen ? 180 : 0,
+            borderColor: isOpen ? 'rgba(0, 200, 255, 0.35)' : 'rgba(0, 0, 0, 0.06)',
+          }}
+          transition={{ duration: 0.38, ease: easeSmooth }}
+          whileTap={reducedMotion ? undefined : { scale: 0.88 }}
+        >
+          <ChevronDown
+            className={`h-4 w-4 transition-colors duration-300 ${
+              isOpen ? 'text-brand-primary' : 'text-zinc-500'
+            }`}
+            aria-hidden
+          />
+        </motion.span>
+      </motion.button>
 
       <AnimatePresence initial={false}>
         {isOpen && (
           <motion.div
             id={`aeo-answer-${index}`}
+            key="panel"
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+            transition={panelTransition}
             className="overflow-hidden"
             itemScope
             itemProp="acceptedAnswer"
             itemType="https://schema.org/Answer"
           >
-            <div className="border-t border-black/[0.05] px-5 pb-5 pt-4 dark:border-white/[0.06] sm:px-6 sm:pb-6">
+            <motion.div
+              initial={reducedMotion ? false : { y: -10, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              exit={reducedMotion ? undefined : { y: -6, opacity: 0 }}
+              transition={answerContentTransition}
+              className="border-t border-brand-primary/15 bg-brand-primary/[0.04] px-5 pb-5 pt-4 dark:border-brand-primary/20 dark:bg-brand-primary/[0.06] sm:px-6 sm:pb-6"
+            >
               <p
                 className="text-sm leading-relaxed text-zinc-600 dark:text-zinc-400 sm:text-base"
                 itemProp="text"
               >
                 {answer}
               </p>
-            </div>
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
-    </article>
+    </motion.article>
   )
 }
 
