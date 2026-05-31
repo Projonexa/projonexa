@@ -148,7 +148,7 @@ export const PAGE_SEO: Record<string, PageSEO> = {
   contact: {
     title: `Contact ${BRAND.name} | Start Your Project — ${GEO.region}, ${GEO.country}`,
     description:
-      'Contact Projonexa for final year projects, AI/ML, and startup MVPs. Email nisargalokhande@gmail.com — response within 24 hours. Serving students & clients across India and globally.',
+      'Contact Projonexa for final year projects, mini projects, AI/ML, web & mobile apps, IoT, and startup MVPs. Submit an inquiry — response within 24 hours across India and globally.',
     keywords: [...BASE_KEYWORDS, 'contact projonexa', 'project inquiry India'],
     path: '/contact',
     breadcrumb: [{ name: 'Contact', path: '/contact' }],

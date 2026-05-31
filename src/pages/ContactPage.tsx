@@ -1,137 +1,173 @@
-import { useState, type FormEvent } from 'react'
+import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { Mail, MapPin, Phone } from 'lucide-react'
+import {
+  ArrowUpRight,
+  Check,
+  Clock,
+  Mail,
+  MapPin,
+  MessageSquare,
+} from 'lucide-react'
+import { ContactForm } from '@/components/contact/ContactForm'
 import { SEO } from '@/components/seo/SEO'
 import { PageHeader } from '@/components/ui/PageHeader'
+import { CTA } from '@/components/sections/CTA'
 import { Button } from '@/components/ui/Button'
-import { FOUNDER } from '@/data/brand'
+import {
+  CONTACT_EMAIL,
+  CONTACT_FORM_HINTS,
+  CONTACT_INFO_CARDS,
+  CONTACT_QUICK_LINKS,
+  CONTACT_SECTION,
+} from '@/data/contact'
 import { PAGE_SEO } from '@/data/seo'
 
+const easeSmooth = [0.22, 1, 0.36, 1] as const
+
+const INFO_ICONS = {
+  email: Mail,
+  location: MapPin,
+  response: Clock,
+} as const
+
 export function ContactPage() {
-  const [submitted, setSubmitted] = useState(false)
-
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    const form = e.currentTarget
-    const data = new FormData(form)
-    const name = data.get('name') as string
-    const email = data.get('email') as string
-    const subject = data.get('subject') as string
-    const message = data.get('message') as string
-    const body = encodeURIComponent(
-      `Name: ${name}\nEmail: ${email}\n\n${message}`,
-    )
-    window.location.href = `mailto:${FOUNDER.email}?subject=${encodeURIComponent(subject)}&body=${body}`
-    setSubmitted(true)
-  }
-
   return (
     <>
       <SEO seo={PAGE_SEO.contact} />
       <PageHeader
-        eyebrow="Contact"
-        title="Let's Build Your Next Project"
-        description="Tell us about your idea, timeline, and requirements. Our team responds within 24 hours."
+        eyebrow={CONTACT_SECTION.eyebrow}
+        title={CONTACT_SECTION.title}
+        description={CONTACT_SECTION.lead}
       />
-      <section className="section-padding">
-        <div className="container-wide grid gap-12 lg:grid-cols-2">
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            className="space-y-6"
-          >
-            <div className="glass rounded-2xl p-6">
-              <Mail className="h-6 w-6 text-brand-primary" />
-              <h3 className="mt-3 font-semibold text-zinc-900 dark:text-white">Email</h3>
-              <a
-                href={`mailto:${FOUNDER.email}`}
-                className="mt-1 text-sm text-brand-primary hover:underline"
-              >
-                {FOUNDER.email}
-              </a>
-            </div>
-            <div className="glass rounded-2xl p-6">
-              <MapPin className="h-6 w-6 text-brand-primary" />
-              <h3 className="mt-3 font-semibold text-zinc-900 dark:text-white">Location</h3>
-              <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">{FOUNDER.location}</p>
-            </div>
-            <div className="glass rounded-2xl p-6">
-              <Phone className="h-6 w-6 text-brand-primary" />
-              <h3 className="mt-3 font-semibold text-zinc-900 dark:text-white">Response Time</h3>
-              <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
-                We typically respond within 24 hours on business days.
-              </p>
-            </div>
-          </motion.div>
 
-          <motion.form
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            onSubmit={handleSubmit}
-            className="glass space-y-5 rounded-2xl p-8"
-          >
-            <div>
-              <label htmlFor="name" className="mb-1.5 block text-sm font-medium">
-                Full Name
-              </label>
-              <input
-                id="name"
-                name="name"
-                required
-                className="w-full rounded-xl border border-black/10 bg-white px-4 py-3 text-sm text-zinc-900 outline-none focus:border-brand-primary dark:border-white/[0.08] dark:bg-surface-card dark:text-zinc-100 dark:placeholder:text-zinc-500"
-                placeholder="Your name"
-              />
-            </div>
-            <div>
-              <label htmlFor="email" className="mb-1.5 block text-sm font-medium">
-                Email
-              </label>
-              <input
-                id="email"
-                name="email"
-                type="email"
-                required
-                className="w-full rounded-xl border border-black/10 bg-white px-4 py-3 text-sm text-zinc-900 outline-none focus:border-brand-primary dark:border-white/[0.08] dark:bg-surface-card dark:text-zinc-100 dark:placeholder:text-zinc-500"
-                placeholder="you@university.edu"
-              />
-            </div>
-            <div>
-              <label htmlFor="subject" className="mb-1.5 block text-sm font-medium">
-                Project Type
-              </label>
-              <select
-                id="subject"
-                name="subject"
-                required
-                className="w-full rounded-xl border border-black/10 bg-white px-4 py-3 text-sm text-zinc-900 outline-none focus:border-brand-primary dark:border-white/[0.08] dark:bg-surface-card dark:text-zinc-100 dark:placeholder:text-zinc-500"
-              >
-                <option value="Final Year Project Inquiry">Final Year Project</option>
-                <option value="Mini Project Inquiry">Mini Project</option>
-                <option value="AI/ML Project Inquiry">AI / ML Project</option>
-                <option value="Startup MVP Inquiry">Startup MVP</option>
-                <option value="Custom Software Inquiry">Custom Software</option>
-                <option value="Other Inquiry">Other</option>
-              </select>
-            </div>
-            <div>
-              <label htmlFor="message" className="mb-1.5 block text-sm font-medium">
-                Project Details
-              </label>
-              <textarea
-                id="message"
-                name="message"
-                required
-                rows={5}
-                className="w-full resize-none rounded-xl border border-black/10 bg-white px-4 py-3 text-sm text-zinc-900 outline-none focus:border-brand-primary dark:border-white/[0.08] dark:bg-surface-card dark:text-zinc-100 dark:placeholder:text-zinc-500"
-                placeholder="Describe your project idea, deadline, and requirements..."
-              />
-            </div>
-            <Button type="submit" variant="primary" className="w-full">
-              {submitted ? 'Opening Email Client...' : 'Send Inquiry'}
-            </Button>
-          </motion.form>
+      <section className="section-padding border-b border-black/[0.04] bg-zinc-50/50 dark:border-white/[0.04] dark:bg-transparent">
+        <div className="container-wide">
+          <div className="mx-auto grid max-w-6xl gap-10 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)] lg:items-start lg:gap-14">
+            <motion.aside
+              initial={{ opacity: 0, x: -16 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5, ease: easeSmooth }}
+              className="lg:sticky lg:top-28"
+            >
+              <div className="contact-sidebar-panel relative overflow-hidden rounded-3xl border border-black/[0.07] p-6 sm:p-8">
+                <div
+                  aria-hidden
+                  className="pointer-events-none absolute inset-0 bg-gradient-to-br from-brand-primary/[0.05] via-transparent to-brand-secondary/[0.06]"
+                />
+
+                <div className="relative">
+                  <p className="text-xs font-semibold uppercase tracking-[0.18em] text-brand-primary dark:text-brand-accent">
+                    Get in touch
+                  </p>
+                  <h2 className="mt-3 text-xl font-bold text-zinc-900 dark:text-white sm:text-2xl">
+                    We&apos;re here to help
+                  </h2>
+                  <p className="mt-3 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
+                    Whether you&apos;re a student with a submission deadline or a startup planning
+                    an MVP — share context upfront so we can respond with the right scope and
+                    timeline.
+                  </p>
+
+                  <div className="mt-8 space-y-4">
+                    {CONTACT_INFO_CARDS.map((card) => {
+                      const Icon = INFO_ICONS[card.id]
+                      const inner = (
+                        <>
+                          <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-brand-primary/20 bg-brand-primary/10 text-brand-primary">
+                            <Icon className="h-4 w-4" strokeWidth={2} aria-hidden />
+                          </span>
+                          <div className="min-w-0">
+                            <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-zinc-500 dark:text-zinc-400">
+                              {card.title}
+                            </p>
+                            <p className="mt-0.5 text-sm font-bold text-zinc-900 dark:text-white">
+                              {card.detail}
+                            </p>
+                            <p className="mt-1 text-xs leading-relaxed text-zinc-600 dark:text-zinc-400">
+                              {card.description}
+                            </p>
+                          </div>
+                        </>
+                      )
+
+                      return card.href ? (
+                        <a
+                          key={card.id}
+                          href={card.href}
+                          className="contact-info-card flex gap-3 rounded-2xl border border-black/[0.06] bg-white/50 p-4 transition-colors hover:border-brand-primary/25 dark:border-white/[0.08] dark:bg-white/[0.03] dark:hover:border-brand-primary/20"
+                        >
+                          {inner}
+                        </a>
+                      ) : (
+                        <div
+                          key={card.id}
+                          className="contact-info-card flex gap-3 rounded-2xl border border-black/[0.06] bg-white/50 p-4 dark:border-white/[0.08] dark:bg-white/[0.03]"
+                        >
+                          {inner}
+                        </div>
+                      )
+                    })}
+                  </div>
+
+                  <div className="mt-8 rounded-2xl border border-black/[0.06] bg-white/40 p-4 dark:border-white/[0.08] dark:bg-black/30">
+                    <p className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.14em] text-zinc-500 dark:text-zinc-400">
+                      <MessageSquare className="h-3.5 w-3.5 text-brand-primary" aria-hidden />
+                      Include in your message
+                    </p>
+                    <ul className="mt-3 space-y-2">
+                      {CONTACT_FORM_HINTS.map((hint) => (
+                        <li
+                          key={hint}
+                          className="flex items-start gap-2 text-xs leading-relaxed text-zinc-700 dark:text-zinc-300 sm:text-sm"
+                        >
+                          <Check
+                            className="mt-0.5 h-3.5 w-3.5 shrink-0 text-brand-primary"
+                            aria-hidden
+                          />
+                          {hint}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  <div className="mt-8 flex flex-wrap gap-2">
+                    {CONTACT_QUICK_LINKS.map((link) => (
+                      <Link
+                        key={link.path}
+                        to={link.path}
+                        className="rounded-full border border-black/[0.08] bg-white/60 px-3 py-1.5 text-xs font-semibold text-zinc-700 transition-colors hover:border-brand-primary/30 hover:text-brand-primary dark:border-white/[0.1] dark:bg-white/[0.05] dark:text-zinc-300 dark:hover:text-brand-accent"
+                      >
+                        {link.label}
+                      </Link>
+                    ))}
+                  </div>
+
+                  <Button
+                    href={`mailto:${CONTACT_EMAIL}`}
+                    variant="secondary"
+                    className="mt-8 w-full"
+                  >
+                    <Mail className="h-4 w-4" aria-hidden />
+                    Email directly
+                    <ArrowUpRight className="h-3.5 w-3.5 opacity-80" aria-hidden />
+                  </Button>
+                </div>
+              </div>
+            </motion.aside>
+
+            <motion.div
+              initial={{ opacity: 0, x: 16 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5, delay: 0.06, ease: easeSmooth }}
+              className="min-w-0"
+            >
+              <ContactForm />
+            </motion.div>
+          </div>
         </div>
       </section>
+
+      <CTA />
     </>
   )
 }
