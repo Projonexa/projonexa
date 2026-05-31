@@ -102,6 +102,42 @@
     isolation: isolate;
   }
 
+  .tech-cloud-glow-ring {
+    border-color: rgba(0, 200, 255, 0.12);
+    box-shadow: inset 0 0 60px rgba(0, 200, 255, 0.06);
+  }
+
+  .tech-cloud-active .tech-cloud-glow-ring {
+    border-color: rgba(0, 200, 255, 0.55);
+    box-shadow:
+      0 0 48px rgba(0, 200, 255, 0.28),
+      inset 0 0 80px rgba(0, 200, 255, 0.14);
+    animation: tech-cloud-pulse 2.2s ease-in-out infinite;
+  }
+
+  .tech-cloud-active .tech-cloud-ambient > div {
+    opacity: 1;
+    filter: blur(72px);
+  }
+
+  .tech-icon-cloud-root.tech-cloud-active canvas {
+    filter: drop-shadow(0 0 28px rgba(0, 200, 255, 0.35));
+  }
+
+  @keyframes tech-cloud-pulse {
+    0%,
+    100% {
+      box-shadow:
+        0 0 40px rgba(0, 200, 255, 0.22),
+        inset 0 0 70px rgba(0, 200, 255, 0.1);
+    }
+    50% {
+      box-shadow:
+        0 0 56px rgba(0, 200, 255, 0.38),
+        inset 0 0 90px rgba(0, 200, 255, 0.18);
+    }
+  }
+
   .service-card-deck-surface {
     background: rgba(255, 255, 255, 0.92);
     backdrop-filter: blur(20px);

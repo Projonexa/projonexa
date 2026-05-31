@@ -189,8 +189,19 @@ export const ICON_CLOUD_SLUGS = [
 
 const ICON_CLOUD_SLUG_SET = new Set<string>(ICON_CLOUD_SLUGS)
 
+/** Panel slug → cloud slug when Simple Icons names differ */
+const PANEL_SLUG_TO_CLOUD: Partial<Record<string, string>> = {
+  'react-native': 'react',
+  sonarqube: 'sonarqubecloud',
+  'testing-library': 'testinglibrary',
+  'firebase-db': 'firebase',
+}
+
 /** Slug used in the 3D icon cloud for a panel tech item, if present */
 export function getIconCloudSlug(tech: TechItem): string | null {
+  const mapped = PANEL_SLUG_TO_CLOUD[tech.id] ?? PANEL_SLUG_TO_CLOUD[tech.slug]
+  if (mapped && ICON_CLOUD_SLUG_SET.has(mapped)) return mapped
+
   const candidates = [tech.slug, tech.lightModeSlug].filter(Boolean) as string[]
   for (const slug of candidates) {
     if (ICON_CLOUD_SLUG_SET.has(slug)) return slug

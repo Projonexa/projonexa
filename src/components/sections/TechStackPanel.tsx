@@ -101,7 +101,9 @@ export function TechStackPanel({ onTechHover }: TechStackPanelProps) {
     <div
       className="tech-stack-premium relative overflow-hidden rounded-3xl shadow-[0_20px_60px_-24px_rgba(0,200,255,0.2)] dark:shadow-[0_20px_60px_-24px_rgba(0,200,255,0.12)]"
       onMouseEnter={() => setPaused(true)}
-      onMouseLeave={() => {
+      onMouseLeave={(e) => {
+        const next = e.relatedTarget as Node | null
+        if (next && e.currentTarget.contains(next)) return
         setPaused(false)
         emitHover(null)
       }}
@@ -239,7 +241,14 @@ export function TechStackPanel({ onTechHover }: TechStackPanelProps) {
             </div>
           </div>
 
-          <div className="relative z-[2] px-3.5 pb-3.5 sm:px-4 sm:pb-4">
+          <div
+            className="relative z-[2] px-3.5 pb-3.5 sm:px-4 sm:pb-4"
+            onMouseLeave={(e) => {
+              const next = e.relatedTarget as Node | null
+              if (next && e.currentTarget.contains(next)) return
+              emitHover(null)
+            }}
+          >
             <AnimatePresence mode="wait">
               <motion.div
                 key={active.id}
@@ -275,8 +284,18 @@ export function TechStackPanel({ onTechHover }: TechStackPanelProps) {
           />
 
           <div className={`space-y-2 ${paused ? 'tech-marquee-paused' : ''}`}>
-            <MarqueeRow items={marqueeRowA} direction="left" speed={MARQUEE_SPEED_LEFT} />
-            <MarqueeRow items={marqueeRowB} direction="right" speed={MARQUEE_SPEED_RIGHT} />
+            <MarqueeRow
+              items={marqueeRowA}
+              direction="left"
+              speed={MARQUEE_SPEED_LEFT}
+              onHover={emitHover}
+            />
+            <MarqueeRow
+              items={marqueeRowB}
+              direction="right"
+              speed={MARQUEE_SPEED_RIGHT}
+              onHover={emitHover}
+            />
           </div>
         </div>
       </div>
@@ -304,8 +323,6 @@ function CompactTechTile({
       transition={{ delay: index * 0.025, duration: 0.28 }}
       onMouseEnter={() => onHover(tech.id)}
       onFocus={() => onHover(tech.id)}
-      onMouseLeave={() => onHover(null)}
-      onBlur={() => onHover(null)}
       tabIndex={0}
       title={tech.name}
       className="group relative outline-none"
@@ -336,10 +353,12 @@ function MarqueeRow({
   items,
   direction,
   speed,
+  onHover,
 }: {
   items: TechItem[]
   direction: 'left' | 'right'
   speed: number
+  onHover?: (id: string | null) => void
 }) {
   return (
     <div className="flex overflow-hidden">
@@ -352,7 +371,8 @@ function MarqueeRow({
         {[...items, ...items].map((tech, i) => (
           <div
             key={`${tech.id}-${i}`}
-            className="flex shrink-0 items-center gap-2 rounded-full border border-black/[0.06] bg-white/55 px-2.5 py-1 backdrop-blur-md dark:border-white/[0.08] dark:bg-black/45"
+            onMouseEnter={() => onHover?.(tech.id)}
+            className="flex shrink-0 cursor-default items-center gap-2 rounded-full border border-black/[0.06] bg-white/55 px-2.5 py-1 backdrop-blur-md transition-colors duration-300 hover:border-brand-primary/30 hover:bg-white/80 dark:border-white/[0.08] dark:bg-black/45 dark:hover:border-brand-primary/35"
           >
             <TechLogo tech={tech} size="sm" className="h-4 w-4" />
             <span className="whitespace-nowrap text-[10px] font-medium text-zinc-600 dark:text-zinc-400">

@@ -75,7 +75,11 @@ export function TechnologyShowcase() {
             transition={{ duration: 0.55, delay: 0.08, ease: easeSmooth }}
             className="flex w-full min-w-0 items-center justify-center lg:sticky lg:top-28 lg:min-h-[520px]"
           >
-            <TechIconCloud variant="side" highlightSlug={highlightSlug} />
+            <TechIconCloud
+              variant="side"
+              highlightSlug={highlightSlug}
+              highlightLabel={hoveredTech?.name ?? null}
+            />
           </motion.div>
         </div>
       </div>
