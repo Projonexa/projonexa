@@ -76,29 +76,8 @@
     @apply sm:px-10 sm:py-10;
   }
 
-  .services-scroll-stack {
-    scroll-snap-type: y mandatory;
-    scroll-behavior: smooth;
-    scrollbar-width: thin;
-    scrollbar-color: rgba(0, 200, 255, 0.4) transparent;
-  }
-
-  .services-scroll-stack::-webkit-scrollbar {
-    width: 5px;
-  }
-
-  .services-scroll-stack::-webkit-scrollbar-track {
-    background: transparent;
-  }
-
-  .services-scroll-stack::-webkit-scrollbar-thumb {
-    border-radius: 9999px;
-    background: rgba(0, 200, 255, 0.35);
-  }
-
   .services-snap-item {
-    scroll-snap-align: start;
-    scroll-snap-stop: always;
+    scroll-margin-top: 7rem;
   }
 
   .dark .section-heading-panel {
