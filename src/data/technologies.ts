@@ -20,6 +20,22 @@ export interface TechItem {
   lightModeSlug?: string
 }
 
+export const TECH_SECTION = {
+  eyebrow: 'Technology',
+  title: 'Built With Industry-Leading Stack',
+  lead: 'Modern technologies across frontend, AI, cloud, IoT, and more — powering projects for students and clients worldwide.',
+  body: 'We align every build with your syllabus, startup roadmap, or enterprise requirement — from React and Next.js to TensorFlow, AWS, and embedded systems — with documented delivery and mentor support.',
+} as const
+
+export const TECH_HIGHLIGHTS = [
+  { label: 'Frontend & UI', accent: '#61DAFB' },
+  { label: 'AI & Machine Learning', accent: '#FF6F00' },
+  { label: 'Cloud & DevOps', accent: '#4285F4' },
+  { label: 'IoT & Embedded', accent: '#00979D' },
+  { label: 'Mobile', accent: '#02569B' },
+  { label: 'Databases', accent: '#4169E1' },
+] as const
+
 export const TECH_CATEGORIES: { id: TechCategory; label: string; order: number }[] = [
   { id: 'frontend', label: 'Frontend & UI', order: 1 },
   { id: 'backend', label: 'Backend & APIs', order: 2 },

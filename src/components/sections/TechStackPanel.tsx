@@ -102,13 +102,21 @@ export function TechStackPanel() {
       />
 
       <div className="relative z-10 flex flex-col p-5 sm:p-6">
-        <div className="mb-4">
-          <h3 className="text-lg font-bold tracking-tight text-zinc-900 dark:text-white sm:text-xl">
-            Tools we ship with
-          </h3>
-          <p className="mt-1 text-sm text-zinc-500 dark:text-zinc-400">
-            Curated stack for projects that need to look and perform premium.
-          </p>
+        <div className="mb-4 flex flex-wrap items-end justify-between gap-3">
+          <div>
+            <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-brand-primary">
+              Interactive stack
+            </p>
+            <h3 className="mt-1 text-lg font-bold tracking-tight text-zinc-900 dark:text-white sm:text-xl">
+              Browse by domain
+            </h3>
+            <p className="mt-1 text-sm text-zinc-500 dark:text-zinc-400">
+              Tap a category or hover a logo — auto-cycles when idle.
+            </p>
+          </div>
+          <span className="rounded-full border border-black/[0.06] bg-white/50 px-3 py-1 text-[11px] font-medium tabular-nums text-zinc-600 backdrop-blur-sm dark:border-white/[0.08] dark:bg-black/40 dark:text-zinc-400">
+            {grouped.length} domains
+          </span>
         </div>
 
         {/* Compact spotlight */}
@@ -212,7 +220,9 @@ export function TechStackPanel() {
                       transition={{ type: 'spring', stiffness: 380, damping: 32 }}
                     />
                   )}
-                  <span className="relative z-10">{group.label.split(' ')[0]}</span>
+                  <span className="relative z-10 whitespace-nowrap">
+                    {group.label.length > 14 ? group.label.split(' ')[0] : group.label}
+                  </span>
                 </button>
               ))}
             </div>
