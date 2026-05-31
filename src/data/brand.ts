@@ -75,10 +75,30 @@ export const ACHIEVEMENTS = [
 ] as const
 
 export const STATS = [
-  { value: 100, suffix: '+', label: 'Projects Delivered' },
-  { value: 150, suffix: '+', label: 'Freelancers Network' },
-  { value: 10, suffix: '+', label: 'Technology Domains' },
-  { value: 500, suffix: '+', label: 'Students Assisted' },
+  {
+    value: 100,
+    suffix: '+',
+    label: 'Projects Delivered',
+    description: 'End-to-end builds shipped across academics and industry',
+  },
+  {
+    value: 150,
+    suffix: '+',
+    label: 'Freelancers Network',
+    description: 'Developers, designers, and researchers on our expert roster',
+  },
+  {
+    value: 10,
+    suffix: '+',
+    label: 'Technology Domains',
+    description: 'From AI/ML and web to IoT, cloud, and mobile stacks',
+  },
+  {
+    value: 500,
+    suffix: '+',
+    label: 'Students Assisted',
+    description: 'Learners guided through projects, viva prep, and delivery',
+  },
 ] as const
 
 export const WHY_CHOOSE = [
