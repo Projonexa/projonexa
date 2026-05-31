@@ -148,10 +148,42 @@ export const PAGE_SEO: Record<string, PageSEO> = {
   contact: {
     title: `Contact ${BRAND.name} | Start Your Project — ${GEO.region}, ${GEO.country}`,
     description:
-      'Contact Projonexa for final year projects, mini projects, AI/ML, web & mobile apps, IoT, and startup MVPs. Submit an inquiry — response within 24 hours across India and globally.',
+      'Contact Projonexa for final year projects, mini projects, AI/ML, web & mobile apps, IoT, and startup MVPs. Choose a student or corporate inquiry form — response within 24 hours.',
     keywords: [...BASE_KEYWORDS, 'contact projonexa', 'project inquiry India'],
     path: '/contact',
     breadcrumb: [{ name: 'Contact', path: '/contact' }],
+  },
+  studentInquiry: {
+    title: `Student Project Inquiry | ${BRAND.name} — Final Year & Academic Projects`,
+    description:
+      'Submit a student project inquiry to Projonexa: final year, mini, AI/ML, web, mobile, and IoT projects with documentation, deployment, and viva support across India.',
+    keywords: [
+      ...BASE_KEYWORDS,
+      'final year project inquiry',
+      'student project form India',
+      'BE project help',
+    ],
+    path: '/inquiry/students',
+    breadcrumb: [
+      { name: 'Contact', path: '/contact' },
+      { name: 'Student inquiry', path: '/inquiry/students' },
+    ],
+  },
+  corporateInquiry: {
+    title: `Corporate & Startup Inquiry | ${BRAND.name} — MVP & Custom Software`,
+    description:
+      'Submit a corporate or startup project inquiry to Projonexa for MVPs, custom software, web & mobile apps, and AI/ML solutions. Response within 24 hours.',
+    keywords: [
+      ...BASE_KEYWORDS,
+      'startup MVP inquiry',
+      'custom software development India',
+      'corporate project inquiry',
+    ],
+    path: '/inquiry/corporate',
+    breadcrumb: [
+      { name: 'Contact', path: '/contact' },
+      { name: 'Corporate inquiry', path: '/inquiry/corporate' },
+    ],
   },
 }
 
@@ -180,6 +212,6 @@ export const AEO_HOME_FAQ = [
   {
     question: 'How do I start a project with Projonexa?',
     answer:
-      'Visit projonexa.com/contact, submit your project requirements, or email nisargalokhande@gmail.com. The team responds within 24 hours with scope, timeline, and next steps.',
+      'Visit projonexa.com/contact and choose the student or corporate inquiry form, or email nisargalokhande@gmail.com. The team responds within 24 hours with scope, timeline, and next steps.',
   },
 ] as const

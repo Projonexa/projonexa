@@ -12,8 +12,10 @@ import { PortfolioPage } from '@/pages/PortfolioPage'
 import { PricingPage } from '@/pages/PricingPage'
 import { CareersPage } from '@/pages/CareersPage'
 import { CareersApplyPage } from '@/pages/CareersApplyPage'
+import { CorporateInquiryPage } from '@/pages/CorporateInquiryPage'
 import { FAQPage } from '@/pages/FAQPage'
 import { ContactPage } from '@/pages/ContactPage'
+import { StudentInquiryPage } from '@/pages/StudentInquiryPage'
 
 export default function App() {
   return (
@@ -22,6 +24,8 @@ export default function App() {
         <BrowserRouter>
           <Routes>
             <Route path="careers/apply" element={<CareersApplyPage />} />
+            <Route path="inquiry/students" element={<StudentInquiryPage />} />
+            <Route path="inquiry/corporate" element={<CorporateInquiryPage />} />
             <Route element={<Layout />}>
               <Route index element={<HomePage />} />
               <Route path="about" element={<AboutPage />} />

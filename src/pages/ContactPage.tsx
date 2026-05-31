@@ -8,7 +8,7 @@ import {
   MapPin,
   MessageSquare,
 } from 'lucide-react'
-import { ContactForm } from '@/components/contact/ContactForm'
+import { ProjectInquiryHub } from '@/components/contact/ProjectInquiryHub'
 import { SEO } from '@/components/seo/SEO'
 import { PageHeader } from '@/components/ui/PageHeader'
 import { CTA } from '@/components/sections/CTA'
@@ -161,7 +161,7 @@ export function ContactPage() {
               transition={{ duration: 0.5, delay: 0.06, ease: easeSmooth }}
               className="min-w-0"
             >
-              <ContactForm />
+              <ProjectInquiryHub />
             </motion.div>
           </div>
         </div>

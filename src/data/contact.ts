@@ -54,15 +54,16 @@ export const CONTACT_INFO_CARDS: {
 ]
 
 export const CONTACT_FORM_HINTS = [
-  'Your branch, year, and college deadline',
-  'Tech stack or features you have in mind',
-  'Whether you need viva or documentation support',
-  'Budget range if you already have one',
+  'Students: college, branch, deadline, and viva needs',
+  'Startups: MVP scope, timeline, and budget range',
+  'Tech stack or must-have features',
+  'Links to references or college guidelines',
 ] as const
 
 export const CONTACT_QUICK_LINKS = [
+  { label: 'Student inquiry', path: '/inquiry/students' },
+  { label: 'Corporate inquiry', path: '/inquiry/corporate' },
   { label: 'View pricing', path: '/pricing' },
   { label: 'Browse FAQ', path: '/faq' },
   { label: 'Explore services', path: '/services' },
-  { label: 'Join our team', path: '/careers/apply' },
 ] as const
