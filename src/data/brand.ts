@@ -74,6 +74,13 @@ export const ACHIEVEMENTS = [
   { title: 'Multi-Domain Expertise', subtitle: 'Across Technology Stacks' },
 ] as const
 
+export const STATS_SECTION = {
+  eyebrow: 'Impact',
+  title: 'Numbers That Define Our Growth',
+  lead: 'Trusted by students, startups, and institutions across India and beyond.',
+  body: `Projonexa has grown into a trusted innovation partner — delivering real projects, building a strong freelancer network, and supporting learners from first idea to final submission. These numbers reflect the scale, depth, and commitment behind every engagement.`,
+} as const
+
 export const STATS = [
   {
     value: 100,
