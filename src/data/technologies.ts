@@ -187,6 +187,17 @@ export const ICON_CLOUD_SLUGS = [
   'postman',
 ] as const
 
+const ICON_CLOUD_SLUG_SET = new Set<string>(ICON_CLOUD_SLUGS)
+
+/** Slug used in the 3D icon cloud for a panel tech item, if present */
+export function getIconCloudSlug(tech: TechItem): string | null {
+  const candidates = [tech.slug, tech.lightModeSlug].filter(Boolean) as string[]
+  for (const slug of candidates) {
+    if (ICON_CLOUD_SLUG_SET.has(slug)) return slug
+  }
+  return null
+}
+
 export function getTechnologiesByCategory(category: TechCategory | 'all') {
   if (category === 'all') return TECHNOLOGIES
   return TECHNOLOGIES.filter((t) => t.category === category)

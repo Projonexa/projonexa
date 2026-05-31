@@ -16,8 +16,8 @@ const CANVAS_ID = 'projonexa-tech-icon-cloud'
 const IDLE_SPEED: [number, number] = [0.045, -0.035]
 const RAMP_DURATION_MS = 2800
 const LEAVE_SETTLE_MS = 350
+const TAG_TO_FRONT_MS = 420
 
-/** Stable options — no clickToFront / shuffle so icons keep their positions on hover */
 const CLOUD_OPTIONS = {
   reverse: true,
   depth: 1,
@@ -33,7 +33,10 @@ const CLOUD_OPTIONS = {
   offsetX: 0,
   offsetY: 0,
   shuffleTags: false,
-  outlineMethod: 'none' as const,
+  outlineMethod: 'outline' as const,
+  outlineColour: '#00c8ff',
+  outlineThickness: 2,
+  outlineOffset: 1,
   textColour: '#ffffff',
   textHeight: 15,
   tooltip: 'native' as const,
@@ -50,6 +53,14 @@ const CLOUD_OPTIONS = {
 
 type TagCanvasApi = {
   SetSpeed: (id: string, speed: [number, number]) => void
+  TagToFront?: (
+    id: string,
+    options: {
+      text?: string | null
+      time?: number
+      active?: boolean
+    },
+  ) => void
 }
 
 function getTagCanvas(): TagCanvasApi | undefined {
@@ -66,10 +77,6 @@ interface StableCloudProps {
   cloudKey: string
 }
 
-/**
- * Isolated from hover state so react-icon-cloud is not remounted on every pointer enter/leave
- * (the library assigns a new internal key on each Cloud render, which reshuffles tags).
- */
 const StableIconCloud = memo(function StableIconCloud({ icons, cloudKey }: StableCloudProps) {
   const canvasClass = useMemo(
     () =>
@@ -97,9 +104,11 @@ const StableIconCloud = memo(function StableIconCloud({ icons, cloudKey }: Stabl
 
 interface TechIconCloudProps {
   variant?: 'default' | 'side'
+  /** Simple Icons slug from the left panel — brings matching tag to front */
+  highlightSlug?: string | null
 }
 
-export function TechIconCloud({ variant = 'default' }: TechIconCloudProps) {
+export function TechIconCloud({ variant = 'default', highlightSlug = null }: TechIconCloudProps) {
   const { theme } = useTheme()
   const [icons, setIcons] = useState<ReactNode[]>([])
   const [ready, setReady] = useState(false)
@@ -108,6 +117,11 @@ export function TechIconCloud({ variant = 'default' }: TechIconCloudProps) {
 
   const rampFrameRef = useRef<number | null>(null)
   const leaveTimerRef = useRef<number | null>(null)
+  const slugTitleMapRef = useRef<Map<string, string>>(new Map())
+  const highlightSlugRef = useRef(highlightSlug)
+  const externalHighlightRef = useRef(false)
+
+  highlightSlugRef.current = highlightSlug
 
   const bgHex = theme === 'dark' ? '#09090b' : '#f4f4f5'
   const fallbackHex = theme === 'dark' ? '#00c8ff' : '#18181b'
@@ -152,6 +166,27 @@ export function TechIconCloud({ variant = 'default' }: TechIconCloudProps) {
     rampFrameRef.current = requestAnimationFrame(tick)
   }, [cancelRamp, setCloudSpeed])
 
+  const bringSlugToFront = useCallback(
+    (slug: string) => {
+      const title = slugTitleMapRef.current.get(slug)
+      if (!title) return
+
+      const tc = getTagCanvas()
+      if (!tc?.TagToFront) return
+
+      try {
+        tc.TagToFront(CANVAS_ID, {
+          text: title,
+          time: TAG_TO_FRONT_MS,
+          active: true,
+        })
+      } catch {
+        /* TagCanvas not ready */
+      }
+    },
+    [],
+  )
+
   const handlePointerEnter = useCallback(() => {
     setIsHovered(true)
     clearLeaveTimer()
@@ -166,7 +201,10 @@ export function TechIconCloud({ variant = 'default' }: TechIconCloudProps) {
     setCloudSpeed([0, 0])
 
     leaveTimerRef.current = window.setTimeout(() => {
-      rampToIdleSpeed()
+      if (!highlightSlugRef.current) {
+        externalHighlightRef.current = false
+        rampToIdleSpeed()
+      }
       leaveTimerRef.current = null
     }, LEAVE_SETTLE_MS)
   }, [cancelRamp, clearLeaveTimer, rampToIdleSpeed, setCloudSpeed])
@@ -174,6 +212,7 @@ export function TechIconCloud({ variant = 'default' }: TechIconCloudProps) {
   useEffect(() => {
     let cancelled = false
     setReady(false)
+    slugTitleMapRef.current = new Map()
 
     fetchSimpleIcons({ slugs: [...ICON_CLOUD_SLUGS] }).then((data) => {
       if (cancelled) return
@@ -181,6 +220,8 @@ export function TechIconCloud({ variant = 'default' }: TechIconCloudProps) {
       const rendered = ICON_CLOUD_SLUGS.flatMap((slug) => {
         const icon = data.simpleIcons[slug]
         if (!icon) return []
+
+        slugTitleMapRef.current.set(slug, icon.title)
 
         return [
           renderSimpleIcon({
@@ -216,6 +257,33 @@ export function TechIconCloud({ variant = 'default' }: TechIconCloudProps) {
     return () => window.clearTimeout(bootTimer)
   }, [ready, setCloudSpeed, cloudKey])
 
+  useEffect(() => {
+    if (!ready) return
+
+    if (!highlightSlug) {
+      if (!isHovered && externalHighlightRef.current) {
+        externalHighlightRef.current = false
+        rampToIdleSpeed()
+      }
+      return
+    }
+
+    externalHighlightRef.current = true
+    clearLeaveTimer()
+    cancelRamp()
+    setCloudSpeed([0, 0])
+    bringSlugToFront(highlightSlug)
+  }, [
+    highlightSlug,
+    ready,
+    isHovered,
+    bringSlugToFront,
+    cancelRamp,
+    clearLeaveTimer,
+    rampToIdleSpeed,
+    setCloudSpeed,
+  ])
+
   useEffect(
     () => () => {
       cancelRamp()
@@ -235,7 +303,7 @@ export function TechIconCloud({ variant = 'default' }: TechIconCloudProps) {
         <div
           className={`rounded-full bg-brand-primary/10 blur-3xl transition-opacity duration-500 dark:bg-brand-primary/15 ${
             isSide ? 'h-[min(72vw,420px)] w-[min(72vw,420px)] lg:h-[420px] lg:w-[420px]' : 'h-[min(55vw,340px)] w-[min(55vw,340px)]'
-          } ${isHovered ? 'opacity-100' : 'opacity-70'}`}
+          } ${highlightSlug || isHovered ? 'opacity-100' : 'opacity-70'}`}
         />
       </div>
 
@@ -245,11 +313,11 @@ export function TechIconCloud({ variant = 'default' }: TechIconCloudProps) {
           isSide
             ? 'h-[min(78vw,440px)] w-[min(78vw,440px)] lg:h-[460px] lg:w-[460px]'
             : 'h-[min(62vw,380px)] w-[min(62vw,380px)]'
-        } ${isHovered ? 'border-brand-primary/30 dark:border-brand-primary/35' : 'border-brand-primary/10 dark:border-brand-primary/20'}`}
+        } ${highlightSlug || isHovered ? 'border-brand-primary/30 dark:border-brand-primary/35' : 'border-brand-primary/10 dark:border-brand-primary/20'}`}
       />
 
       <div
-        className={`relative flex flex-col items-center justify-center lg:items-end lg:pr-2 ${
+        className={`relative flex items-center justify-center lg:justify-end lg:pr-2 ${
           isHovered ? 'cursor-grabbing' : 'cursor-grab'
         }`}
         onPointerEnter={handlePointerEnter}
@@ -264,17 +332,6 @@ export function TechIconCloud({ variant = 'default' }: TechIconCloudProps) {
             <StableIconCloud icons={icons} cloudKey={cloudKey} />
           )}
         </div>
-
-        <p className="relative z-10 mt-4 w-full text-center text-xs text-zinc-500 sm:text-sm lg:text-right">
-          <span className="inline-flex items-center gap-2 rounded-full border border-black/5 bg-white/50 px-3 py-1.5 backdrop-blur-md dark:border-white/[0.08] dark:bg-black/45">
-            <span
-              className={`inline-block h-1.5 w-1.5 rounded-full bg-brand-primary transition-opacity duration-300 ${
-                isHovered ? 'opacity-100' : 'animate-pulse opacity-80'
-              }`}
-            />
-            {isHovered ? 'Drag to explore · Release to resume spin' : 'Hover to pause · Drag to rotate'}
-          </span>
-        </p>
       </div>
     </div>
   )

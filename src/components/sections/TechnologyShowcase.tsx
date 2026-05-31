@@ -1,7 +1,8 @@
+import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { TechIconCloud } from '@/components/sections/TechIconCloud'
 import { TechStackPanel } from '@/components/sections/TechStackPanel'
-import { TECH_SECTION } from '@/data/technologies'
+import { getIconCloudSlug, TECH_SECTION, type TechItem } from '@/data/technologies'
 
 const easeSmooth = [0.22, 1, 0.36, 1] as const
 
@@ -39,6 +40,9 @@ function TechnologyHeading({ className = '' }: { className?: string }) {
 }
 
 export function TechnologyShowcase() {
+  const [hoveredTech, setHoveredTech] = useState<TechItem | null>(null)
+  const highlightSlug = hoveredTech ? getIconCloudSlug(hoveredTech) : null
+
   return (
     <section
       className="section-padding section-frosted overflow-hidden"
@@ -60,7 +64,7 @@ export function TechnologyShowcase() {
               transition={{ duration: 0.55, ease: easeSmooth }}
               className="w-full min-w-0"
             >
-              <TechStackPanel />
+              <TechStackPanel onTechHover={setHoveredTech} />
             </motion.div>
           </div>
 
@@ -71,7 +75,7 @@ export function TechnologyShowcase() {
             transition={{ duration: 0.55, delay: 0.08, ease: easeSmooth }}
             className="flex w-full min-w-0 items-center justify-center lg:sticky lg:top-28 lg:min-h-[520px]"
           >
-            <TechIconCloud variant="side" />
+            <TechIconCloud variant="side" highlightSlug={highlightSlug} />
           </motion.div>
         </div>
       </div>

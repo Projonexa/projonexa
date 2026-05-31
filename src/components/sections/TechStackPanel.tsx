@@ -38,7 +38,11 @@ const AUTO_CYCLE_MS = 6500
 const MARQUEE_SPEED_LEFT = 280
 const MARQUEE_SPEED_RIGHT = 320
 
-export function TechStackPanel() {
+interface TechStackPanelProps {
+  onTechHover?: (tech: TechItem | null) => void
+}
+
+export function TechStackPanel({ onTechHover }: TechStackPanelProps) {
   const grouped = useMemo(
     () =>
       [...TECH_CATEGORIES]
@@ -61,15 +65,25 @@ export function TechStackPanel() {
     ? TECHNOLOGIES.find((t) => t.id === hoveredId)
     : null
 
+  const emitHover = useCallback(
+    (id: string | null) => {
+      setHoveredId(id)
+      if (!onTechHover) return
+      const tech = id ? TECHNOLOGIES.find((t) => t.id === id) ?? null : null
+      onTechHover(tech)
+    },
+    [onTechHover],
+  )
+
   const selectCategory = useCallback((index: number) => {
     setActiveIndex(index)
-    setHoveredId(null)
-  }, [])
+    emitHover(null)
+  }, [emitHover])
 
   const advance = useCallback(() => {
     setActiveIndex((i) => (i + 1) % grouped.length)
-    setHoveredId(null)
-  }, [grouped.length])
+    emitHover(null)
+  }, [grouped.length, emitHover])
 
   useEffect(() => {
     if (paused || grouped.length <= 1) return
@@ -89,7 +103,7 @@ export function TechStackPanel() {
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => {
         setPaused(false)
-        setHoveredId(null)
+        emitHover(null)
       }}
     >
       <div className="absolute inset-0 rounded-3xl bg-brand-gradient p-px">
@@ -241,7 +255,7 @@ export function TechStackPanel() {
                     tech={tech}
                     index={index}
                     isHovered={hoveredId === tech.id}
-                    onHover={setHoveredId}
+                    onHover={emitHover}
                   />
                 ))}
               </motion.div>
