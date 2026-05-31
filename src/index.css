@@ -223,6 +223,26 @@
     @apply px-4 py-20 sm:px-6 lg:px-8 lg:py-28;
   }
 
+  /* Adjacent sections (e.g. Service Area → Founder) — avoid double vertical padding */
+  .section-alt.section-merge-b {
+    padding-bottom: 0 !important;
+  }
+
+  .section-frosted.section-merge-t {
+    border-top-width: 0;
+    padding-top: 0 !important;
+  }
+
+  .section-founder-grouped {
+    margin-top: 3rem;
+  }
+
+  @media (min-width: 1024px) {
+    .section-founder-grouped {
+      margin-top: 4rem;
+    }
+  }
+
   .container-narrow {
     @apply mx-auto max-w-6xl;
   }

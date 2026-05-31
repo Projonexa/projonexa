@@ -7,16 +7,15 @@ import { motion } from 'framer-motion'
 
 const easeSmooth = [0.22, 1, 0.36, 1] as const
 
-export function Founder() {
+interface FounderProps {
+  variant?: 'section' | 'grouped'
+}
+
+export function Founder({ variant = 'section' }: FounderProps) {
   const storyParagraphs = FOUNDER.story.split('\n\n').filter(Boolean)
 
-  return (
-    <section
-      className="section-padding section-frosted overflow-hidden"
-      aria-labelledby="founder-heading"
-      itemScope
-      itemType="https://schema.org/Person"
-    >
+  const content = (
+    <>
       <meta itemProp="name" content={FOUNDER.name} />
       <meta itemProp="jobTitle" content={FOUNDER.role} />
       <link itemProp="image" href={founderPhoto} />
@@ -158,6 +157,30 @@ export function Founder() {
           </div>
         </motion.div>
       </div>
+    </>
+  )
+
+  if (variant === 'grouped') {
+    return (
+      <section
+        className="section-padding section-frosted section-merge-t section-founder-grouped overflow-hidden"
+        aria-labelledby="founder-heading"
+        itemScope
+        itemType="https://schema.org/Person"
+      >
+        {content}
+      </section>
+    )
+  }
+
+  return (
+    <section
+      className="section-padding section-frosted overflow-hidden"
+      aria-labelledby="founder-heading"
+      itemScope
+      itemType="https://schema.org/Person"
+    >
+      {content}
     </section>
   )
 }
