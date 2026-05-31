@@ -134,8 +134,8 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="footer-divider footer-bottom mt-10 pt-8 text-center sm:mt-12">
-          <p className="text-sm text-zinc-500 dark:text-zinc-500">
+        <div className="footer-divider footer-bottom mt-10 pt-8 sm:mt-12">
+          <p className="footer-bottom-copy text-sm leading-snug text-zinc-500 dark:text-zinc-500">
             © {year} {BRAND.name}. All rights reserved.
           </p>
 
@@ -145,7 +145,7 @@ export function Footer() {
             </p>
           </div>
 
-          <p className="text-sm text-zinc-500 dark:text-zinc-500">
+          <p className="footer-bottom-credit text-sm leading-snug text-zinc-500 dark:text-zinc-500">
             Founded by {FOUNDER.name} · {FOUNDER.location}
           </p>
         </div>
