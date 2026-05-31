@@ -5,30 +5,12 @@ import { TechStackPanel } from '@/components/sections/TechStackPanel'
 export function TechnologyShowcase() {
   return (
     <section
-      className="section-padding section-surface overflow-hidden"
+      className="section-padding section-frosted overflow-hidden"
       aria-labelledby="tech-showcase-heading"
     >
-      <div
-        className="pointer-events-none absolute inset-0 z-0 opacity-[0.35] dark:opacity-[0.2]"
-        style={{
-          backgroundImage: `linear-gradient(rgba(0,0,0,0.04) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(0,0,0,0.04) 1px, transparent 1px)`,
-          backgroundSize: '48px 48px',
-        }}
-        aria-hidden
-      />
-      <div
-        className="pointer-events-none absolute inset-0 z-0 hidden opacity-20 dark:block"
-        style={{
-          backgroundImage: `linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px)`,
-          backgroundSize: '48px 48px',
-        }}
-        aria-hidden
-      />
-
       <div className="container-wide">
         <SectionHeading
+          frosted
           eyebrow="Technology"
           title="Built With Industry-Leading Stack"
           description="Modern technologies across frontend, AI, cloud, IoT, and more — powering projects for students and clients worldwide."

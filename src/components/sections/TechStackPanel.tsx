@@ -93,7 +93,7 @@ export function TechStackPanel() {
       }}
     >
       <div className="absolute inset-0 rounded-3xl bg-brand-gradient p-px">
-        <div className="h-full w-full rounded-[calc(1.5rem-1px)] bg-zinc-50 dark:bg-black" />
+        <div className="h-full w-full rounded-[calc(1.5rem-1px)] bg-white/45 backdrop-blur-xl dark:bg-black/40" />
       </div>
 
       <div
@@ -112,7 +112,7 @@ export function TechStackPanel() {
         </div>
 
         {/* Compact spotlight */}
-        <div className="relative mb-4 overflow-hidden rounded-2xl border border-black/[0.06] bg-white/70 backdrop-blur-md dark:border-white/[0.08] dark:bg-surface-card/90">
+        <div className="relative mb-4 overflow-hidden rounded-2xl border border-black/[0.06] bg-white/50 backdrop-blur-xl dark:border-white/[0.08] dark:bg-black/45">
           <AnimatePresence mode="wait">
             <motion.div
               aria-hidden
@@ -243,7 +243,7 @@ export function TechStackPanel() {
         </div>
 
         {/* Slow dual marquee */}
-        <div className="relative overflow-hidden rounded-2xl border border-black/[0.05] bg-zinc-900/[0.02] py-2.5 dark:border-white/[0.06] dark:bg-surface-elevated">
+        <div className="relative overflow-hidden rounded-2xl border border-black/[0.05] bg-white/35 py-2.5 backdrop-blur-md dark:border-white/[0.06] dark:bg-black/35">
           <div
             aria-hidden
             className="pointer-events-none absolute inset-y-0 left-0 z-10 w-10 bg-gradient-to-r from-zinc-50 to-transparent dark:from-black"
@@ -292,8 +292,8 @@ function CompactTechTile({
       <div
         className={`flex min-h-[52px] flex-col items-center justify-center rounded-lg border px-1 py-1.5 transition-all duration-300 ${
           isHovered
-            ? 'scale-[1.04] border-brand-primary/35 bg-white shadow-glow dark:bg-surface-card'
-            : 'border-transparent bg-white/50 dark:bg-surface-muted/80'
+            ? 'scale-[1.04] border-brand-primary/35 bg-white/70 shadow-glow backdrop-blur-md dark:bg-black/50'
+            : 'border-transparent bg-white/40 backdrop-blur-sm dark:bg-black/30'
         }`}
       >
         <div
@@ -331,7 +331,7 @@ function MarqueeRow({
         {[...items, ...items].map((tech, i) => (
           <div
             key={`${tech.id}-${i}`}
-            className="flex shrink-0 items-center gap-2 rounded-full border border-black/[0.06] bg-white/90 px-2.5 py-1 dark:border-white/[0.08] dark:bg-surface-card"
+            className="flex shrink-0 items-center gap-2 rounded-full border border-black/[0.06] bg-white/55 px-2.5 py-1 backdrop-blur-md dark:border-white/[0.08] dark:bg-black/45"
           >
             <TechLogo tech={tech} size="sm" className="h-4 w-4" />
             <span className="whitespace-nowrap text-[10px] font-medium text-zinc-600 dark:text-zinc-400">

@@ -266,7 +266,7 @@ export function TechIconCloud({ variant = 'default' }: TechIconCloudProps) {
         </div>
 
         <p className="relative z-10 mt-4 w-full text-center text-xs text-zinc-500 sm:text-sm lg:text-right">
-          <span className="inline-flex items-center gap-2 rounded-full border border-black/5 bg-white/80 px-3 py-1.5 backdrop-blur-sm dark:border-white/[0.08] dark:bg-surface-card">
+          <span className="inline-flex items-center gap-2 rounded-full border border-black/5 bg-white/50 px-3 py-1.5 backdrop-blur-md dark:border-white/[0.08] dark:bg-black/45">
             <span
               className={`inline-block h-1.5 w-1.5 rounded-full bg-brand-primary transition-opacity duration-300 ${
                 isHovered ? 'opacity-100' : 'animate-pulse opacity-80'

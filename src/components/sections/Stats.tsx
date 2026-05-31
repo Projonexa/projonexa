@@ -32,9 +32,10 @@ export function Stats() {
   const { ref, inView } = useInView()
 
   return (
-    <section ref={ref} className="section-padding section-surface">
+    <section ref={ref} className="section-padding section-frosted">
       <div className="container-wide">
         <SectionHeading
+          frosted
           eyebrow="Impact"
           title="Numbers That Define Our Growth"
           description="Trusted by students, startups, and institutions across India and beyond."

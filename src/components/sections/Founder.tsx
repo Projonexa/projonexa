@@ -8,9 +8,10 @@ export function Founder() {
   const storyParagraphs = FOUNDER.story.split('\n\n')
 
   return (
-    <section className="section-padding section-surface">
+    <section className="section-padding section-frosted">
       <div className="container-wide">
         <SectionHeading
+          frosted
           eyebrow="Founder"
           title="Meet the Vision Behind Projonexa"
           description="Student entrepreneur, software engineer, and innovation leader."

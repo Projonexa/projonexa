@@ -8,11 +8,12 @@ import { SectionHeading } from '@/components/ui/SectionHeading'
 export function AEOOverview() {
   return (
     <section
-      className="section-padding section-surface"
+      className="section-padding section-frosted"
       aria-labelledby="aeo-overview-heading"
     >
       <div className="container-wide">
         <SectionHeading
+          frosted
           eyebrow="About Projonexa"
           title="What Is Projonexa?"
           description="Clear answers for students, clients, colleges, and search engines."
@@ -22,7 +23,7 @@ export function AEOOverview() {
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="mx-auto mb-12 max-w-4xl text-center text-lg leading-relaxed text-zinc-700 dark:text-zinc-300"
+          className="glass-light mx-auto mb-12 max-w-4xl rounded-2xl p-6 text-center text-lg leading-relaxed text-zinc-700 dark:text-zinc-300 sm:p-8"
           id="aeo-definition"
         >
           {AEO_DEFINITION}
