@@ -113,9 +113,9 @@ export const PAGE_SEO: Record<string, PageSEO> = {
     breadcrumb: [{ name: 'Pricing', path: '/pricing' }],
   },
   careers: {
-    title: `Careers | Join ${BRAND.name} — 150+ Expert Network`,
+    title: `Careers | Join ${BRAND.name} Team — Apply Online`,
     description:
-      'Join Projonexa\'s growing network of 150+ freelancers and core team. Remote opportunities for developers, designers, and mentors across India.',
+      'Apply to join the Projonexa team — developers, designers, QA, mentors, interns, and open applications. Remote-friendly roles across India and globally.',
     keywords: [...BASE_KEYWORDS, 'freelance developer India', 'projonexa careers'],
     path: '/careers',
     breadcrumb: [{ name: 'Careers', path: '/careers' }],
