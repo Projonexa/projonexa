@@ -27,7 +27,7 @@ export function Layout() {
 
   return (
     <div
-      className="relative min-h-screen overflow-x-clip text-zinc-900 dark:text-zinc-100"
+      className="relative min-h-screen text-zinc-900 dark:text-zinc-100"
       onMouseMove={showCursor ? handleMouseMove : undefined}
       onMouseLeave={showCursor ? handleMouseLeave : undefined}
     >
@@ -42,7 +42,11 @@ export function Layout() {
       />
 
       <Header />
-      <main id="main-content" className="relative z-10" tabIndex={-1}>
+      <main
+        id="main-content"
+        className="relative z-10 min-w-0 overflow-x-clip"
+        tabIndex={-1}
+      >
         <Outlet />
       </main>
       <Footer />

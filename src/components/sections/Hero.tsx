@@ -61,7 +61,7 @@ export function Hero() {
   const reducedMotion = useReducedMotion()
 
   return (
-    <section className="relative min-h-[100svh] overflow-hidden pt-16 sm:min-h-screen">
+    <section className="relative min-h-[100svh] overflow-hidden pt-[calc(4.25rem+env(safe-area-inset-top,0px))] sm:min-h-screen sm:pt-16">
       <div className="container-wide relative flex min-h-[calc(100svh-4rem)] flex-col items-center justify-center px-4 py-14 text-center sm:min-h-[calc(100vh-4rem)] sm:px-6 sm:py-24 lg:px-8">
         <HeroTagline reducedMotion={reducedMotion} />
 

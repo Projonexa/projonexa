@@ -58,7 +58,7 @@ export function Header() {
         Skip to main content
       </a>
       <header
-        className={`site-header site-header-shell fixed top-0 z-50 w-full ${scrolled ? 'is-scrolled' : ''}`}
+        className={`site-header site-header-shell ${scrolled ? 'is-scrolled' : ''} ${open ? 'is-menu-open' : ''}`}
       >
         <div className="container-wide flex h-[4.25rem] items-center justify-between gap-4 px-4 sm:h-16 sm:px-6 lg:px-8">
           <Logo className="shrink-0" />
