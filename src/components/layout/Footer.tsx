@@ -134,20 +134,21 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="footer-divider mt-10 flex flex-col items-center justify-between gap-3 pt-8 text-center sm:mt-12 sm:flex-row sm:gap-4 sm:text-left">
+        <div className="footer-divider footer-bottom mt-10 pt-8 text-center sm:mt-12">
           <p className="text-sm text-zinc-500 dark:text-zinc-500">
             © {year} {BRAND.name}. All rights reserved.
           </p>
+
+          <div className="footer-wordmark" aria-hidden>
+            <p className="footer-wordmark-display" data-text={BRAND.name}>
+              {BRAND.name}
+            </p>
+          </div>
+
           <p className="text-sm text-zinc-500 dark:text-zinc-500">
             Founded by {FOUNDER.name} · {FOUNDER.location}
           </p>
         </div>
-      </div>
-
-      <div className="footer-wordmark" aria-hidden>
-        <p className="footer-wordmark-display" data-text={BRAND.name}>
-          {BRAND.name}
-        </p>
       </div>
     </footer>
   )
