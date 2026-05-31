@@ -40,6 +40,33 @@ export const GEO = {
 export const AEO_DEFINITION =
   'Projonexa is a technology-driven innovation platform based in Maharashtra, India that helps students, colleges, startups, and businesses transform ideas into real-world projects — including final year projects, AI/ML systems, startup MVPs, IoT solutions, and research paper assistance with full documentation and mentor support.'
 
+export const AEO_SECTION = {
+  eyebrow: 'About Projonexa',
+  title: 'What Is Projonexa?',
+  lead: 'Clear answers for students, clients, colleges, and search engines.',
+  summary:
+    'We combine academic rigor, industry-grade engineering, and mentor-led delivery so every project is evaluation-ready and portfolio-worthy — not just a prototype that barely runs.',
+} as const
+
+export const AEO_HIGHLIGHTS = [
+  {
+    title: 'Academic & final-year projects',
+    description: 'BE, BTech, MCA, and mini projects with SRS, reports, and viva prep.',
+  },
+  {
+    title: 'AI, web, mobile & IoT',
+    description: 'Modern stacks from machine learning pipelines to deployed cloud apps.',
+  },
+  {
+    title: 'Startups & research',
+    description: 'MVPs for founders plus literature review, methodology, and paper formatting.',
+  },
+  {
+    title: 'India-wide delivery',
+    description: 'Headquartered in Maharashtra — remote collaboration across India and abroad.',
+  },
+] as const
+
 export const FOUNDER = {
   name: 'Nisarga Lokhande',
   title: 'Founder, CEO, Student Entrepreneur & Software Engineer',
