@@ -1,3 +1,5 @@
+import { CLOUD_ICON_OVERRIDES } from '@/data/cloudIconOverrides'
+
 export type TechCategory =
   | 'frontend'
   | 'backend'
@@ -106,7 +108,7 @@ export const TECHNOLOGIES: TechItem[] = [
   { id: 'raspberry', name: 'Raspberry Pi', slug: 'raspberrypi', category: 'iot', color: 'A22846' },
 
   // Cloud
-  { id: 'aws', name: 'AWS', slug: 'amazonaws', category: 'cloud', color: 'FF9900' },
+  { id: 'aws', name: 'AWS', slug: 'amazonwebservices', category: 'cloud', color: 'FF9900' },
   { id: 'azure', name: 'Azure', slug: 'microsoftazure', category: 'cloud', color: '0078D4' },
   { id: 'firebase-cloud', name: 'Firebase', slug: 'firebase', category: 'cloud', color: 'FFCA28' },
   { id: 'gcp', name: 'Google Cloud', slug: 'googlecloud', category: 'cloud', color: '4285F4' },
@@ -133,80 +135,85 @@ export const TECHNOLOGIES: TechItem[] = [
   { id: 'jest', name: 'Jest', slug: 'jest', category: 'tools', color: 'C21325' },
   { id: 'cypress', name: 'Cypress', slug: 'cypress', category: 'tools', color: '69D3A7' },
   { id: 'testing-library', name: 'Testing Library', slug: 'testinglibrary', category: 'tools', color: 'E33332' },
-  { id: 'sonarqube', name: 'SonarQube', slug: 'sonarqubecloud', category: 'devops', color: '4E9BCD' },
+  { id: 'sonarqube', name: 'SonarQube', slug: 'sonarqube', category: 'devops', color: '4E9BCD' },
   { id: 'android-studio', name: 'Android Studio', slug: 'androidstudio', category: 'tools', color: '3DDC84' },
   { id: 'jira', name: 'Jira', slug: 'jira', category: 'tools', color: '0052CC' },
   { id: 'git', name: 'Git', slug: 'git', category: 'devops', color: 'F05032' },
 ]
 
-/** Slugs for the interactive 3D icon cloud (Simple Icons) */
-export const ICON_CLOUD_SLUGS = [
-  'typescript',
-  'javascript',
-  'dart',
-  'react',
-  'flutter',
-  'android',
-  'html5',
-  'css3',
-  'nodedotjs',
-  'express',
-  'nextdotjs',
-  'prisma',
-  'postgresql',
-  'firebase',
-  'nginx',
-  'vercel',
-  'testinglibrary',
-  'jest',
-  'cypress',
-  'docker',
-  'git',
-  'jira',
-  'github',
-  'gitlab',
-  'androidstudio',
-  'sonarqubecloud',
-  'figma',
-  'python',
-  'tensorflow',
-  'pytorch',
-  'openai',
-  'mongodb',
-  'mysql',
-  'redis',
-  'kubernetes',
-  'amazonaws',
-  'googlecloud',
-  'microsoftazure',
-  'tailwindcss',
-  'vite',
-  'django',
-  'kotlin',
-  'swift',
-  'postman',
-] as const
+/** Panel slug → canonical Simple Icons slug in the 3D cloud */
+const PANEL_SLUG_TO_CLOUD: Partial<Record<string, string>> = {
+  amazonaws: 'amazonwebservices',
+  sonarqubecloud: 'sonarqube',
+}
+
+/** Tech id → cloud slug when multiple panel items share one cloud tag */
+const TECH_ID_TO_CLOUD_SLUG: Partial<Record<string, string>> = {
+  'react-native': 'react',
+  'firebase-db': 'firebase',
+  'firebase-cloud': 'firebase',
+}
+
+function resolveCloudSlug(slug: string) {
+  return PANEL_SLUG_TO_CLOUD[slug] ?? slug
+}
+
+/** Every unique icon in the left stack, in stable category order */
+function buildIconCloudSlugs(): string[] {
+  const seen = new Set<string>()
+  const slugs: string[] = []
+
+  const orderedTech = [...TECH_CATEGORIES]
+    .sort((a, b) => a.order - b.order)
+    .flatMap((cat) =>
+      TECHNOLOGIES.filter((t) => t.category === cat.id).sort((a, b) =>
+        a.name.localeCompare(b.name),
+      ),
+    )
+
+  for (const tech of orderedTech) {
+    const canonical = resolveCloudSlug(tech.slug)
+    if (!seen.has(canonical)) {
+      seen.add(canonical)
+      slugs.push(canonical)
+    }
+  }
+
+  for (const slug of Object.keys(CLOUD_ICON_OVERRIDES)) {
+    if (!seen.has(slug)) {
+      seen.add(slug)
+      slugs.push(slug)
+    }
+  }
+
+  return slugs
+}
+
+/** Slugs for the interactive 3D icon cloud — mirrors the left Browse by domain stack */
+export const ICON_CLOUD_SLUGS = buildIconCloudSlugs()
 
 const ICON_CLOUD_SLUG_SET = new Set<string>(ICON_CLOUD_SLUGS)
 
-/** Panel slug → cloud slug when Simple Icons names differ */
-const PANEL_SLUG_TO_CLOUD: Partial<Record<string, string>> = {
-  'react-native': 'react',
-  sonarqube: 'sonarqubecloud',
-  'testing-library': 'testinglibrary',
-  'firebase-db': 'firebase',
-}
-
-/** Slug used in the 3D icon cloud for a panel tech item, if present */
+/** Slug used in the 3D icon cloud for a panel tech item */
 export function getIconCloudSlug(tech: TechItem): string | null {
-  const mapped = PANEL_SLUG_TO_CLOUD[tech.id] ?? PANEL_SLUG_TO_CLOUD[tech.slug]
-  if (mapped && ICON_CLOUD_SLUG_SET.has(mapped)) return mapped
+  const byId = TECH_ID_TO_CLOUD_SLUG[tech.id]
+  if (byId && ICON_CLOUD_SLUG_SET.has(byId)) return byId
 
-  const candidates = [tech.slug, tech.lightModeSlug].filter(Boolean) as string[]
+  const candidates = [
+    resolveCloudSlug(tech.slug),
+    tech.lightModeSlug ? resolveCloudSlug(tech.lightModeSlug) : null,
+  ].filter(Boolean) as string[]
+
   for (const slug of candidates) {
     if (ICON_CLOUD_SLUG_SET.has(slug)) return slug
   }
+
   return null
+}
+
+/** Slugs loaded via fetchSimpleIcons (excludes manual overrides) */
+export function getFetchableCloudSlugs() {
+  return ICON_CLOUD_SLUGS.filter((slug) => !CLOUD_ICON_OVERRIDES[slug])
 }
 
 export function getTechnologiesByCategory(category: TechCategory | 'all') {
@@ -214,7 +221,20 @@ export function getTechnologiesByCategory(category: TechCategory | 'all') {
   return TECHNOLOGIES.filter((t) => t.category === category)
 }
 
+/** Brands not on cdn.simpleicons.org — load pinned SVGs from jsDelivr */
+const JSDELIVR_LOGO_SLUGS: Record<string, string> = {
+  amazonwebservices: '14.0.0',
+  ...Object.fromEntries(
+    Object.keys(CLOUD_ICON_OVERRIDES).map((slug) => [slug, '11.0.0']),
+  ),
+}
+
 export function getLogoUrl(slug: string, color: string, dark = false) {
+  const pinnedVersion = JSDELIVR_LOGO_SLUGS[slug]
+  if (pinnedVersion) {
+    return `https://cdn.jsdelivr.net/npm/simple-icons@${pinnedVersion}/icons/${slug}.svg`
+  }
+
   const hex = color.replace('#', '')
   if (dark && (hex === '000000' || hex === 'FFFFFF' || hex === 'ffffff')) {
     return `https://cdn.simpleicons.org/${slug}/ffffff`

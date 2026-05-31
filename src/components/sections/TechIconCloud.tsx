@@ -9,7 +9,8 @@ import {
   type ReactNode,
 } from 'react'
 import { Cloud, fetchSimpleIcons, renderSimpleIcon } from 'react-icon-cloud'
-import { ICON_CLOUD_SLUGS } from '@/data/technologies'
+import { CLOUD_ICON_OVERRIDES } from '@/data/cloudIconOverrides'
+import { getFetchableCloudSlugs, ICON_CLOUD_SLUGS } from '@/data/technologies'
 import { useTheme } from '@/context/ThemeContext'
 import {
   CLOUD_INSTANCE_ID,
@@ -29,7 +30,7 @@ const CLOUD_OPTIONS = {
   reverse: true,
   depth: 1,
   wheelZoom: false,
-  imageScale: 2,
+  imageScale: 1.55,
   activeCursor: 'default',
   animTiming: 'Smooth' as const,
   initial: IDLE_SPEED,
@@ -326,12 +327,23 @@ export function TechIconCloud({
     slugIndexMapRef.current = new Map()
     slugTitleMapRef.current = new Map()
 
-    fetchSimpleIcons({ slugs: [...ICON_CLOUD_SLUGS] }).then((data) => {
+    const iconSize = isSide ? 38 : 44
+
+    fetchSimpleIcons({ slugs: getFetchableCloudSlugs() }).then((data) => {
       if (cancelled) return
 
       const rendered = ICON_CLOUD_SLUGS.flatMap((slug, index) => {
-        const icon = data.simpleIcons[slug]
-        if (!icon) return []
+        const override = CLOUD_ICON_OVERRIDES[slug]
+        const icon = override
+          ? {
+              slug,
+              title: override.title,
+              hex: override.hex,
+              path: override.path,
+            }
+          : data.simpleIcons[slug]
+
+        if (!icon?.path) return []
 
         slugIndexMapRef.current.set(slug, index)
         slugTitleMapRef.current.set(slug, icon.title)
@@ -339,7 +351,7 @@ export function TechIconCloud({
         return [
           renderSimpleIcon({
             icon,
-            size: isSide ? 44 : 48,
+            size: iconSize,
             bgHex,
             fallbackHex,
             minContrastRatio: 2.5,
