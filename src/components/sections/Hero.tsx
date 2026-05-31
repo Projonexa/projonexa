@@ -1,7 +1,10 @@
-import { motion } from 'framer-motion'
+import { useCallback, useEffect } from 'react'
+import { motion, useMotionValue, useSpring } from 'framer-motion'
 import { ArrowRight, MapPin } from 'lucide-react'
 import { BRAND } from '@/data/brand'
 import { Button } from '@/components/ui/Button'
+import { HeroBackground } from '@/components/sections/HeroBackground'
+import { usePointerFine } from '@/hooks/usePointerFine'
 import { useReducedMotion } from '@/hooks/useReducedMotion'
 
 const fadeUp = (delay: number, reduced: boolean) =>
@@ -12,6 +15,8 @@ const fadeUp = (delay: number, reduced: boolean) =>
         animate: { opacity: 1, y: 0 },
         transition: { duration: 0.55, delay, ease: [0.22, 1, 0.36, 1] },
       }
+
+const contentSpring = { stiffness: 100, damping: 26, mass: 0.5 }
 
 function HeroTagline({ reducedMotion }: { reducedMotion: boolean }) {
   const { prefix, bridge, suffix } = BRAND.taglineHero
@@ -59,39 +64,45 @@ function HeroTagline({ reducedMotion }: { reducedMotion: boolean }) {
 
 export function Hero() {
   const reducedMotion = useReducedMotion()
+  const pointerFine = usePointerFine()
+  const interactive = pointerFine && !reducedMotion
+
+  const contentX = useMotionValue(0)
+  const contentY = useMotionValue(0)
+  const smoothContentX = useSpring(contentX, contentSpring)
+  const smoothContentY = useSpring(contentY, contentSpring)
+
+  const handleParallax = useCallback(
+    (p: { x: number; y: number }) => {
+      contentX.set(p.x * 14)
+      contentY.set(p.y * 10)
+    },
+    [contentX, contentY],
+  )
+
+  useEffect(() => {
+    if (!interactive) {
+      contentX.set(0)
+      contentY.set(0)
+    }
+  }, [interactive, contentX, contentY])
 
   return (
     <section className="relative min-h-screen overflow-hidden pt-16">
-      {/* Ambient background */}
-      <div className="pointer-events-none absolute inset-0" aria-hidden>
-        <div className="absolute inset-0 bg-gradient-to-b from-zinc-50/90 via-white to-white dark:from-black dark:via-black dark:to-black" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_90%_55%_at_50%_-15%,rgba(0,200,255,0.18),transparent_55%)] dark:bg-[radial-gradient(ellipse_90%_55%_at_50%_-15%,rgba(0,200,255,0.12),transparent_55%)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_40%_at_100%_20%,rgba(108,99,255,0.12),transparent_50%)] dark:bg-[radial-gradient(ellipse_60%_40%_at_100%_20%,rgba(108,99,255,0.08),transparent_50%)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_35%_at_0%_70%,rgba(61,139,255,0.1),transparent_50%)] dark:bg-[radial-gradient(ellipse_50%_35%_at_0%_70%,rgba(61,139,255,0.06),transparent_50%)]" />
-        <div className="absolute right-[10%] top-[28%] h-[min(28rem,50vw)] w-[min(28rem,50vw)] rounded-full bg-brand-primary/10 blur-[100px] dark:bg-brand-primary/6" />
-        <div className="absolute left-[5%] bottom-[20%] h-72 w-72 rounded-full bg-brand-secondary/12 blur-[90px] dark:bg-brand-secondary/6" />
-        <div
-          className="absolute inset-0 opacity-[0.35] dark:opacity-[0.2]"
-          style={{
-            backgroundImage: `linear-gradient(rgba(0,0,0,0.04) 1px, transparent 1px),
-              linear-gradient(90deg, rgba(0,0,0,0.04) 1px, transparent 1px)`,
-            backgroundSize: '72px 72px',
-            maskImage: 'radial-gradient(ellipse 70% 60% at 50% 40%, black 20%, transparent 75%)',
-          }}
-        />
-        <div
-          className="absolute inset-0 hidden opacity-[0.15] dark:block dark:opacity-[0.25]"
-          style={{
-            backgroundImage: `linear-gradient(rgba(255,255,255,0.06) 1px, transparent 1px),
-              linear-gradient(90deg, rgba(255,255,255,0.06) 1px, transparent 1px)`,
-            backgroundSize: '72px 72px',
-            maskImage: 'radial-gradient(ellipse 70% 60% at 50% 40%, black 20%, transparent 75%)',
-          }}
-        />
-        <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-white to-transparent dark:from-black" />
-      </div>
+      <HeroBackground
+        reducedMotion={reducedMotion}
+        interactive={interactive}
+        onParallax={handleParallax}
+      />
 
-      <div className="container-wide relative flex min-h-[calc(100vh-4rem)] flex-col items-center justify-center px-4 py-20 text-center sm:px-6 sm:py-24 lg:px-8">
+      <motion.div
+        className="container-wide relative z-10 flex min-h-[calc(100vh-4rem)] flex-col items-center justify-center px-4 py-20 text-center sm:px-6 sm:py-24 lg:px-8"
+        style={
+          interactive
+            ? { x: smoothContentX, y: smoothContentY }
+            : undefined
+        }
+      >
         <HeroTagline reducedMotion={reducedMotion} />
 
         <motion.h1
@@ -112,7 +123,7 @@ export function Hero() {
 
         <motion.div
           {...fadeUp(0.22, reducedMotion)}
-          className="mt-6 inline-flex max-w-xl flex-wrap items-center justify-center gap-2 rounded-full border border-black/[0.06] bg-white/60 px-4 py-2.5 text-sm font-medium text-zinc-600 shadow-sm backdrop-blur-md dark:border-white/[0.08] dark:bg-white/[0.04] dark:text-zinc-300"
+          className="mt-6 inline-flex max-w-xl flex-wrap items-center justify-center gap-2 rounded-full border border-black/[0.06] bg-white/70 px-4 py-2.5 text-sm font-medium text-zinc-600 shadow-sm backdrop-blur-md dark:border-white/[0.1] dark:bg-white/[0.06] dark:text-zinc-300"
         >
           <span className="text-base leading-none" role="img" aria-label="India">
             🇮🇳
@@ -142,7 +153,7 @@ export function Hero() {
           <Button
             to="/contact"
             variant="outline"
-            className="w-full border-zinc-300/80 bg-white/50 text-zinc-800 backdrop-blur-sm hover:border-brand-primary/40 hover:bg-brand-primary/5 hover:text-brand-mid dark:border-white/15 dark:bg-white/[0.03] dark:text-zinc-100 dark:hover:border-brand-primary/50 dark:hover:bg-brand-primary/10 dark:hover:text-brand-accent sm:w-auto"
+            className="w-full border-zinc-300/80 bg-white/60 text-zinc-800 backdrop-blur-sm hover:border-brand-primary/40 hover:bg-brand-primary/5 hover:text-brand-mid dark:border-white/15 dark:bg-white/[0.04] dark:text-zinc-100 dark:hover:border-brand-primary/50 dark:hover:bg-brand-primary/10 dark:hover:text-brand-accent sm:w-auto"
           >
             Get Started
           </Button>
@@ -160,11 +171,15 @@ export function Hero() {
               <span className="text-[10px] font-medium uppercase tracking-[0.2em] text-zinc-400 dark:text-zinc-600">
                 Scroll
               </span>
-              <div className="h-10 w-px bg-gradient-to-b from-brand-primary/60 to-transparent" />
+              <motion.div
+                className="h-10 w-px bg-gradient-to-b from-brand-primary/60 to-transparent"
+                animate={{ scaleY: [1, 0.6, 1], opacity: [0.6, 1, 0.6] }}
+                transition={{ duration: 2.2, repeat: Infinity, ease: 'easeInOut' }}
+              />
             </div>
           </motion.div>
         )}
-      </div>
+      </motion.div>
     </section>
   )
 }
