@@ -154,95 +154,54 @@
     box-shadow: 0 4px 24px -4px rgba(0, 0, 0, 0.5);
   }
 
-  .why-pillar-card {
-    transition:
-      border-color 0.3s ease,
-      box-shadow 0.3s ease,
-      transform 0.3s ease;
+  .why-flow-canvas-inner {
+    box-shadow:
+      0 0 0 1px rgba(0, 200, 255, 0.06),
+      0 20px 50px -24px rgba(0, 200, 255, 0.15);
   }
 
-  .why-pillar-card:hover {
-    border-color: rgba(0, 200, 255, 0.22);
-    box-shadow: 0 12px 40px -16px rgba(0, 200, 255, 0.2);
-    transform: translateY(-2px);
-  }
-
-  .why-choose-card:hover > div {
-    border-color: rgba(0, 200, 255, 0.2);
-    box-shadow: 0 16px 48px -20px rgba(0, 200, 255, 0.18);
-  }
-
-  .dark .why-pillar-card:hover {
-    border-color: rgba(0, 200, 255, 0.28);
-    box-shadow: 0 12px 40px -16px rgba(0, 200, 255, 0.12);
-  }
-
-  .dark .why-choose-card:hover > div {
-    border-color: rgba(0, 200, 255, 0.25);
-    box-shadow: 0 16px 48px -20px rgba(0, 200, 255, 0.1);
-  }
-
-  .why-flow-root {
-    isolation: isolate;
+  .dark .why-flow-canvas-inner {
+    box-shadow:
+      0 0 0 1px rgba(0, 200, 255, 0.1),
+      0 20px 50px -24px rgba(0, 200, 255, 0.08);
   }
 
   .why-flow-svg {
     z-index: 0;
   }
 
+  .why-flow-frame {
+    stroke: rgba(0, 200, 255, 0.14);
+    stroke-width: 1.5;
+  }
+
+  .dark .why-flow-frame {
+    stroke: rgba(0, 200, 255, 0.22);
+  }
+
   .why-flow-path-dim {
-    stroke: rgba(0, 200, 255, 0.12);
+    stroke: rgba(0, 200, 255, 0.1);
   }
 
   .dark .why-flow-path-dim {
-    stroke: rgba(0, 200, 255, 0.18);
-  }
-
-  .why-flow-hub-ring {
-    box-shadow:
-      0 0 0 1px rgba(0, 200, 255, 0.12),
-      0 12px 40px -12px rgba(0, 200, 255, 0.35);
-  }
-
-  .why-flow-hub-pulse {
-    animation: why-flow-hub-pulse 2.8s ease-in-out infinite;
-    box-shadow: 0 0 0 0 rgba(0, 200, 255, 0.35);
-  }
-
-  @keyframes why-flow-hub-pulse {
-    0%,
-    100% {
-      box-shadow: 0 0 0 0 rgba(0, 200, 255, 0.28);
-    }
-    50% {
-      box-shadow: 0 0 0 14px rgba(0, 200, 255, 0);
-    }
-  }
-
-  .why-flow-junction-core {
-    background: linear-gradient(135deg, #00c8ff, #6c63ff);
-    box-shadow:
-      0 0 12px rgba(0, 200, 255, 0.65),
-      0 0 24px rgba(108, 99, 255, 0.35);
+    stroke: rgba(0, 200, 255, 0.16);
   }
 
   .why-flow-port {
-    width: 8px;
-    height: 8px;
+    width: 6px;
+    height: 6px;
     border-radius: 9999px;
     background: linear-gradient(135deg, #00c8ff, #6c63ff);
-    box-shadow: 0 0 10px rgba(0, 200, 255, 0.75);
+    box-shadow: 0 0 8px rgba(0, 200, 255, 0.7);
+  }
+
+  .why-flow-node:hover {
+    z-index: 3;
   }
 
   .why-flow-node:hover .why-flow-port {
-    transform: scale(1.15);
-    box-shadow: 0 0 14px rgba(0, 200, 255, 0.95);
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .why-flow-hub-pulse {
-      animation: none;
-    }
+    transform: scale(1.2);
+    box-shadow: 0 0 12px rgba(0, 200, 255, 0.95);
   }
 
   .section-padding {
