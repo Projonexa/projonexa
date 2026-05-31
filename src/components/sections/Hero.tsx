@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import { ArrowRight, MapPin, Sparkles } from 'lucide-react'
+import { ArrowRight, MapPin } from 'lucide-react'
 import { BRAND } from '@/data/brand'
 import { Button } from '@/components/ui/Button'
 import { useReducedMotion } from '@/hooks/useReducedMotion'
@@ -12,6 +12,50 @@ const fadeUp = (delay: number, reduced: boolean) =>
         animate: { opacity: 1, y: 0 },
         transition: { duration: 0.55, delay, ease: [0.22, 1, 0.36, 1] },
       }
+
+function HeroTagline({ reducedMotion }: { reducedMotion: boolean }) {
+  const { prefix, bridge, suffix } = BRAND.taglineHero
+
+  return (
+    <motion.div
+      {...fadeUp(0, reducedMotion)}
+      className="mb-10 w-full max-w-2xl"
+      aria-label={BRAND.tagline}
+    >
+      <div className="flex items-center justify-center gap-3 sm:gap-4">
+        <span
+          className="h-px w-10 shrink-0 bg-gradient-to-r from-transparent to-brand-primary/70 sm:w-16"
+          aria-hidden
+        />
+        <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-zinc-500 dark:text-zinc-500 sm:text-xs">
+          {BRAND.name}
+        </p>
+        <span
+          className="h-px w-10 shrink-0 bg-gradient-to-l from-transparent to-brand-primary/70 sm:w-16"
+          aria-hidden
+        />
+      </div>
+
+      <div className="mt-5 flex flex-col items-center gap-1 sm:mt-6 sm:flex-row sm:flex-wrap sm:justify-center sm:gap-x-3 sm:gap-y-1">
+        <span className="text-base font-medium tracking-tight text-zinc-600 dark:text-zinc-400 sm:text-lg">
+          {prefix}
+        </span>
+        <span className="relative px-1 text-2xl font-bold tracking-tight sm:text-[1.65rem]">
+          <span className="text-gradient">{bridge}</span>
+          <span
+            className="pointer-events-none absolute -inset-x-3 -inset-y-1 rounded-full bg-brand-primary/10 blur-md dark:bg-brand-primary/15"
+            aria-hidden
+          />
+        </span>
+        <span className="text-base font-semibold tracking-tight text-zinc-800 dark:text-zinc-200 sm:text-lg">
+          {suffix}
+        </span>
+      </div>
+
+      <p className="sr-only">{BRAND.tagline}</p>
+    </motion.div>
+  )
+}
 
 export function Hero() {
   const reducedMotion = useReducedMotion()
@@ -48,15 +92,7 @@ export function Hero() {
       </div>
 
       <div className="container-wide relative flex min-h-[calc(100vh-4rem)] flex-col items-center justify-center px-4 py-20 text-center sm:px-6 sm:py-24 lg:px-8">
-        <motion.div
-          {...fadeUp(0, reducedMotion)}
-          className="mb-8 inline-flex items-center gap-2 rounded-full border border-brand-primary/25 bg-white/70 px-4 py-2 text-sm font-medium text-brand-mid shadow-sm backdrop-blur-md dark:border-brand-primary/30 dark:bg-white/[0.06] dark:text-brand-accent dark:shadow-glow-sm"
-        >
-          <span className="flex h-6 w-6 items-center justify-center rounded-full bg-brand-gradient text-white shadow-glow-sm">
-            <Sparkles className="h-3.5 w-3.5" aria-hidden />
-          </span>
-          <span className="text-zinc-700 dark:text-zinc-200">{BRAND.tagline}</span>
-        </motion.div>
+        <HeroTagline reducedMotion={reducedMotion} />
 
         <motion.h1
           {...fadeUp(0.08, reducedMotion)}

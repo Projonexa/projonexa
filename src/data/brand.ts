@@ -1,6 +1,12 @@
 export const BRAND = {
   name: 'Projonexa',
   tagline: 'Where Innovation Meets Execution.',
+  /** Hero display — same message, split for typographic emphasis */
+  taglineHero: {
+    prefix: 'Where Innovation',
+    bridge: 'Meets',
+    suffix: 'Execution.',
+  },
   url: 'https://projonexa.com',
   email: 'nisargalokhande@gmail.com',
   location: 'Maharashtra, India',
