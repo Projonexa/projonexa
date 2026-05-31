@@ -98,13 +98,13 @@ function VisionMissionCard({
   )
 }
 
-export function VisionMission() {
-  return (
-    <section
-      className="section-padding section-alt overflow-hidden"
-      aria-labelledby="vision-mission-heading"
-    >
-      <div className="container-wide">
+interface VisionMissionProps {
+  variant?: 'section' | 'embedded'
+}
+
+export function VisionMission({ variant = 'section' }: VisionMissionProps) {
+  const content = (
+    <div className="container-wide">
         <div className="grid items-end gap-6 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:gap-12">
           <motion.div
             initial={{ opacity: 0, x: -16 }}
@@ -153,6 +153,18 @@ export function VisionMission() {
           ))}
         </div>
       </div>
+  )
+
+  if (variant === 'embedded') {
+    return content
+  }
+
+  return (
+    <section
+      className="section-padding section-alt overflow-hidden"
+      aria-labelledby="vision-mission-heading"
+    >
+      {content}
     </section>
   )
 }

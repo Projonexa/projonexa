@@ -254,6 +254,37 @@
     padding-top: 0 !important;
   }
 
+  /* About: Stats → Purpose — single gap */
+  .about-stats-before-purpose > .section-padding {
+    padding-bottom: 0 !important;
+  }
+
+  .about-stats-before-purpose + .vision-founder-unified .vision-founder-unified__purpose-inset {
+    padding-top: 3rem !important;
+    padding-bottom: 0 !important;
+  }
+
+  @media (min-width: 1024px) {
+    .about-stats-before-purpose + .vision-founder-unified .vision-founder-unified__purpose-inset {
+      padding-top: 3.5rem !important;
+    }
+  }
+
+  /* About: Purpose → Founder — zero padding between bands */
+  .vision-founder-unified__purpose {
+    margin-bottom: 0 !important;
+    border-bottom-width: 0 !important;
+  }
+
+  .vision-founder-unified__founder {
+    margin-top: 0 !important;
+    border-top-width: 0 !important;
+  }
+
+  .vision-founder-unified__founder-inset {
+    padding-top: 0 !important;
+  }
+
   .container-narrow {
     @apply mx-auto max-w-6xl;
   }

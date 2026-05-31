@@ -1,7 +1,6 @@
 import { SEO } from '@/components/seo/SEO'
 import { PageHeader } from '@/components/ui/PageHeader'
-import { Founder } from '@/components/sections/Founder'
-import { VisionMission } from '@/components/sections/VisionMission'
+import { VisionFounderSection } from '@/components/sections/VisionFounderSection'
 import { Stats } from '@/components/sections/Stats'
 import { CTA } from '@/components/sections/CTA'
 import { PAGE_SEO } from '@/data/seo'
@@ -35,9 +34,10 @@ export function AboutPage() {
           </p>
         </div>
       </section>
-      <Stats />
-      <VisionMission />
-      <Founder />
+      <div className="about-stats-before-purpose">
+        <Stats />
+      </div>
+      <VisionFounderSection />
       <CTA />
     </>
   )
