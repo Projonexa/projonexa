@@ -447,7 +447,7 @@ export function TechIconCloud({
 
   return (
     <div
-      className={`tech-icon-cloud-root relative w-full ${isSide ? 'lg:min-h-[520px]' : 'max-w-3xl mx-auto'} ${isActive ? 'tech-cloud-active' : ''}`}
+      className={`tech-icon-cloud-root relative w-full ${isSide ? 'max-w-full' : 'max-w-3xl mx-auto'} ${isActive ? 'tech-cloud-active' : ''}`}
     >
       <div
         aria-hidden

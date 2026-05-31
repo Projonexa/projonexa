@@ -126,7 +126,7 @@ function PillarColumn({
 export function WhyChoose() {
   return (
     <section
-      className="section-padding section-frosted overflow-hidden"
+      className="section-padding section-frosted section-frosted-merge-t overflow-hidden"
       aria-labelledby="why-projonexa-heading"
     >
       <div
@@ -179,7 +179,7 @@ export function WhyChoose() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-40px' }}
           transition={{ duration: 0.55, delay: 0.08, ease: easeSmooth }}
-          className="why-tree-panel relative mx-auto mt-12 w-full max-w-5xl rounded-2xl border border-black/[0.07] bg-white/45 p-6 shadow-[inset_0_1px_0_rgba(255,255,255,0.65)] backdrop-blur-xl dark:border-white/[0.08] dark:bg-black/40 sm:p-8"
+          className="why-tree-panel relative mx-auto mt-6 w-full max-w-5xl rounded-2xl border border-black/[0.07] bg-white/45 p-6 shadow-[inset_0_1px_0_rgba(255,255,255,0.65)] backdrop-blur-xl dark:border-white/[0.08] dark:bg-black/40 sm:p-8"
         >
           <div className="why-tree-hub-row flex flex-col items-center">
             <motion.div

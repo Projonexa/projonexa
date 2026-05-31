@@ -45,7 +45,7 @@ export function TechnologyShowcase() {
 
   return (
     <section
-      className="section-padding section-frosted overflow-hidden"
+      className="section-padding section-frosted section-frosted-merge-b overflow-hidden"
       aria-labelledby="tech-showcase-heading"
     >
       <div className="container-wide">
@@ -73,7 +73,7 @@ export function TechnologyShowcase() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-40px' }}
             transition={{ duration: 0.55, delay: 0.08, ease: easeSmooth }}
-            className="flex w-full min-w-0 items-center justify-center lg:sticky lg:top-28 lg:min-h-[520px]"
+            className="flex w-full min-w-0 items-center justify-center lg:sticky lg:top-28 lg:self-start"
           >
             <TechIconCloud
               variant="side"
