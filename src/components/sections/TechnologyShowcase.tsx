@@ -39,16 +39,17 @@ function TechnologyHeading({ className = '' }: { className?: string }) {
   )
 }
 
-export function TechnologyShowcase() {
+interface TechnologyShowcaseProps {
+  /** Home: nested inside TechnologyWhySection — no extra section shell */
+  variant?: 'section' | 'grouped'
+}
+
+export function TechnologyShowcase({ variant = 'section' }: TechnologyShowcaseProps) {
   const [hoveredTech, setHoveredTech] = useState<TechItem | null>(null)
   const highlightSlug = hoveredTech ? getIconCloudSlug(hoveredTech) : null
 
-  return (
-    <section
-      className="section-padding section-frosted section-frosted-merge-b overflow-hidden"
-      aria-labelledby="tech-showcase-heading"
-    >
-      <div className="container-wide">
+  const content = (
+    <div className="container-wide">
         <div className="lg:hidden">
           <TechnologyHeading className="mb-10 max-w-xl" />
         </div>
@@ -86,6 +87,18 @@ export function TechnologyShowcase() {
           </motion.div>
         </div>
       </div>
+  )
+
+  if (variant === 'grouped') {
+    return content
+  }
+
+  return (
+    <section
+      className="section-padding section-frosted overflow-hidden"
+      aria-labelledby="tech-showcase-heading"
+    >
+      {content}
     </section>
   )
 }

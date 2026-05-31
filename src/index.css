@@ -170,23 +170,6 @@
     @apply px-4 py-20 sm:px-6 lg:px-8 lg:py-28;
   }
 
-  /* Back-to-back frosted sections (e.g. Technology → Why) — after .section-padding so overrides win */
-  .section-frosted.section-frosted-merge-b {
-    border-bottom-width: 0;
-    padding-bottom: 2rem !important;
-  }
-
-  .section-frosted.section-frosted-merge-t {
-    border-top-width: 0;
-    padding-top: 0 !important;
-  }
-
-  @media (min-width: 1024px) {
-    .section-frosted.section-frosted-merge-b {
-      padding-bottom: 2.5rem !important;
-    }
-  }
-
   .container-narrow {
     @apply mx-auto max-w-6xl;
   }

@@ -123,12 +123,14 @@ function PillarColumn({
   )
 }
 
-export function WhyChoose() {
-  return (
-    <section
-      className="section-padding section-frosted section-frosted-merge-t overflow-hidden"
-      aria-labelledby="why-projonexa-heading"
-    >
+interface WhyChooseProps {
+  variant?: 'section' | 'grouped'
+  className?: string
+}
+
+export function WhyChoose({ variant = 'section', className }: WhyChooseProps) {
+  const content = (
+    <>
       <div
         aria-hidden
         className="pointer-events-none absolute -right-24 top-1/4 h-72 w-72 rounded-full bg-brand-primary/10 blur-[100px]"
@@ -205,6 +207,30 @@ export function WhyChoose() {
           </div>
         </motion.div>
       </div>
+    </>
+  )
+
+  if (variant === 'grouped') {
+    return (
+      <div
+        className={className ? `relative ${className}` : 'relative'}
+        aria-labelledby="why-projonexa-heading"
+      >
+        {content}
+      </div>
+    )
+  }
+
+  return (
+    <section
+      className={
+        className
+          ? `section-padding section-frosted overflow-hidden ${className}`
+          : 'section-padding section-frosted overflow-hidden'
+      }
+      aria-labelledby="why-projonexa-heading"
+    >
+      {content}
     </section>
   )
 }
