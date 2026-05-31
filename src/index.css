@@ -223,24 +223,14 @@
     @apply px-4 py-20 sm:px-6 lg:px-8 lg:py-28;
   }
 
-  /* Service Area → Founder — tight seam (after .section-padding so overrides win) */
-  .service-founder-band__service.section-padding {
-    padding-bottom: 2rem !important;
+  /* Service Area → Founder — flush seam, no stacked section borders */
+  .service-founder-unified__service {
+    border-bottom-width: 0 !important;
   }
 
-  .service-founder-band__founder.section-padding {
-    border-top-width: 0;
-    padding-top: 2rem !important;
-  }
-
-  @media (min-width: 1024px) {
-    .service-founder-band__service.section-padding {
-      padding-bottom: 2.5rem !important;
-    }
-
-    .service-founder-band__founder.section-padding {
-      padding-top: 2.5rem !important;
-    }
+  .service-founder-unified__founder {
+    border-top-width: 0 !important;
+    margin-top: 0 !important;
   }
 
   .container-narrow {
