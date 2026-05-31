@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion'
 import {
-  FLOW_BRANCH_PATHS,
-  FLOW_TRAVEL_PATH,
+  FLOW_CONNECTOR_PATHS,
+  FLOW_DOT_PATH,
   FLOW_VIEWBOX,
 } from '@/data/whyFlowLayout'
 
@@ -50,9 +50,15 @@ export function WhyFlowLines({ animate, reducedMotion }: WhyFlowLinesProps) {
         fill="none"
       />
 
-      {FLOW_BRANCH_PATHS.map((d, i) => (
-        <g key={`branch-${i}`}>
-          <path d={d} fill="none" className="why-flow-path-dim" strokeWidth="2.5" strokeLinecap="round" />
+      {FLOW_CONNECTOR_PATHS.map((d, i) => (
+        <g key={`connector-${i}`}>
+          <path
+            d={d}
+            fill="none"
+            className="why-flow-path-dim"
+            strokeWidth="2"
+            strokeLinecap="round"
+          />
           <motion.path
             d={d}
             fill="none"
@@ -60,59 +66,37 @@ export function WhyFlowLines({ animate, reducedMotion }: WhyFlowLinesProps) {
             strokeWidth="1.5"
             strokeLinecap="round"
             filter="url(#why-flow-glow)"
-            initial={reducedMotion || !animate ? { pathLength: 1, opacity: 0.7 } : { pathLength: 0, opacity: 0 }}
-            animate={
-              animate ? { pathLength: 1, opacity: 0.85 } : { pathLength: 0, opacity: 0 }
+            initial={
+              reducedMotion || !animate ? { pathLength: 1, opacity: 0.75 } : { pathLength: 0, opacity: 0 }
             }
+            animate={animate ? { pathLength: 1, opacity: 0.9 } : { pathLength: 0, opacity: 0 }}
             transition={{
-              pathLength: { duration: 0.6, delay: 0.05 + i * 0.06, ease: [0.22, 1, 0.36, 1] },
-              opacity: { duration: 0.3, delay: 0.05 + i * 0.06 },
+              pathLength: {
+                duration: 0.55,
+                delay: i < 3 ? 0.05 + i * 0.08 : 0.3 + (i - 3) * 0.04,
+                ease: [0.22, 1, 0.36, 1],
+              },
+              opacity: { duration: 0.3, delay: i < 3 ? 0.05 + i * 0.08 : 0.3 + (i - 3) * 0.04 },
             }}
           />
         </g>
       ))}
 
-      <g>
-        <path
-          d={FLOW_TRAVEL_PATH}
-          fill="none"
-          className="why-flow-path-dim"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        <motion.path
-          d={FLOW_TRAVEL_PATH}
-          fill="none"
-          stroke="url(#why-flow-gradient)"
-          strokeWidth="1.5"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          filter="url(#why-flow-glow)"
-          initial={reducedMotion || !animate ? { pathLength: 1, opacity: 0.9 } : { pathLength: 0, opacity: 0 }}
-          animate={animate ? { pathLength: 1, opacity: 1 } : { pathLength: 0, opacity: 0 }}
-          transition={{
-            pathLength: { duration: 1.4, delay: 0.2, ease: [0.22, 1, 0.36, 1] },
-            opacity: { duration: 0.4, delay: 0.2 },
-          }}
-        />
-      </g>
-
       {showDot && (
         <g filter="url(#why-flow-glow)">
-          <circle r="10" fill="url(#why-flow-dot-glow)" opacity="0.45">
+          <circle r="10" fill="url(#why-flow-dot-glow)" opacity="0.4">
             <animateMotion
-              dur="14s"
+              dur="16s"
               repeatCount="indefinite"
-              path={FLOW_TRAVEL_PATH}
+              path={FLOW_DOT_PATH}
               calcMode="linear"
             />
           </circle>
           <circle r="4" fill="#00c8ff">
             <animateMotion
-              dur="14s"
+              dur="16s"
               repeatCount="indefinite"
-              path={FLOW_TRAVEL_PATH}
+              path={FLOW_DOT_PATH}
               calcMode="linear"
             />
           </circle>

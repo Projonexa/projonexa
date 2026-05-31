@@ -18,10 +18,10 @@ import {
 import { WhyFlowLines } from '@/components/sections/WhyFlowLines'
 import { WHY_CHOOSE, WHY_PILLARS, WHY_SECTION } from '@/data/brand'
 import {
-  FLOW_BENEFITS,
   FLOW_HUB,
   FLOW_PILLARS,
   flowToPercent,
+  getBenefitPosition,
 } from '@/data/whyFlowLayout'
 import { useReducedMotion } from '@/hooks/useReducedMotion'
 
@@ -202,8 +202,7 @@ export function WhyChoose() {
 
               {WHY_CHOOSE.map((item, i) => {
                 const Icon = WHY_ICONS[i] ?? Layers
-                const pos = FLOW_BENEFITS[i]
-                if (!pos) return null
+                const pos = getBenefitPosition(i)
                 return (
                   <FlowNode
                     key={item.title}
@@ -220,7 +219,7 @@ export function WhyChoose() {
           </div>
 
           <p className="mt-4 text-center text-xs text-zinc-500 dark:text-zinc-400">
-            Hover any step to explore · Glow follows your delivery path
+            Three pillars from Start · Each column flows to your deliverables · Hover for details
           </p>
 
           <ul className="sr-only">
