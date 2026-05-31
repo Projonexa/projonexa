@@ -7,13 +7,12 @@ import {
 } from '@/data/brand'
 import {
   Building2,
-  Check,
   Globe2,
   GraduationCap,
   MapPinned,
   Radio,
   Rocket,
-  Users,
+  Users
 } from 'lucide-react'
 
 import { motion } from 'framer-motion'
@@ -181,16 +180,8 @@ export function ServiceArea({ variant = 'section' }: ServiceAreaProps) {
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.45, delay: 0.2, ease: easeSmooth }}
-          className="mt-6 flex items-start gap-2 pb-0 text-center text-xs text-zinc-500 dark:text-zinc-500 sm:items-center sm:justify-center sm:text-sm"
+          className="mt-6 flex items-start gap-2 text-center text-xs text-zinc-500 dark:text-zinc-500 sm:items-center sm:justify-center sm:text-sm"
         >
-          <Check
-            className="mt-0.5 h-4 w-4 shrink-0 text-brand-primary sm:mt-0"
-            aria-hidden
-          />
-          <span>
-            Same mentor-led process for startups, businesses, students, and colleges — in India
-            or abroad.
-          </span>
         </motion.p>
       </div>
     </>

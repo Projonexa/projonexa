@@ -223,14 +223,35 @@
     @apply px-4 py-20 sm:px-6 lg:px-8 lg:py-28;
   }
 
-  /* Service Area → Founder — flush seam, no stacked section borders */
+  /* Technology + Why → Service Area — single gap, not double section padding (home) */
+  .tech-why-band.section-padding:has(+ .service-founder-unified) {
+    padding-bottom: 0 !important;
+  }
+
+  .service-founder-unified__service-inset {
+    padding-top: 3rem !important;
+    padding-bottom: 0 !important;
+  }
+
+  @media (min-width: 1024px) {
+    .service-founder-unified__service-inset {
+      padding-top: 3.5rem !important;
+    }
+  }
+
+  /* Service Area → Founder — zero padding between bands */
   .service-founder-unified__service {
+    margin-bottom: 0 !important;
     border-bottom-width: 0 !important;
   }
 
   .service-founder-unified__founder {
-    border-top-width: 0 !important;
     margin-top: 0 !important;
+    border-top-width: 0 !important;
+  }
+
+  .service-founder-unified__founder-inset {
+    padding-top: 0 !important;
   }
 
   .container-narrow {

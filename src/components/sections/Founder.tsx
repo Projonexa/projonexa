@@ -29,7 +29,7 @@ export function Founder({ variant = 'section' }: FounderProps) {
         className="pointer-events-none absolute -right-24 bottom-0 h-64 w-64 rounded-full bg-brand-secondary/10 blur-[100px]"
       />
 
-      <div className="container-wide relative">
+      <div className="container-wide relative mt-8">
         <div className="grid items-end gap-6 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:gap-12">
           <motion.div
             initial={{ opacity: 0, x: -16 }}
@@ -70,7 +70,9 @@ export function Founder({ variant = 'section' }: FounderProps) {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-40px' }}
           transition={{ duration: 0.55, delay: 0.08, ease: easeSmooth }}
-          className="founder-panel relative mt-8 overflow-hidden rounded-3xl border border-black/[0.07] bg-white/55 p-6 backdrop-blur-xl dark:border-white/[0.08] dark:bg-black/40 sm:p-8 lg:mt-10 lg:p-10"
+          className={`founder-panel relative overflow-hidden rounded-3xl border border-black/[0.07] bg-white/55 p-6 backdrop-blur-xl dark:border-white/[0.08] dark:bg-black/40 sm:p-8 lg:p-10 ${
+            variant === 'embedded' ? 'mt-6 lg:mt-8' : 'mt-8 lg:mt-10'
+          }`}
         >
           <div
             aria-hidden

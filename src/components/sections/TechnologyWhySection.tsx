@@ -5,7 +5,7 @@ import { WhyChoose } from '@/components/sections/WhyChoose'
 export function TechnologyWhySection() {
   return (
     <section
-      className="section-padding section-frosted overflow-hidden"
+      className="tech-why-band section-padding section-frosted overflow-hidden"
       aria-labelledby="tech-showcase-heading"
     >
       <TechnologyShowcase variant="grouped" />
