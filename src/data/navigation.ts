@@ -2,12 +2,12 @@ export const NAV_LINKS = [
   { label: 'Home', path: '/' },
   { label: 'About', path: '/about' },
   { label: 'Services', path: '/services' },
-  { label: 'Projects', path: '/projects' },
-  { label: 'Blog', path: '/blog' },
-  { label: 'Portfolio', path: '/portfolio' },
+  // { label: 'Projects', path: '/projects' },
+  // { label: 'Blog', path: '/blog' },
+  // { label: 'Portfolio', path: '/portfolio' },
   // { label: 'Pricing', path: '/pricing' },
-  // { label: 'Careers', path: '/careers' },
-  // { label: 'FAQ', path: '/faq' },
+  { label: 'Careers', path: '/careers' },
+  { label: 'FAQ', path: '/faq' },
   { label: 'Contact', path: '/contact' },
 ] as const
 
