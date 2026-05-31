@@ -36,6 +36,61 @@ export const GEO = {
   serviceRadius: 'Worldwide with focus on India',
 } as const
 
+/** Service Area section — home page */
+export const SERVICE_AREA_SECTION = {
+  eyebrow: 'Service Area',
+  title: 'Serving Students & Clients Across India and Globally',
+  lead: 'Based in Maharashtra, India — delivering projects remotely to colleges, startups, and innovators nationwide.',
+} as const
+
+export const SERVICE_AREA_DELIVERY = [
+  {
+    title: 'Remote-first',
+    description: 'Collaborate from anywhere with structured updates and milestone delivery.',
+  },
+  {
+    title: 'India-wide',
+    description: 'Students and institutions across all states — same quality and mentor support.',
+  },
+  {
+    title: 'Global clients',
+    description: 'Startups and businesses abroad with timezone-friendly communication.',
+  },
+] as const
+
+/** Maharashtra & major cities — shown as primary service hubs */
+export const GEO_PRIMARY_HUBS = [
+  'Maharashtra',
+  'Mumbai',
+  'Pune',
+  'Nagpur',
+  'Nashik',
+  'Aurangabad',
+] as const
+
+export const SERVICE_AREA_CLIENTS = [
+  {
+    title: 'Engineering & CS students',
+    detail: 'BE, BTech, MCA, BCA — final year and mini projects',
+  },
+  {
+    title: 'Colleges & universities',
+    detail: 'Department partnerships and bulk student project support',
+  },
+  {
+    title: 'Startups & entrepreneurs',
+    detail: 'MVPs, prototypes, and product validation',
+  },
+  {
+    title: 'Researchers & MBA scholars',
+    detail: 'Literature review, methodology, and paper assistance',
+  },
+  {
+    title: 'Businesses & international clients',
+    detail: 'Custom software, AI systems, and long-term delivery',
+  },
+] as const
+
 /** One-line definition for AEO / AI answer engines */
 export const AEO_DEFINITION =
   'Projonexa is a technology-driven innovation platform based in Maharashtra, India that helps students, colleges, startups, and businesses transform ideas into real-world projects — including final year projects, AI/ML systems, startup MVPs, IoT solutions, and research paper assistance with full documentation and mentor support.'
