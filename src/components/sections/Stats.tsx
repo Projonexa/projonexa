@@ -1,37 +1,135 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { STATS, STATS_SECTION } from '@/data/brand'
 import { useInView } from '@/hooks/useInView'
 import { useCountUp } from '@/hooks/useCountUp'
 import { useReducedMotion } from '@/hooks/useReducedMotion'
 
-const CYCLE_MS = 5500
+const COUNT_DURATION_MS = 3000
+const HOLD_AFTER_REVEAL_MS = 1800
 
-function StatSpotlight({ index, start }: { index: number; start: boolean }) {
+const slideTransition = { duration: 0.55, ease: [0.22, 1, 0.36, 1] as const }
+
+const contentStagger = {
+  initial: {},
+  animate: { transition: { staggerChildren: 0.12, delayChildren: 0.04 } },
+}
+
+const fadeUpItem = {
+  initial: { opacity: 0, y: 14 },
+  animate: { opacity: 1, y: 0, transition: { duration: 0.45, ease: [0.22, 1, 0.36, 1] } },
+}
+
+function StatSpotlight({
+  index,
+  start,
+  paused,
+  reducedMotion,
+  onSequenceComplete,
+}: {
+  index: number
+  start: boolean
+  paused: boolean
+  reducedMotion: boolean
+  onSequenceComplete: () => void
+}) {
   const stat = STATS[index]
-  const count = useCountUp(stat.value, 1800, start)
+  const [detailsVisible, setDetailsVisible] = useState(false)
+  const holdTimerRef = useRef<number | null>(null)
+
+  const clearHoldTimer = useCallback(() => {
+    if (holdTimerRef.current !== null) {
+      window.clearTimeout(holdTimerRef.current)
+      holdTimerRef.current = null
+    }
+  }, [])
+
+  useEffect(() => {
+    setDetailsVisible(false)
+    clearHoldTimer()
+  }, [index, clearHoldTimer])
+
+  useEffect(() => () => clearHoldTimer(), [clearHoldTimer])
+
+  const handleCountComplete = useCallback(() => {
+    setDetailsVisible(true)
+  }, [])
+
+  const countDuration = reducedMotion ? 0 : COUNT_DURATION_MS
+  const count = useCountUp(stat.value, countDuration, start, handleCountComplete)
+
+  useEffect(() => {
+    if (!detailsVisible || !start || paused) {
+      clearHoldTimer()
+      return
+    }
+
+    holdTimerRef.current = window.setTimeout(() => {
+      onSequenceComplete()
+    }, reducedMotion ? 2000 : HOLD_AFTER_REVEAL_MS)
+
+    return clearHoldTimer
+  }, [
+    detailsVisible,
+    start,
+    paused,
+    reducedMotion,
+    onSequenceComplete,
+    clearHoldTimer,
+  ])
 
   return (
-    <div className="py-2 lg:py-4">
-      <p className="text-xs font-semibold uppercase tracking-[0.22em] text-brand-primary">
+    <motion.div
+      className="py-2 lg:py-4"
+      variants={contentStagger}
+      initial="initial"
+      animate="animate"
+    >
+      <motion.p
+        variants={fadeUpItem}
+        className="text-xs font-semibold uppercase tracking-[0.22em] text-brand-primary"
+      >
         Impact
-      </p>
+      </motion.p>
 
-      <p className="mt-6 tabular-nums text-5xl font-bold leading-none tracking-tight text-gradient sm:text-6xl lg:text-7xl">
+      <motion.p
+        variants={fadeUpItem}
+        className="mt-6 tabular-nums text-5xl font-bold leading-none tracking-tight text-gradient sm:text-6xl lg:text-7xl"
+      >
         {count}
         <span>{stat.suffix}</span>
-      </p>
+      </motion.p>
 
-      <h3 className="mt-4 text-xl font-semibold tracking-tight text-zinc-900 dark:text-white sm:text-2xl">
-        {stat.label}
-      </h3>
+      <AnimatePresence>
+        {detailsVisible && (
+          <motion.div
+            key={`details-${index}`}
+            initial="initial"
+            animate="animate"
+            variants={contentStagger}
+          >
+            <motion.h3
+              variants={fadeUpItem}
+              className="mt-4 text-xl font-semibold tracking-tight text-zinc-900 dark:text-white sm:text-2xl"
+            >
+              {stat.label}
+            </motion.h3>
 
-      <hr className="mt-6 h-px border-0 bg-gradient-to-r from-brand-primary/60 via-brand-mid/40 to-transparent dark:from-brand-primary/50 dark:via-brand-mid/30" />
+            <motion.hr
+              variants={fadeUpItem}
+              className="mt-6 h-px border-0 bg-gradient-to-r from-brand-primary/60 via-brand-mid/40 to-transparent dark:from-brand-primary/50 dark:via-brand-mid/30"
+            />
 
-      <p className="mt-6 max-w-lg text-base leading-relaxed text-zinc-600 dark:text-zinc-400 sm:text-lg">
-        {stat.description}
-      </p>
-    </div>
+            <motion.p
+              variants={fadeUpItem}
+              className="mt-6 max-w-lg text-base leading-relaxed text-zinc-600 dark:text-zinc-400 sm:text-lg"
+            >
+              {stat.description}
+            </motion.p>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.div>
   )
 }
 
@@ -40,16 +138,32 @@ export function Stats() {
   const reducedMotion = useReducedMotion()
   const [activeIndex, setActiveIndex] = useState(0)
   const [paused, setPaused] = useState(false)
+  const pausedRef = useRef(paused)
+
+  useEffect(() => {
+    pausedRef.current = paused
+  }, [paused])
 
   const advance = useCallback(() => {
     setActiveIndex((i) => (i + 1) % STATS.length)
   }, [])
 
-  useEffect(() => {
-    if (!inView || paused || reducedMotion) return
-    const timer = window.setInterval(advance, CYCLE_MS)
-    return () => window.clearInterval(timer)
-  }, [inView, paused, reducedMotion, advance])
+  const handleSequenceComplete = useCallback(() => {
+    if (!inView || pausedRef.current) return
+    advance()
+  }, [inView, advance])
+
+  const slideVariants = reducedMotion
+    ? {
+        initial: { opacity: 0 },
+        animate: { opacity: 1 },
+        exit: { opacity: 0 },
+      }
+    : {
+        initial: { opacity: 0, x: 32, filter: 'blur(10px)' },
+        animate: { opacity: 1, x: 0, filter: 'blur(0px)' },
+        exit: { opacity: 0, x: -28, filter: 'blur(8px)' },
+      }
 
   return (
     <section ref={ref} className="section-padding section-frosted">
@@ -97,12 +211,19 @@ export function Stats() {
             <AnimatePresence mode="wait">
               <motion.div
                 key={activeIndex}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -14 }}
-                transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+                variants={slideVariants}
+                initial="initial"
+                animate="animate"
+                exit="exit"
+                transition={slideTransition}
               >
-                <StatSpotlight index={activeIndex} start={inView} />
+                <StatSpotlight
+                  index={activeIndex}
+                  start={inView}
+                  paused={paused}
+                  reducedMotion={reducedMotion}
+                  onSequenceComplete={handleSequenceComplete}
+                />
               </motion.div>
             </AnimatePresence>
           </motion.div>
