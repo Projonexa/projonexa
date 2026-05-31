@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
 import { ArrowRight } from 'lucide-react'
+import { BrandWordmark } from '@/components/ui/BrandWordmark'
 import { Button } from '@/components/ui/Button'
 
 export function CTA() {
@@ -9,17 +10,27 @@ export function CTA() {
         initial={{ opacity: 0, y: 24 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        className="container-narrow relative overflow-hidden rounded-2xl bg-brand-gradient px-5 py-12 text-center shadow-glow sm:rounded-3xl sm:px-12 sm:py-16"
+        className="cta-panel container-narrow relative overflow-hidden rounded-2xl bg-brand-gradient px-5 py-12 text-center shadow-glow sm:rounded-3xl sm:px-12 sm:py-16"
       >
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(255,255,255,0.2),transparent_50%)]" />
-        <h2 className="relative text-pretty text-2xl font-bold text-white sm:text-3xl md:text-4xl">
+        <BrandWordmark variant="on-gradient" className="cta-panel-wordmark" />
+
+        <div
+          className="pointer-events-none absolute inset-0 z-[1] bg-[radial-gradient(circle_at_30%_20%,rgba(255,255,255,0.22),transparent_55%)]"
+          aria-hidden
+        />
+        <div
+          className="pointer-events-none absolute inset-0 z-[1] bg-[radial-gradient(ellipse_80%_50%_at_50%_100%,rgba(0,0,0,0.12),transparent_70%)]"
+          aria-hidden
+        />
+
+        <h2 className="relative z-10 text-pretty text-2xl font-bold text-white sm:text-3xl md:text-4xl">
           Ready to Build Something Extraordinary?
         </h2>
-        <p className="relative mx-auto mt-4 max-w-xl text-white/90">
+        <p className="relative z-10 mx-auto mt-4 max-w-xl text-white/90">
           Join hundreds of students and innovators who trust Projonexa to turn their ideas into
           reality. Your next breakthrough starts with a conversation.
         </p>
-        <div className="relative mt-8 flex w-full max-w-sm flex-col items-stretch gap-3 sm:mx-auto sm:max-w-none sm:flex-row sm:flex-wrap sm:justify-center sm:gap-4">
+        <div className="relative z-10 mt-8 flex w-full max-w-sm flex-col items-stretch gap-3 sm:mx-auto sm:max-w-none sm:flex-row sm:flex-wrap sm:justify-center sm:gap-4">
           <Button to="/contact" variant="secondary" className="w-full !bg-white !text-brand-dark sm:w-auto">
             Start Your Project
             <ArrowRight className="h-4 w-4" />

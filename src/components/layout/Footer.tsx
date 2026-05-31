@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { Github, Linkedin, Mail, MapPin } from 'lucide-react'
 import { BRAND, FOUNDER } from '@/data/brand'
 import { FOOTER_LINKS } from '@/data/navigation'
+import { BrandWordmark } from '@/components/ui/BrandWordmark'
 import { Logo } from '@/components/ui/Logo'
 
 function FooterColumn({ title, children }: { title: string; children: ReactNode }) {
@@ -139,11 +140,7 @@ export function Footer() {
             © {year} {BRAND.name}. All rights reserved.
           </p>
 
-          <div className="footer-wordmark" aria-hidden>
-            <p className="footer-wordmark-display" data-text={BRAND.name}>
-              {BRAND.name}
-            </p>
-          </div>
+          <BrandWordmark variant="subtle" className="footer-wordmark" />
 
           <p className="footer-bottom-credit text-sm leading-snug text-zinc-500 dark:text-zinc-500">
             Founded by {FOUNDER.name} · {FOUNDER.location}
