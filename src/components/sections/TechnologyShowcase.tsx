@@ -53,8 +53,9 @@ export function TechnologyShowcase() {
           <TechnologyHeading className="mb-10 max-w-xl" />
         </div>
 
-        <div className="grid items-start gap-12 lg:grid-cols-[minmax(0,1.08fr)_minmax(0,0.92fr)] lg:gap-14 xl:gap-16">
-          <div className="flex min-w-0 flex-col gap-8 lg:gap-10">
+        {/* Height follows the left column only; cloud is out of flow on lg (avoids empty band under cloud) */}
+        <div className="relative">
+          <div className="flex min-w-0 flex-col gap-8 lg:max-w-[58%] lg:gap-10 xl:max-w-[56%]">
             <TechnologyHeading className="hidden max-w-xl lg:block" />
 
             <motion.div
@@ -73,13 +74,15 @@ export function TechnologyShowcase() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-40px' }}
             transition={{ duration: 0.55, delay: 0.08, ease: easeSmooth }}
-            className="flex w-full min-w-0 items-center justify-center lg:sticky lg:top-28 lg:self-start"
+            className="mt-12 flex w-full min-w-0 items-center justify-center lg:absolute lg:right-0 lg:top-0 lg:mt-0 lg:w-[40%] lg:justify-end xl:w-[42%]"
           >
-            <TechIconCloud
-              variant="side"
-              highlightSlug={highlightSlug}
-              highlightLabel={hoveredTech?.name ?? null}
-            />
+            <div className="lg:sticky lg:top-28">
+              <TechIconCloud
+                variant="side"
+                highlightSlug={highlightSlug}
+                highlightLabel={hoveredTech?.name ?? null}
+              />
+            </div>
           </motion.div>
         </div>
       </div>

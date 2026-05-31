@@ -71,27 +71,6 @@
     z-index: 1;
   }
 
-  /* Back-to-back frosted sections (e.g. Technology → Why) — avoid double border + excess gap */
-  .section-frosted.section-frosted-merge-b {
-    border-bottom-width: 0;
-    padding-bottom: 3.5rem;
-  }
-
-  .section-frosted.section-frosted-merge-t {
-    border-top-width: 0;
-    padding-top: 3.5rem;
-  }
-
-  @media (min-width: 1024px) {
-    .section-frosted.section-frosted-merge-b {
-      padding-bottom: 4.5rem;
-    }
-
-    .section-frosted.section-frosted-merge-t {
-      padding-top: 4.5rem;
-    }
-  }
-
   .section-heading-panel {
     @apply rounded-3xl border border-black/[0.06] bg-white/55 px-6 py-8 backdrop-blur-xl shadow-card;
     @apply sm:px-10 sm:py-10;
@@ -189,6 +168,23 @@
 
   .section-padding {
     @apply px-4 py-20 sm:px-6 lg:px-8 lg:py-28;
+  }
+
+  /* Back-to-back frosted sections (e.g. Technology → Why) — after .section-padding so overrides win */
+  .section-frosted.section-frosted-merge-b {
+    border-bottom-width: 0;
+    padding-bottom: 2rem !important;
+  }
+
+  .section-frosted.section-frosted-merge-t {
+    border-top-width: 0;
+    padding-top: 0 !important;
+  }
+
+  @media (min-width: 1024px) {
+    .section-frosted.section-frosted-merge-b {
+      padding-bottom: 2.5rem !important;
+    }
   }
 
   .container-narrow {
