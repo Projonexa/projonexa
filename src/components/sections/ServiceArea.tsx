@@ -56,8 +56,8 @@ function AreaCard({
 }
 
 interface ServiceAreaProps {
-  /** Home: stacked above Founder with shared spacing */
-  variant?: 'section' | 'grouped'
+  /** Home: content only inside ServiceFounderSection shell */
+  variant?: 'section' | 'embedded'
 }
 
 /** Geographic service area — supports local SEO (GEO) */
@@ -181,7 +181,7 @@ export function ServiceArea({ variant = 'section' }: ServiceAreaProps) {
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.45, delay: 0.2, ease: easeSmooth }}
-          className="mt-8 flex items-start gap-2 text-center text-xs text-zinc-500 dark:text-zinc-500 sm:mt-10 sm:items-center sm:justify-center sm:text-sm"
+          className="mt-6 flex items-start gap-2 text-center text-xs text-zinc-500 dark:text-zinc-500 sm:mt-8 sm:items-center sm:justify-center sm:text-sm"
         >
           <Check
             className="mt-0.5 h-4 w-4 shrink-0 text-brand-primary sm:mt-0"
@@ -196,17 +196,8 @@ export function ServiceArea({ variant = 'section' }: ServiceAreaProps) {
     </>
   )
 
-  if (variant === 'grouped') {
-    return (
-      <section
-        className="section-padding section-alt section-merge-b"
-        aria-labelledby="service-area-heading"
-        itemScope
-        itemType="https://schema.org/ProfessionalService"
-      >
-        {content}
-      </section>
-    )
+  if (variant === 'embedded') {
+    return content
   }
 
   return (

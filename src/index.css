@@ -223,23 +223,23 @@
     @apply px-4 py-20 sm:px-6 lg:px-8 lg:py-28;
   }
 
-  /* Adjacent sections (e.g. Service Area → Founder) — avoid double vertical padding */
-  .section-alt.section-merge-b {
-    padding-bottom: 0 !important;
+  /* Service Area → Founder — tight seam (after .section-padding so overrides win) */
+  .service-founder-band__service.section-padding {
+    padding-bottom: 2rem !important;
   }
 
-  .section-frosted.section-merge-t {
+  .service-founder-band__founder.section-padding {
     border-top-width: 0;
-    padding-top: 0 !important;
-  }
-
-  .section-founder-grouped {
-    margin-top: 3rem;
+    padding-top: 2rem !important;
   }
 
   @media (min-width: 1024px) {
-    .section-founder-grouped {
-      margin-top: 4rem;
+    .service-founder-band__service.section-padding {
+      padding-bottom: 2.5rem !important;
+    }
+
+    .service-founder-band__founder.section-padding {
+      padding-top: 2.5rem !important;
     }
   }
 

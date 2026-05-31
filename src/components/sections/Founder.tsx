@@ -8,7 +8,7 @@ import { motion } from 'framer-motion'
 const easeSmooth = [0.22, 1, 0.36, 1] as const
 
 interface FounderProps {
-  variant?: 'section' | 'grouped'
+  variant?: 'section' | 'embedded'
 }
 
 export function Founder({ variant = 'section' }: FounderProps) {
@@ -70,7 +70,7 @@ export function Founder({ variant = 'section' }: FounderProps) {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-40px' }}
           transition={{ duration: 0.55, delay: 0.08, ease: easeSmooth }}
-          className="founder-panel relative mt-10 overflow-hidden rounded-3xl border border-black/[0.07] bg-white/55 p-6 backdrop-blur-xl dark:border-white/[0.08] dark:bg-black/40 sm:p-8 lg:mt-12 lg:p-10"
+          className="founder-panel relative mt-8 overflow-hidden rounded-3xl border border-black/[0.07] bg-white/55 p-6 backdrop-blur-xl dark:border-white/[0.08] dark:bg-black/40 sm:p-8 lg:mt-10 lg:p-10"
         >
           <div
             aria-hidden
@@ -160,17 +160,8 @@ export function Founder({ variant = 'section' }: FounderProps) {
     </>
   )
 
-  if (variant === 'grouped') {
-    return (
-      <section
-        className="section-padding section-frosted section-merge-t section-founder-grouped overflow-hidden"
-        aria-labelledby="founder-heading"
-        itemScope
-        itemType="https://schema.org/Person"
-      >
-        {content}
-      </section>
-    )
+  if (variant === 'embedded') {
+    return content
   }
 
   return (
