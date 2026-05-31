@@ -104,7 +104,7 @@ interface StableCloudProps {
 const StableIconCloud = memo(function StableIconCloud({ icons, cloudKey }: StableCloudProps) {
   const canvasClass = useMemo(
     () =>
-      'relative z-10 w-full aspect-square max-w-[min(100%,480px)] mx-auto opacity-100 lg:max-w-none lg:mx-0',
+      'relative z-10 mx-auto aspect-square w-full max-w-[min(100%,480px)] opacity-100',
     [],
   )
 
@@ -114,7 +114,7 @@ const StableIconCloud = memo(function StableIconCloud({ icons, cloudKey }: Stabl
       id={CLOUD_INSTANCE_ID}
       options={CLOUD_OPTIONS}
       containerProps={{
-        className: 'relative z-10 flex w-full items-center justify-center lg:justify-end',
+        className: 'relative z-10 flex w-full items-center justify-center',
       }}
       canvasProps={{
         className: canvasClass,
@@ -479,7 +479,7 @@ export function TechIconCloud({
       )}
 
       <div
-        className={`relative flex items-center justify-center lg:justify-end lg:pr-2 ${
+        className={`relative flex items-center justify-center ${
           isHovered ? 'cursor-grabbing' : 'cursor-grab'
         }`}
         onPointerEnter={handlePointerEnter}
@@ -505,7 +505,7 @@ function CloudSkeleton({ variant }: { variant: 'default' | 'side' }) {
   return (
     <div
       aria-hidden
-      className="absolute inset-0 z-0 flex items-center justify-center lg:justify-end"
+      className="absolute inset-0 z-0 flex items-center justify-center"
     >
       <div
         className={`relative max-w-full ${

@@ -32,7 +32,7 @@ function TechnologyHeading({ className = '' }: { className?: string }) {
         {TECH_SECTION.title}
       </h2>
 
-      <p className="mt-4 max-w-xl text-lg font-medium leading-relaxed text-zinc-700 dark:text-zinc-300">
+      <p className="mt-4 max-w-2xl text-lg font-medium leading-relaxed text-zinc-700 dark:text-zinc-300">
         {TECH_SECTION.lead}
       </p>
     </motion.div>
@@ -50,43 +50,36 @@ export function TechnologyShowcase({ variant = 'section' }: TechnologyShowcasePr
 
   const content = (
     <div className="container-wide">
-        <div className="lg:hidden">
-          <TechnologyHeading className="mb-10 max-w-xl" />
-        </div>
+      <TechnologyHeading className="mb-8 max-w-3xl sm:mb-10 lg:mb-12" />
 
-        {/* Height follows the left column only; cloud is out of flow on lg (avoids empty band under cloud) */}
-        <div className="relative">
-          <div className="flex min-w-0 flex-col gap-8 lg:max-w-[58%] lg:gap-10 xl:max-w-[56%]">
-            <TechnologyHeading className="hidden max-w-xl lg:block" />
+      <div className="grid grid-cols-1 items-start gap-10 lg:grid-cols-[minmax(0,1.06fr)_minmax(0,0.94fr)] lg:gap-12 xl:gap-14">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-40px' }}
+          transition={{ duration: 0.55, ease: easeSmooth }}
+          className="min-w-0 w-full"
+        >
+          <TechStackPanel onTechHover={setHoveredTech} />
+        </motion.div>
 
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-40px' }}
-              transition={{ duration: 0.55, ease: easeSmooth }}
-              className="w-full min-w-0"
-            >
-              <TechStackPanel onTechHover={setHoveredTech} />
-            </motion.div>
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-40px' }}
+          transition={{ duration: 0.55, delay: 0.08, ease: easeSmooth }}
+          className="flex w-full min-w-0 items-center justify-center lg:sticky lg:top-28 lg:justify-center"
+        >
+          <div className="w-full max-w-[min(100%,480px)] lg:max-w-[460px]">
+            <TechIconCloud
+              variant="side"
+              highlightSlug={highlightSlug}
+              highlightLabel={hoveredTech?.name ?? null}
+            />
           </div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-40px' }}
-            transition={{ duration: 0.55, delay: 0.08, ease: easeSmooth }}
-            className="mt-12 flex w-full min-w-0 items-center justify-center lg:absolute lg:right-0 lg:top-0 lg:mt-0 lg:w-[40%] lg:justify-end xl:w-[42%]"
-          >
-            <div className="lg:sticky lg:top-28">
-              <TechIconCloud
-                variant="side"
-                highlightSlug={highlightSlug}
-                highlightLabel={hoveredTech?.name ?? null}
-              />
-            </div>
-          </motion.div>
-        </div>
+        </motion.div>
       </div>
+    </div>
   )
 
   if (variant === 'grouped') {
